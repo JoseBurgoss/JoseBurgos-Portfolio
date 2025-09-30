@@ -1,5 +1,4 @@
-<img width="1355" height="613" alt="image" src="https://github.com/user-attachments/assets/db26519c-5f87-485b-9ec2-b77eb917fad9" />
-
+<img width="1346" height="564" alt="image" src="https://github.com/user-attachments/assets/d120a4e3-5afc-41e3-9137-27bdf72411a4" />
 
 # José Andrés Burgos - Portfolio
 
