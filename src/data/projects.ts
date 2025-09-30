@@ -28,7 +28,7 @@ export const projects: Project[] = [
     title: "ReportaYa",  
     description: "Android-based mobile application that allows citizens of Maracaibo to easily and quickly report urban problems in real-time.",  
     image: reportaya as ImageMetadata,  
-    link: "https://github.com/joseandresburgos/reportaya",  
+    link: "https://github.com/JoseBurgoss/ReportaYa",  
     preview: "https://play.google.com/store/apps/details?id=com.reportaya",  
     status: "Mobile App (Not deployed)",  
     technologies: ["Java", "Firebase", "Android"]  
