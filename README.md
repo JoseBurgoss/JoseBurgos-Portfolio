@@ -1,3 +1,6 @@
+<img width="1355" height="613" alt="image" src="https://github.com/user-attachments/assets/db26519c-5f87-485b-9ec2-b77eb917fad9" />
+
+
 # José Andrés Burgos - Portfolio
 
 A modern, responsive portfolio website built with Astro, React, and TailwindCSS. Showcasing my experience as a Computer Engineer with expertise in web development, mobile applications, and artificial intelligence.
