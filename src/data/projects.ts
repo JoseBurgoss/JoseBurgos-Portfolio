@@ -1,4 +1,4 @@
-import { ImageMetadata } from "astro";  
+import type { ImageMetadata } from "astro";  
 import elZuliano from "../../public/projects/el-zuliano.png";  
 import reportaya from "../../public/projects/reportaya.png";  
 import webNotes from "../../public/projects/web-notes.png";  
