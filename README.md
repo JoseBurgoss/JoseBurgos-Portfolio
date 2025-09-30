@@ -6,7 +6,7 @@ A modern, responsive portfolio website built with Astro, React, and TailwindCSS.
 
 ---
 
-[Live Demo](https://jose-portfolio.vercel.app/)
+[Live Demo](https://jose-burgos-portfolio.vercel.app/)
 
 ## **About this project**
 
