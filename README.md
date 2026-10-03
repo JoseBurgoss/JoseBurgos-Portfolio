@@ -63,7 +63,7 @@ jose-portfolio/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/joseandresburgos/portfolio
+   git clone https://github.com/JoseBurgoss/JoseBurgos-Portfolio
    cd portfolio
    ```
 
@@ -92,7 +92,7 @@ jose-portfolio/
 
 - **Email**: joseburgos153@gmail.com
 - **LinkedIn**: [Jose Burgos](https://www.linkedin.com/in/jose-burgos-/)
-- **GitHub**: [joseandresburgos](https://github.com/JoseBurgoss)
+- **GitHub**: [JoseBurgoss](https://github.com/JoseBurgoss)
 - **Location**: Maracaibo, Venezuela
 
 ## **Credits and License**
