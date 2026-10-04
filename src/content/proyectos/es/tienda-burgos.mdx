@@ -1,25 +1,27 @@
 ---
 project: tienda-burgos
 title: Tienda Burgos
-kind: E-commerce web
+kind: E-commerce web · Adaptación de proyecto open-source
 status: Desplegada
-summary: Tienda en línea con carrito, búsqueda filtrada, gestión de cantidades y autenticación.
-stack: [React, JavaScript, CSS, Firebase]
+summary: Tienda en línea con carrito, búsqueda filtrada y autenticación, adaptada del proyecto open-source ecommerce-react.
+stack: [React, Redux-Saga, Firebase, Vite]
 links:
   - label: Sitio en vivo
     href: https://tienda-virtual-pi-liart.vercel.app/
   - label: GitHub
     href: https://github.com/JoseBurgoss/Tienda-virtual
+  - label: Proyecto original
+    href: https://github.com/jgudo/ecommerce-react
 ---
 
-## Problema
+## Punto de partida
 
-Quería practicar el flujo central de una tienda en línea: encontrar un producto, agregarlo al carrito y controlar cuántas unidades se llevan.
+Parte de [ecommerce-react](https://github.com/jgudo/ecommerce-react), un proyecto open-source de Julius Guevarra (licencia Apache 2.0). Lo usé para estudiar cómo se organiza una tienda real: catálogo, carrito, checkout y panel de administración con React, Redux-Saga y Firebase.
 
-## Solución
+## Lo que hice
 
-Una tienda en React con productos destacados y recomendados, búsqueda con filtros, carrito con control de cantidades y registro e inicio de sesión con Firebase.
+La adapté al español, la conecté a mi propio proyecto de Firebase con mis productos y la desplegué en Vercel. También añadí un respaldo para que, si una imagen de producto no carga, la tienda muestre el nombre del producto en lugar de quedarse cargando.
 
 ## Lo que me dejó
 
-Manejar el estado del carrito, organizar los componentes de una tienda y cuidar los estados de carga mientras llegan los productos.
+Leer y modificar un código base que no escribí desde cero: el flujo de estado con Redux-Saga, la estructura de una tienda completa y cómo cuidar los estados de carga y error.

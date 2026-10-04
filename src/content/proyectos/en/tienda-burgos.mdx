@@ -1,25 +1,27 @@
 ---
 project: tienda-burgos
 title: Tienda Burgos
-kind: Web e-commerce
+kind: Web e-commerce · Open-source adaptation
 status: Deployed
-summary: An online store with cart, filtered search, quantity management and authentication.
-stack: [React, JavaScript, CSS, Firebase]
+summary: An online store with cart, filtered search and authentication, adapted from the open-source ecommerce-react project.
+stack: [React, Redux-Saga, Firebase, Vite]
 links:
   - label: Live site
     href: https://tienda-virtual-pi-liart.vercel.app/
   - label: GitHub
     href: https://github.com/JoseBurgoss/Tienda-virtual
+  - label: Original project
+    href: https://github.com/jgudo/ecommerce-react
 ---
 
-## Problem
+## Starting point
 
-I wanted to practice the core flow of an online store: finding a product, adding it to the cart and controlling how many units to take.
+It is based on [ecommerce-react](https://github.com/jgudo/ecommerce-react), an open-source project by Julius Guevarra (Apache 2.0 license). I used it to study how a real store is organized: catalog, cart, checkout and admin panel with React, Redux-Saga and Firebase.
 
-## Solution
+## What I did
 
-A React store with featured and recommended products, filtered search, a cart with quantity control, and sign-up and login with Firebase.
+I localized it to Spanish, connected it to my own Firebase project with my own products and deployed it on Vercel. I also added a fallback so that, when a product image fails to load, the store shows the product name instead of spinning forever.
 
 ## What it gave me
 
-Handling cart state, organizing a store's components and caring about loading states while products arrive.
+Reading and changing a codebase I did not write from scratch: Redux-Saga state flow, the structure of a complete store and how to handle loading and error states.
