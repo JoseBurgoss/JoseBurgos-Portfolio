@@ -1,6 +1,12 @@
 ---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { ui } from '../../i18n/ui';
+import type { Lang } from '../../i18n/utils';
 export function getStaticPaths() {
   return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }];
 }
+const lang = Astro.params.lang as Lang;
 ---
-<html lang={Astro.params.lang}><head><meta charset="utf-8" /><title>José Burgos</title></head><body><h1>José Burgos</h1></body></html>
+<BaseLayout lang={lang} title={ui[lang].meta.homeTitle} description={ui[lang].meta.homeDescription} pathname={Astro.url.pathname}>
+  <main id="main" class="container section"><h1>{ui[lang].hero.title}</h1></main>
+</BaseLayout>

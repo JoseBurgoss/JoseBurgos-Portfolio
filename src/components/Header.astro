@@ -1,0 +1,59 @@
+---
+import MobileNav from '../islands/MobileNav.tsx';
+import { ui } from '../i18n/ui';
+import { localePath, switchLangPath, type Lang } from '../i18n/utils';
+
+interface Props { lang: Lang; pathname: string }
+const { lang, pathname } = Astro.props;
+const t = ui[lang];
+const other: Lang = lang === 'es' ? 'en' : 'es';
+const home = localePath(lang);
+const links = [
+  ['work', t.nav.work],
+  ['about', t.nav.about],
+  ['experience', t.nav.experience],
+  ['stack', t.nav.stack],
+  ['contact', t.nav.contact],
+] as const;
+---
+<a class="skip" href="#main">{t.nav.skip}</a>
+<header class="site-header">
+  <div class="container site-header__row">
+    <a class="wordmark" href={home}>José Burgos</a>
+    <MobileNav client:media="(max-width: 48rem)" label={t.nav.menu} closeLabel={t.nav.close} />
+    <nav id="site-nav" aria-label={t.nav.label}>
+      <ul>
+        {links.map(([id, label]) => (
+          <li><a href={`${home}#${id}`}>{label}</a></li>
+        ))}
+      </ul>
+      <a class="lang" data-lang-switch href={switchLangPath(pathname, other)} hreflang={other} lang={other} aria-label={t.nav.switchTo}>{other.toUpperCase()}</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .skip { position: absolute; left: var(--space-md); top: -4rem; z-index: 20; padding: var(--space-xs) var(--space-md); background: var(--color-paper); color: var(--color-ink); border-radius: var(--radius-sm); }
+  .skip:focus { top: var(--space-sm); }
+  .site-header { position: sticky; top: 0; z-index: 10; background: var(--color-ink); border-bottom: 1px solid var(--color-line); }
+  .site-header__row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); min-height: 4rem; }
+  .wordmark { font-family: var(--font-display); font-weight: 700; font-size: var(--text-lg); text-decoration: none; white-space: nowrap; }
+  .wordmark:hover { color: var(--color-accent); }
+  nav { display: flex; align-items: center; gap: var(--space-lg); }
+  nav ul { display: flex; gap: var(--space-lg); }
+  nav a { white-space: nowrap; text-decoration: none; font-size: var(--text-sm); }
+  nav a:hover { text-decoration: underline; }
+  .lang { padding: 0.25rem 0.6rem; border: 1px solid var(--color-line); border-radius: 999px; font-family: var(--font-mono); }
+
+  :global(.nav-toggle) { display: none; padding: 0.5rem 1rem; border: 1px solid var(--color-line); border-radius: 999px; background: transparent; color: inherit; font: inherit; font-size: var(--text-sm); cursor: pointer; white-space: nowrap; }
+
+  @media (max-width: 48rem) {
+    .site-header__row { flex-wrap: wrap; }
+    nav { flex-wrap: wrap; width: 100%; gap: var(--space-sm) var(--space-lg); padding-bottom: var(--space-md); }
+    nav ul { flex-wrap: wrap; gap: var(--space-sm) var(--space-lg); }
+    :global(.js-nav) :global(.nav-toggle) { display: inline-flex; }
+    :global(.js-nav) nav { display: none; }
+    :global(.js-nav) nav[data-open='true'] { display: flex; flex-direction: column; align-items: flex-start; }
+    :global(.js-nav) nav[data-open='true'] ul { flex-direction: column; }
+  }
+</style>

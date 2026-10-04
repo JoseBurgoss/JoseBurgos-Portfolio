@@ -1,0 +1,49 @@
+---
+import '../styles/tokens.css';
+import '../styles/base.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { switchLangPath, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  pathname: string;
+  jsonLd?: Record<string, unknown>;
+}
+const { lang, title, description, pathname, jsonLd } = Astro.props;
+const origin = Astro.site!.origin;
+const canonical = new URL(pathname, origin).href;
+const ogImage = new URL('/og.png', origin).href;
+const alt = (l: Lang) => new URL(switchLangPath(pathname, l), origin).href;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href={alt('es')} />
+    <link rel="alternate" hreflang="en" href={alt('en')} />
+    <link rel="alternate" hreflang="x-default" href={alt('es')} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#14161b" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="José Burgos" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_VE' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <Header lang={lang} pathname={pathname} />
+    <slot />
+    <Footer lang={lang} />
+  </body>
+</html>
