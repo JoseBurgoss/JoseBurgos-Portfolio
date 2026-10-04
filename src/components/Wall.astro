@@ -37,8 +37,11 @@ const tiles = tileOrder.map((project, i) => ({ project, entry: byProject.get(pro
   .wall { padding-bottom: var(--space-3xl); }
   .wall__grid { display: grid; gap: var(--space-sm); grid-template-columns: minmax(0, 1fr); }
 
-  .tile { position: relative; container-type: inline-size; overflow: hidden; min-height: 20rem; border-radius: var(--radius-md); animation: rise var(--dur-slow) var(--ease-out) both; animation-delay: calc(var(--i) * 120ms); transition: transform var(--dur-base) var(--ease-out); }
-  .tile:hover { transform: translateY(-4px); }
+  .tile { position: relative; container-type: inline-size; overflow: hidden; min-height: 20rem; border-radius: var(--radius-md); animation: rise var(--dur-slow) var(--ease-out) both; animation-delay: calc(var(--i) * 120ms); transition: translate var(--dur-base) var(--ease-out); }
+  /* `translate` (no `transform`): la animación de entrada deja fijado su último `transform` y anularía el hover. */
+  .tile:hover { translate: 0 -4px; }
+  /* Anillo de foco sobre el fondo oscuro de la página, fuera de la tarjeta (contraste suficiente con cualquier color de tarjeta). */
+  .tile:has(.tile__link:focus-visible) { outline: 3px solid var(--color-focus); outline-offset: 3px; }
   .tile--reportaya { min-height: 26rem; background: var(--color-accent); color: var(--color-accent-ink); }
   .tile--el-zuliano { background: var(--color-tile-zuliano); color: var(--color-ink); }
   .tile--moviesapp { background: var(--color-tile-movies); color: var(--color-paper); }
@@ -46,7 +49,7 @@ const tiles = tileOrder.map((project, i) => ({ project, entry: byProject.get(pro
 
   .tile__link { position: absolute; inset: 0; display: block; color: inherit; text-decoration: none; }
   .tile__link:hover { color: inherit; }
-  .tile__link:focus-visible { outline-offset: -6px; }
+  .tile__link:focus-visible { outline: none; }
 
   .tile__media { position: absolute; inset: 0 0 3.75rem 0; overflow: hidden; }
   .tile__media--phones { display: flex; justify-content: center; align-items: flex-start; padding-top: 7%; }

@@ -11,7 +11,7 @@ for (const w of widths) {
       const offenders = await page.evaluate(() => {
         const vw = window.innerWidth;
         return [...document.querySelectorAll('body *')]
-          .filter((el) => !el.closest('.tile'))
+          .filter((el) => !el.parentElement?.closest('.tile')) // la tarjeta sí se mide; solo sus capturas recortadas se excluyen
           .filter((el) => {
             const r = el.getBoundingClientRect();
             return r.width > 0 && r.right > vw + 1;

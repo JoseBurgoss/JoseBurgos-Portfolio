@@ -57,6 +57,12 @@ describe('casos de estudio MDX', () => {
       });
     }
   }
+  it('ReportaYa no promete publicación en tiendas ni cita tecnologías ausentes del CV', () => {
+    for (const lang of ['es', 'en']) {
+      const src = readFileSync(`src/content/proyectos/${lang}/reportaya.mdx`, 'utf8');
+      expect(src, lang).not.toMatch(/Google Play|App Store|PostGIS/i);
+    }
+  });
   it('no hay archivos de más', () => {
     expect(readdirSync('src/content/proyectos/es').sort()).toEqual(projects.map((p) => `${p}.mdx`).sort());
     expect(readdirSync('src/content/proyectos/en').sort()).toEqual(projects.map((p) => `${p}.mdx`).sort());
