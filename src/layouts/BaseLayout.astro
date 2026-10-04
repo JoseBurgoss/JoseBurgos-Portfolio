@@ -18,7 +18,7 @@ interface Props {
 const { lang, title, description, pathname, jsonLd, noindex = false } = Astro.props;
 const origin = Astro.site!.origin;
 const canonical = new URL(pathname, origin).href;
-const ogImage = new URL('/og.png', origin).href;
+const ogImage = new URL('/og.png?v=2', origin).href;
 const alt = (l: Lang) => new URL(switchLangPath(pathname, l), origin).href;
 ---
 <!doctype html>
