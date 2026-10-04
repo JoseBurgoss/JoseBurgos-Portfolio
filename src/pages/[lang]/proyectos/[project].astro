@@ -1,0 +1,90 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Frame from '../../../components/Frame.astro';
+import { projectMedia, projectOrder, type ProjectId } from '../../../data/projects';
+import { ui } from '../../../i18n/ui';
+import { localePath, type Lang } from '../../../i18n/utils';
+
+export async function getStaticPaths() {
+  const all = await getCollection('proyectos');
+  return all.map((entry) => ({
+    params: { lang: entry.id.split('/')[0], project: entry.data.project },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const id = entry.data.project as ProjectId;
+const media = projectMedia[id];
+const { Content } = await render(entry);
+const nextId = projectOrder[(projectOrder.indexOf(id) + 1) % projectOrder.length];
+const all = await getCollection('proyectos');
+const next = all.find((e) => e.id === `${lang}/${nextId}`)!;
+const phone = media.layout === 'phones';
+---
+<BaseLayout lang={lang} title={`${entry.data.title} — José Burgos`} description={entry.data.summary} pathname={Astro.url.pathname}>
+  <main id="main" class="container case">
+    <a class="case__back" href={`${localePath(lang)}#work`}>← {t.project.back}</a>
+
+    <header class="case__head">
+      <h1>{entry.data.title}</h1>
+      <p class="case__summary">{entry.data.summary}</p>
+      <dl class="case__meta">
+        <div><dt>{t.project.kind}</dt><dd>{entry.data.kind}</dd></div>
+        <div><dt>{t.project.status}</dt><dd>{entry.data.status}</dd></div>
+      </dl>
+      <ul class="chips" aria-label={t.project.stack}>
+        {entry.data.stack.map((s) => <li>{s}</li>)}
+      </ul>
+      {entry.data.links.length > 0 && (
+        <p class="case__links">
+          {entry.data.links.map((l) => (
+            <a class="btn btn--primary" href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a>
+          ))}
+        </p>
+      )}
+    </header>
+
+    <section class={`gallery ${phone ? 'gallery--phones' : 'gallery--wide'}`} aria-label={t.project.gallery}>
+      {media.gallery.map((shot, i) => (
+        <Frame image={shot.src} alt={shot.alt[lang]} shape={phone ? 'phone' : 'wide'} eager={i === 0} width={phone ? 480 : 1400} />
+      ))}
+    </section>
+
+    <article class="prose"><Content /></article>
+
+    <nav class="case__next" aria-label={t.project.next}>
+      <a class="btn" href={localePath(lang, `proyectos/${nextId}/`)}>{t.project.next}: {next.data.title} →</a>
+    </nav>
+  </main>
+</BaseLayout>
+
+<style>
+  .case { display: grid; gap: var(--space-2xl); padding-block: var(--space-xl) var(--space-3xl); }
+  .case__back { width: fit-content; white-space: nowrap; font-size: var(--text-sm); }
+  .case__head { display: grid; gap: var(--space-lg); }
+  .case__head h1 { font-size: var(--text-display); }
+  .case__summary { font-size: var(--text-lg); color: var(--color-muted); }
+  .case__meta { display: grid; gap: var(--space-md); margin: 0; }
+  .case__meta div { display: grid; gap: 0.15rem; }
+  .case__meta dt { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-muted); }
+  .case__meta dd { margin: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+  .chips li { padding: 0.35rem 0.75rem; border: 1px solid var(--color-line); border-radius: 999px; font-family: var(--font-mono); font-size: var(--text-sm); }
+  .case__links { display: flex; flex-wrap: wrap; gap: var(--space-sm); max-width: none; }
+
+  .gallery { display: grid; gap: var(--space-md); }
+  .gallery--phones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gallery--wide { grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 48rem) {
+    .gallery--phones { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .case__meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  .prose { display: grid; gap: var(--space-md); max-width: var(--measure); }
+  .prose :global(h2) { font-size: var(--text-xl); margin-top: var(--space-lg); }
+  .case__next { padding-top: var(--space-xl); border-top: 1px solid var(--color-line); }
+</style>
