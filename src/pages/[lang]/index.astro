@@ -1,0 +1,6 @@
+---
+export function getStaticPaths() {
+  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }];
+}
+---
+<html lang={Astro.params.lang}><head><meta charset="utf-8" /><title>José Burgos</title></head><body><h1>José Burgos</h1></body></html>
