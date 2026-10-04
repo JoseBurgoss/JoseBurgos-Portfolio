@@ -1,13 +1,26 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Wall from '../../components/Wall.astro';
+import Home from '../../components/Home.astro';
 import { ui } from '../../i18n/ui';
-import type { Lang } from '../../i18n/utils';
+import { site } from '../../content/site';
+import { locales, type Lang } from '../../i18n/utils';
+
 export function getStaticPaths() {
-  return [{ params: { lang: 'es' } }, { params: { lang: 'en' } }];
+  return locales.map((lang) => ({ params: { lang } }));
 }
 const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  jobTitle: t.hero.role,
+  url: new URL(`/${lang}/`, Astro.site).href,
+  email: `mailto:${site.email}`,
+  sameAs: [site.links.linkedin, site.links.github],
+  address: { '@type': 'PostalAddress', addressLocality: 'Maracaibo', addressCountry: 'VE' },
+};
 ---
-<BaseLayout lang={lang} title={ui[lang].meta.homeTitle} description={ui[lang].meta.homeDescription} pathname={Astro.url.pathname}>
-  <main id="main"><div class="container section"><h1>{ui[lang].hero.title}</h1></div><Wall lang={lang} /></main>
+<BaseLayout lang={lang} title={t.meta.homeTitle} description={t.meta.homeDescription} pathname={Astro.url.pathname} jsonLd={jsonLd}>
+  <Home lang={lang} />
 </BaseLayout>

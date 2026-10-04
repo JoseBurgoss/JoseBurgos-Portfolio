@@ -1,0 +1,40 @@
+---
+import { site } from '../content/site';
+import { ui } from '../i18n/ui';
+import type { Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+const edu = site.education;
+---
+<section id="experience" class="section container" aria-labelledby="exp-title">
+  <h2 id="exp-title">{t.experience.title}</h2>
+  <ol class="jobs">
+    {site.experience.map((job) => (
+      <li class="job">
+        <h3>{job.role[lang]} · {job.org}</h3>
+        <p class="job__meta">{job.period[lang]} · {job.place[lang]}</p>
+        <p class="job__summary">{job.summary[lang]}</p>
+        <ul class="job__list">
+          {job.highlights[lang].map((h) => <li>{h}</li>)}
+        </ul>
+      </li>
+    ))}
+    <li class="job">
+      <h3>{edu.school[lang]}</h3>
+      <p class="job__meta">{edu.period} · {t.experience.education}</p>
+      <p class="job__summary">{edu.degree[lang]}</p>
+    </li>
+  </ol>
+</section>
+
+<style>
+  h2 { margin-bottom: var(--space-xl); }
+  .jobs { display: grid; gap: var(--space-xl); }
+  .job { display: grid; gap: var(--space-sm); padding-top: var(--space-lg); border-top: 1px solid var(--color-line); }
+  .job__meta { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-muted); }
+  .job__list { display: grid; gap: var(--space-sm); margin-top: var(--space-sm); max-width: var(--measure); }
+  .job__list li { position: relative; padding-left: 1.25rem; }
+  .job__list li::before { content: ''; position: absolute; left: 0; top: 0.7em; width: 0.5rem; height: 2px; background: var(--color-accent); }
+</style>

@@ -1,0 +1,36 @@
+---
+import { site } from '../content/site';
+import { ui } from '../i18n/ui';
+import type { Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+<section id="other" class="section container" aria-labelledby="other-title">
+  <h2 id="other-title">{t.other.title}</h2>
+  <p class="intro">{t.other.intro}</p>
+  <ul class="list">
+    {site.otherProjects.map((p) => (
+      <li class="row">
+        <div>
+          <h3>{p.name}</h3>
+          <p>{p.description[lang]}</p>
+        </div>
+        <p class="row__tech">{p.tech}</p>
+        <a href={p.href} target="_blank" rel="noopener noreferrer">{t.other.repo}</a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  h2 { margin-bottom: var(--space-md); }
+  .intro { color: var(--color-muted); margin-bottom: var(--space-xl); }
+  .list { display: grid; gap: var(--space-lg); }
+  .row { display: grid; gap: var(--space-sm); padding-top: var(--space-md); border-top: 1px solid var(--color-line); grid-template-columns: minmax(0, 1fr); }
+  .row div { display: grid; gap: var(--space-xs); }
+  .row__tech { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-muted); }
+  .row a { white-space: nowrap; }
+  @media (min-width: 48rem) { .row { grid-template-columns: minmax(0, 1fr) 6rem auto; align-items: baseline; gap: var(--space-lg); } }
+</style>

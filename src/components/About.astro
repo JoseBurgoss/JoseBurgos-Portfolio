@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/jose-burgos.webp';
+import { site } from '../content/site';
+import { ui } from '../i18n/ui';
+import type { Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+<section id="about" class="section container about" aria-labelledby="about-title">
+  <figure class="about__photo">
+    <Image src={portrait} alt={t.about.photoAlt} width={640} loading="lazy" />
+  </figure>
+  <div class="about__text">
+    <h2 id="about-title">{t.about.title}</h2>
+    {site.about[lang].map((p) => <p>{p}</p>)}
+  </div>
+</section>
+
+<style>
+  .about { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); align-items: start; }
+  .about__photo { margin: 0; overflow: hidden; border-radius: var(--radius-md); border: 1px solid var(--color-line); max-width: 22rem; }
+  .about__photo :global(img) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 25%; }
+  .about__text { display: grid; gap: var(--space-md); }
+  .about__text h2 { margin-bottom: var(--space-sm); }
+  @media (min-width: 48rem) { .about { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: var(--space-2xl); } }
+</style>

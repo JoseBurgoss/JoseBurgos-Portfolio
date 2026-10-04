@@ -1,0 +1,42 @@
+---
+import Wall from './Wall.astro';
+import About from './About.astro';
+import Experience from './Experience.astro';
+import Stack from './Stack.astro';
+import Certs from './Certs.astro';
+import OtherProjects from './OtherProjects.astro';
+import Contact from './Contact.astro';
+import { ui } from '../i18n/ui';
+import { site } from '../content/site';
+import type { Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+<main id="main">
+  <section class="hero container">
+    <p class="hero__role">{t.hero.role}</p>
+    <h1>{t.hero.title}</h1>
+    <p class="hero__sub">{t.hero.sub}</p>
+    <div class="hero__cta">
+      <a class="btn btn--primary" href="#work">{t.hero.ctaWork}</a>
+      <a class="btn" href={site.cv[lang]} download>{t.hero.ctaCv}</a>
+    </div>
+  </section>
+  <Wall lang={lang} />
+  <About lang={lang} />
+  <Experience lang={lang} />
+  <Stack lang={lang} />
+  <Certs lang={lang} />
+  <OtherProjects lang={lang} />
+  <Contact lang={lang} />
+</main>
+
+<style>
+  .hero { display: grid; gap: var(--space-lg); padding-block: var(--space-2xl) var(--space-xl); }
+  .hero__role { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-accent); }
+  .hero h1 { max-width: 14ch; }
+  .hero__sub { font-size: var(--text-lg); color: var(--color-muted); }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+</style>
