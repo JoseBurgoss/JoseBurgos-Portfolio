@@ -2,7 +2,7 @@
 
 # José Andrés Burgos - Portfolio
 
-A modern, responsive portfolio website built with Astro, React, and TailwindCSS. Showcasing my experience as a Computer Engineer with expertise in web development, mobile applications, and artificial intelligence.
+A modern, responsive portfolio website built with Astro, React, and TailwindCSS. Showcasing my experience as a Computer Engineer with expertise in web and mobile development.
 
 ---
 
