@@ -1,0 +1,52 @@
+:root {
+  /* Color */
+  --color-ink: oklch(0.20 0.015 260);
+  --color-ink-2: oklch(0.26 0.018 260);
+  --color-paper: oklch(0.95 0.012 85);
+  --color-muted: oklch(0.74 0.012 85);
+  --color-accent: oklch(0.70 0.19 48);
+  --color-accent-ink: oklch(0.18 0.03 50);
+  --color-focus: oklch(0.82 0.15 85);
+  --color-tile-zuliano: oklch(0.90 0.02 85);
+  --color-tile-movies: oklch(0.32 0.03 265);
+  --color-tile-tienda: oklch(0.85 0.02 85);
+  --color-line: oklch(0.95 0.012 85 / 0.18);
+
+  /* Tipografía */
+  --font-display: 'Schibsted Grotesk Variable', system-ui, sans-serif;
+  --font-body: 'Instrument Sans Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
+  --text-sm: clamp(0.875rem, 0.85rem + 0.1vw, 0.95rem);
+  --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --text-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.3rem);
+  --text-xl: clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem);
+  --text-2xl: clamp(2rem, 1.4rem + 3vw, 3.5rem);
+  --text-display: clamp(2.5rem, 1.2rem + 6.4vw, 5.5rem);
+
+  /* Espacio (escala de 4 pt) */
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: clamp(4rem, 8vw, 7rem);
+
+  /* Forma y capas */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --shadow-frame: 0 20px 40px -18px oklch(0 0 0 / 0.6);
+
+  /* Movimiento */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 150ms;
+  --dur-base: 300ms;
+  --dur-slow: 800ms;
+
+  /* Layout */
+  --measure: 62ch;
+  --page-pad: clamp(1rem, 4vw, 2rem);
+  --page-max: 78rem;
+}
