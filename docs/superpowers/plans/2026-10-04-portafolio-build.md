@@ -71,7 +71,7 @@ tests/e2e/          layout · nojs · motion · i18n · links · a11y (Playwrigh
 
 ---
 
-### Tarea 1: Repositorio, limpieza de la plantilla y andamiaje
+### Task 1: Repositorio, limpieza de la plantilla y andamiaje
 
 **Files:**
 - Crear: `.gitignore`, `package.json`, `astro.config.mjs`, `tsconfig.json`, `vitest.config.ts`, `playwright.config.ts`
@@ -267,7 +267,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 ---
 
-### Tarea 2: Tokens, estilos base, fuentes y prueba de contraste
+### Task 2: Tokens, estilos base, fuentes y prueba de contraste
 
 **Files:**
 - Crear: `src/lib/contrast.ts`, `tests/contrast.test.ts`, `src/styles/tokens.css`, `src/styles/base.css`
@@ -536,7 +536,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 ---
 
-### Tarea 3: Núcleo de i18n
+### Task 3: Núcleo de i18n
 
 **Files:**
 - Crear: `src/i18n/utils.ts`, `src/i18n/ui.ts`, `tests/i18n.test.ts`
@@ -727,7 +727,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 ---
 
-### Tarea 4: Layout base, cabecera con isla de menú y pie
+### Task 4: Layout base, cabecera con isla de menú y pie
 
 **Files:**
 - Crear: `src/layouts/BaseLayout.astro`, `src/components/Header.astro`, `src/components/Footer.astro`, `src/islands/MobileNav.tsx`, `public/favicon.svg`, `public/robots.txt`
@@ -986,7 +986,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 ---
 
-### Tarea 5: Contenido (datos del home y casos de estudio) con pruebas de paridad
+### Task 5: Contenido (datos del home y casos de estudio) con pruebas de paridad
 
 **Files:**
 - Reemplazar: `src/content/site.ts`
@@ -1485,7 +1485,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 ---
 
-### Tarea 6: Activos (capturas, foto, CV, OG) y sus pruebas
+### Task 6: Activos (capturas, foto, CV, OG) y sus pruebas
 
 **Files:**
 - Crear: `scripts/prepare-assets.mjs`, `scripts/capture-web.mjs`, `scripts/make-og.mjs`, `tests/assets.test.ts`, `public/cv/CV_Jose_Burgos_{ES,EN}.pdf`, `public/og.png`
@@ -1695,7 +1695,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 ---
 
-### Tarea 7: Datos de proyectos, `Frame` y muro (hero + proyectos)
+### Task 7: Datos de proyectos, `Frame` y muro (hero + proyectos)
 
 **Files:**
 - Crear: `src/data/projects.ts`, `src/components/Frame.astro`, `src/components/Wall.astro`
@@ -1899,7 +1899,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 ---
 
-### Tarea 8: Secciones del home y páginas por idioma
+### Task 8: Secciones del home y páginas por idioma
 
 **Files:**
 - Crear: `src/components/Home.astro`, `About.astro`, `Experience.astro`, `Stack.astro`, `Certs.astro`, `OtherProjects.astro`, `Contact.astro`, `src/pages/index.astro`
@@ -2252,7 +2252,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 ---
 
-### Tarea 9: Páginas de caso de estudio
+### Task 9: Páginas de caso de estudio
 
 **Files:**
 - Crear: `src/pages/[lang]/proyectos/[project].astro`
@@ -2375,7 +2375,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 ---
 
-### Tarea 10: Pruebas end-to-end (diseño, sin JS, movimiento, idioma, enlaces, accesibilidad)
+### Task 10: Pruebas end-to-end (diseño, sin JS, movimiento, idioma, enlaces, accesibilidad)
 
 **Files:**
 - Crear: `tests/e2e/layout.spec.ts`, `nojs.spec.ts`, `motion.spec.ts`, `i18n.spec.ts`, `links.spec.ts`, `a11y.spec.ts`
@@ -2611,7 +2611,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 ---
 
-### Tarea 11: Licencia, README, prueba anti-plantilla y Lighthouse
+### Task 11: Licencia, README, prueba anti-plantilla y Lighthouse
 
 **Files:**
 - Crear: `LICENSE`, `README.md`, `tests/license.test.ts`
@@ -2734,7 +2734,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 ---
 
-### Tarea 12: Vista previa en Vercel, revisión del usuario y publicación
+### Task 12: Vista previa en Vercel, revisión del usuario y publicación
 
 **Files:** ninguno (operaciones de Git y Vercel).
 
