@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import sharp from 'sharp';
 import { describe, expect, it } from 'vitest';
@@ -42,6 +43,13 @@ describe('foto, CV y OG', () => {
   it('CVs y OG existen', () => {
     for (const f of ['public/cv/CV_Jose_Burgos_ES.pdf', 'public/cv/CV_Jose_Burgos_EN.pdf', 'public/og.png']) {
       expect(existsSync(f), f).toBe(true);
+    }
+  });
+  it('los CV públicos no exponen el teléfono personal', () => {
+    for (const f of ['public/cv/CV_Jose_Burgos_ES.pdf', 'public/cv/CV_Jose_Burgos_EN.pdf']) {
+      const text = execFileSync('pdftotext', [f, '-'], { encoding: 'utf8' });
+      expect(text, f).toContain('joseburgos153@gmail.com');
+      expect(text, f).not.toMatch(/\+?58\s?414|0629243/);
     }
   });
   it('og.png mide 1200x630', async () => {

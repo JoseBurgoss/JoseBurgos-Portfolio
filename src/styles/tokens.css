@@ -14,7 +14,7 @@
 
   /* Tipografía */
   --font-display: 'Schibsted Grotesk Variable', system-ui, sans-serif;
-  --font-body: 'Instrument Sans Variable', system-ui, sans-serif;
+  --font-body: 'Atkinson Hyperlegible Next Variable', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
   --text-sm: clamp(0.875rem, 0.85rem + 0.1vw, 0.95rem);
   --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
