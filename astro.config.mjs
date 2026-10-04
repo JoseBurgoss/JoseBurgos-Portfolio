@@ -7,6 +7,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://jose-burgos-portfolio.vercel.app',
   trailingSlash: 'always',
+  build: { inlineStylesheets: 'always' },
   integrations: [
     react(),
     mdx(),
