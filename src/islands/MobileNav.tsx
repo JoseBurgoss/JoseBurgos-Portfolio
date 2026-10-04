@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type Props = { label: string; closeLabel: string };
 
 export default function MobileNav({ label, closeLabel }: Props) {
   const [open, setOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     document.documentElement.classList.add('js-nav');
@@ -16,7 +17,9 @@ export default function MobileNav({ label, closeLabel }: Props) {
     nav.dataset.open = String(open);
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key !== 'Escape') return;
+      setOpen(false);
+      buttonRef.current?.focus(); // el menú se oculta: devolver el foco al botón
     };
     const onClick = (e: Event) => {
       if ((e.target as HTMLElement).closest('a')) setOpen(false);
@@ -31,6 +34,7 @@ export default function MobileNav({ label, closeLabel }: Props) {
 
   return (
     <button
+      ref={buttonRef}
       type="button"
       className="nav-toggle"
       aria-expanded={open}

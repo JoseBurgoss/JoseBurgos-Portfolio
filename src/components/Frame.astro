@@ -11,9 +11,13 @@ interface Props {
   class?: string;
 }
 const { image, alt, shape, width = shape === 'phone' ? 360 : 1100, eager = false, class: className = '' } = Astro.props;
+// Varios tamaños para que el móvil no descargue la captura grande.
+const max = Math.min(width, image.width);
+const widths = shape === 'phone' ? [Math.round(max / 2), max] : [Math.min(640, max), max];
+const sizes = shape === 'phone' ? `(max-width: 48rem) 40vw, ${Math.round(max / 2)}px` : `(max-width: 48rem) 100vw, ${max}px`;
 ---
 <figure class:list={['frame', `frame--${shape}`, className]}>
-  <Image src={image} alt={alt} width={width} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  <Image src={image} alt={alt} widths={[...new Set(widths)]} sizes={sizes} loading={eager ? 'eager' : 'lazy'} decoding="async" />
 </figure>
 
 <style>

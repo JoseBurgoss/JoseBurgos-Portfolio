@@ -35,6 +35,11 @@ export const site = {
     ],
   } as L10n<string[]>,
 
+  facts: {
+    es: ['Maracaibo, Venezuela', 'Ingeniero en Computación · 2025', 'Inglés C2 · EF SET'],
+    en: ['Maracaibo, Venezuela', 'Computer Engineer · 2025', 'English C2 · EF SET'],
+  } as L10n<string[]>,
+
   experience: [
     {
       id: 'alkosto',

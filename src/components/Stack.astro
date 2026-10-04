@@ -1,5 +1,6 @@
 ---
 import { site } from '../content/site';
+import { iconFor } from '../data/stack-icons';
 import { ui } from '../i18n/ui';
 import type { Lang } from '../i18n/utils';
 
@@ -10,11 +11,23 @@ const t = ui[lang];
 <section id="stack" class="section container" aria-labelledby="stack-title">
   <h2 id="stack-title">{t.stack.title}</h2>
   <div class="groups">
-    {site.stack.map((g) => (
-      <div class="group">
+    {site.stack.map((g, i) => (
+      <div class="group" data-reveal style={`--d:${i}`}>
         <h3>{g.label[lang]}</h3>
-        <ul class="chips">
-          {g.items.map((i) => <li>{i}</li>)}
+        <ul class="tech">
+          {g.items.map((name) => {
+            const icon = iconFor(name);
+            return (
+              <li>
+                {icon ? (
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d={icon.path} fill="currentColor" /></svg>
+                ) : (
+                  <span class="tech__dot" aria-hidden="true"></span>
+                )}
+                <span>{name}</span>
+              </li>
+            );
+          })}
         </ul>
       </div>
     ))}
@@ -23,9 +36,11 @@ const t = ui[lang];
 
 <style>
   h2 { margin-bottom: var(--space-xl); }
-  .groups { display: grid; gap: var(--space-xl); grid-template-columns: minmax(0, 1fr); }
-  .group { display: grid; gap: var(--space-md); align-content: start; }
-  .chips { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
-  .chips li { padding: 0.35rem 0.75rem; border: 1px solid var(--color-line); border-radius: 999px; font-family: var(--font-mono); font-size: var(--text-sm); }
+  .groups { display: grid; gap: var(--space-md); grid-template-columns: minmax(0, 1fr); }
+  .group { display: grid; gap: var(--space-md); align-content: start; padding: var(--space-lg); background: var(--color-ink-2); border: 1px solid var(--color-line); border-radius: var(--radius-md); }
+  .tech { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+  .tech li { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.75rem; border: 1px solid var(--color-line); border-radius: 999px; font-size: var(--text-sm); white-space: nowrap; }
+  .tech svg { flex: none; color: var(--color-muted); }
+  .tech__dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--color-accent); }
   @media (min-width: 48rem) { .groups { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 </style>

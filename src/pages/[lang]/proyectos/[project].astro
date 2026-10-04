@@ -27,7 +27,7 @@ const phone = media.layout === 'phones';
 ---
 <BaseLayout lang={lang} title={`${entry.data.title} — José Burgos`} description={entry.data.summary} pathname={Astro.url.pathname}>
   <main id="main" class="container case">
-    <a class="case__back" href={`${localePath(lang)}#work`}>← {t.project.back}</a>
+    <a class="case__back" href={`${localePath(lang)}#work`}>← <span class="u-draw">{t.project.back}</span></a>
 
     <header class="case__head">
       <h1>{entry.data.title}</h1>
@@ -48,13 +48,13 @@ const phone = media.layout === 'phones';
       )}
     </header>
 
-    <section class={`gallery ${phone ? 'gallery--phones' : 'gallery--wide'}`} aria-label={t.project.gallery}>
+    <section class={`gallery ${phone ? 'gallery--phones' : 'gallery--wide'}`} aria-label={t.project.gallery} data-reveal>
       {media.gallery.map((shot, i) => (
         <Frame image={shot.src} alt={shot.alt[lang]} shape={phone ? 'phone' : 'wide'} eager={i === 0} width={phone ? 480 : 1400} />
       ))}
     </section>
 
-    <article class="prose"><Content /></article>
+    <article class="prose" data-reveal><Content /></article>
 
     <nav class="case__next" aria-label={t.project.next}>
       <a class="btn" href={localePath(lang, `proyectos/${nextId}/`)}>{t.project.next}: {next.data.title} →</a>
@@ -64,7 +64,7 @@ const phone = media.layout === 'phones';
 
 <style>
   .case { display: grid; gap: var(--space-2xl); padding-block: var(--space-xl) var(--space-3xl); }
-  .case__back { width: fit-content; white-space: nowrap; font-size: var(--text-sm); }
+  .case__back { width: fit-content; white-space: nowrap; font-size: var(--text-sm); text-decoration: none; }
   .case__head { display: grid; gap: var(--space-lg); }
   .case__head h1 { font-size: var(--text-display); }
   .case__summary { font-size: var(--text-lg); color: var(--color-muted); }

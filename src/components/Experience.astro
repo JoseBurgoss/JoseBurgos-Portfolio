@@ -12,7 +12,7 @@ const edu = site.education;
   <h2 id="exp-title">{t.experience.title}</h2>
   <ol class="jobs">
     {site.experience.map((job) => (
-      <li class="job">
+      <li class="job" data-reveal>
         <h3>{job.role[lang]} · {job.org}</h3>
         <p class="job__meta">{job.period[lang]} · {job.place[lang]}</p>
         <p class="job__summary">{job.summary[lang]}</p>
@@ -21,7 +21,7 @@ const edu = site.education;
         </ul>
       </li>
     ))}
-    <li class="job">
+    <li class="job job--edu" data-reveal>
       <h3>{edu.school[lang]}</h3>
       <p class="job__meta">{edu.period} · {t.experience.education}</p>
       <p class="job__summary">{edu.degree[lang]}</p>
@@ -31,8 +31,12 @@ const edu = site.education;
 
 <style>
   h2 { margin-bottom: var(--space-xl); }
-  .jobs { display: grid; gap: var(--space-xl); }
-  .job { display: grid; gap: var(--space-sm); padding-top: var(--space-lg); border-top: 1px solid var(--color-line); }
+  /* Línea de tiempo fija: una línea vertical y un punto por etapa. */
+  .jobs { position: relative; display: grid; gap: var(--space-2xl); padding-left: 2rem; }
+  .jobs::before { content: ''; position: absolute; left: 0.45rem; top: 0.5rem; bottom: 0.5rem; width: 2px; background: var(--color-line); }
+  .job { position: relative; display: grid; gap: var(--space-sm); }
+  .job::before { content: ''; position: absolute; left: -1.85rem; top: 0.3rem; width: 0.85rem; height: 0.85rem; border-radius: 50%; background: var(--color-ink); border: 2px solid var(--color-accent); }
+  .job--edu::before { border-color: var(--color-muted); }
   .job__meta { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-muted); }
   .job__list { display: grid; gap: var(--space-sm); margin-top: var(--space-sm); max-width: var(--measure); }
   .job__list li { position: relative; padding-left: 1.25rem; }

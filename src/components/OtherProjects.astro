@@ -11,14 +11,14 @@ const t = ui[lang];
   <h2 id="other-title">{t.other.title}</h2>
   <p class="intro">{t.other.intro}</p>
   <ul class="list">
-    {site.otherProjects.map((p) => (
-      <li class="row">
+    {site.otherProjects.map((p, i) => (
+      <li class="row" data-reveal style={`--d:${i}`}>
         <div>
           <h3>{p.name}</h3>
           <p>{p.description[lang]}</p>
         </div>
         <p class="row__tech">{p.tech}</p>
-        <a href={p.href} target="_blank" rel="noopener noreferrer">{t.other.repo}</a>
+        <a class="row__link" href={p.href} target="_blank" rel="noopener noreferrer"><span class="u-draw">{t.other.repo}</span> <span class="arrow" aria-hidden="true">→</span></a>
       </li>
     ))}
   </ul>
@@ -31,6 +31,8 @@ const t = ui[lang];
   .row { display: grid; gap: var(--space-sm); padding-top: var(--space-md); border-top: 1px solid var(--color-line); grid-template-columns: minmax(0, 1fr); }
   .row div { display: grid; gap: var(--space-xs); }
   .row__tech { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-muted); }
-  .row a { white-space: nowrap; }
+  .row__link { white-space: nowrap; text-decoration: none; color: var(--color-accent); }
+  .row__link .arrow { display: inline-block; transition: translate var(--dur-base) var(--ease-out); }
+  .row__link:hover .arrow, .row__link:focus-visible .arrow { translate: 4px 0; }
   @media (min-width: 48rem) { .row { grid-template-columns: minmax(0, 1fr) 6rem auto; align-items: baseline; gap: var(--space-lg); } }
 </style>

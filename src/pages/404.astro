@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout lang="es" title="Página no encontrada — José Burgos" description="Esta página no existe. This page doesn't exist." pathname="/es/" noindex>
+  <main id="main" class="container section notfound">
+    <p class="notfound__code">404</p>
+    <h1>Esta página no existe.</h1>
+    <p lang="en" class="notfound__en">This page doesn't exist.</p>
+    <p class="notfound__links">
+      <a class="btn btn--primary" href="/es/">Ir al inicio</a>
+      <a class="btn" href="/en/" lang="en">Go to the home page</a>
+    </p>
+  </main>
+</BaseLayout>
+
+<style>
+  .notfound { display: grid; gap: var(--space-lg); min-height: 60svh; align-content: center; }
+  .notfound__code { font-family: var(--font-mono); color: var(--color-accent); }
+  .notfound__en { font-size: var(--text-lg); color: var(--color-muted); }
+  .notfound__links { display: flex; flex-wrap: wrap; gap: var(--space-sm); max-width: none; }
+</style>

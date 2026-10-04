@@ -35,6 +35,9 @@ const t = ui[lang];
 
 <style>
   .hero { display: grid; gap: var(--space-lg); padding-block: var(--space-2xl) var(--space-xl); }
+  /* Entrada única al cargar y luego quieto. El titular solo se desplaza (sin opacidad) para no retrasar el LCP. */
+  .hero h1 { animation: hero-in 700ms var(--ease-out) both; }
+  .hero__role, .hero__sub, .hero__cta { animation: rise 700ms var(--ease-out) 120ms both; }
   .hero__role { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-accent); }
   .hero h1 { max-width: 14ch; }
   .hero__sub { font-size: var(--text-lg); color: var(--color-muted); }
