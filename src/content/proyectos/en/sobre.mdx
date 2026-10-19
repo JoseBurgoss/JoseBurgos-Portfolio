@@ -1,0 +1,27 @@
+---
+project: sobre
+title: Sobre
+kind: Price and stock radar · Burgo app
+status: Live, with more sources on the way
+summary: Watches prices and stock of sealed Pokémon TCG products at US stores and sends a Telegram alert when something is worth it.
+stack: [TypeScript, Node.js, Fastify, PostgreSQL, Drizzle, grammY, Web Push, Docker]
+links:
+  - label: Sobre
+    href: https://sobre.burgo.dev
+  - label: Telegram bot
+    href: https://t.me/BurgoSobreBot
+---
+
+## Problem
+
+Sealed Pokémon TCG products sell out fast and prices vary from store to store. Checking every site by hand does not scale, and alerts arrive too late.
+
+## Solution
+
+A TypeScript service polls several sources through adapters (official or affiliate APIs where they exist), normalizes products into its own catalog and stores price and stock history in PostgreSQL. When something is back in stock or drops in price, it alerts through the Telegram bot [@BurgoSobreBot](https://t.me/BurgoSobreBot) and push notifications. It never buys on its own: it only informs.
+
+The web app signs in with the Burgo account (single sign-on) and exposes an API documented with OpenAPI.
+
+## What it taught me
+
+Designing integrations with unreliable sources, respecting each store's terms and running a service that works on its own in the background on my own server.

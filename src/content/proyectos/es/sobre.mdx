@@ -1,0 +1,27 @@
+---
+project: sobre
+title: Sobre
+kind: Radar de precios y existencias · App de Burgo
+status: En producción, con fuentes en expansión
+summary: Vigila precios y existencias de producto sellado de Pokémon TCG en tiendas de EE. UU. y avisa por Telegram cuando hay algo que vale la pena.
+stack: [TypeScript, Node.js, Fastify, PostgreSQL, Drizzle, grammY, Web Push, Docker]
+links:
+  - label: Sobre
+    href: https://sobre.burgo.dev
+  - label: Bot de Telegram
+    href: https://t.me/BurgoSobreBot
+---
+
+## Problema
+
+El producto sellado de Pokémon TCG se agota rápido y los precios cambian de una tienda a otra. Revisar cada sitio a mano no escala, y los avisos llegan tarde.
+
+## Solución
+
+Un servicio en TypeScript consulta periódicamente varias fuentes mediante adaptadores (APIs oficiales o de afiliados cuando existen), normaliza los productos en un catálogo propio y guarda el historial de precio y existencias en PostgreSQL. Cuando algo vuelve a estar disponible o baja de precio, avisa por el bot de Telegram [@BurgoSobreBot](https://t.me/BurgoSobreBot) y por notificaciones push. Nunca compra solo: solo informa.
+
+La app web entra con la cuenta Burgo (inicio de sesión único) y expone una API documentada con OpenAPI.
+
+## Lo que me deja
+
+Diseñar integraciones con fuentes poco confiables, respetar los términos de cada tienda y operar un servicio que trabaja solo en segundo plano en mi propio servidor.

@@ -42,7 +42,7 @@ describe('site.ts: paridad ES/EN', () => {
 });
 
 describe('casos de estudio MDX', () => {
-  const projects = ['reportaya', 'moviesapp', 'el-zuliano', 'tienda-burgos'];
+  const projects = ['burgo', 'sobre', 'reportaya', 'moviesapp', 'el-zuliano', 'tienda-burgos'];
   for (const lang of ['es', 'en']) {
     for (const p of projects) {
       const file = `src/content/proyectos/${lang}/${p}.mdx`;
@@ -61,6 +61,25 @@ describe('casos de estudio MDX', () => {
     for (const lang of ['es', 'en']) {
       const src = readFileSync(`src/content/proyectos/${lang}/reportaya.mdx`, 'utf8');
       expect(src, lang).not.toMatch(/Google Play|App Store|PostGIS/i);
+    }
+  });
+  it('los proyectos universitarios llevan la insignia y aclaran cómo corre la versión en vivo', () => {
+    for (const lang of ['es', 'en']) {
+      for (const p of ['el-zuliano', 'tienda-burgos']) {
+        const src = readFileSync(`src/content/proyectos/${lang}/${p}.mdx`, 'utf8');
+        expect(src, `${lang}/${p}`).toMatch(/^academic: true$/m);
+        expect(src, `${lang}/${p}`).toMatch(/^liveNote: .+/m);
+      }
+      for (const p of ['burgo', 'sobre']) {
+        expect(readFileSync(`src/content/proyectos/${lang}/${p}.mdx`, 'utf8'), `${lang}/${p}`).not.toMatch(/^academic: true$/m);
+      }
+    }
+  });
+  it('ningún enlace apunta a vercel.app', () => {
+    for (const lang of ['es', 'en']) {
+      for (const p of projects) {
+        expect(readFileSync(`src/content/proyectos/${lang}/${p}.mdx`, 'utf8'), `${lang}/${p}`).not.toMatch(/vercel\.app/);
+      }
     }
   });
   it('no hay archivos de más', () => {

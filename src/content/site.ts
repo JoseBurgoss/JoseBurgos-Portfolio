@@ -14,6 +14,7 @@ export interface Experience {
 export interface StackGroup { id: string; label: L10n<string>; items: string[] }
 export interface Cert { name: L10n<string>; issuer: string; year?: string; detail?: L10n<string> }
 export interface OtherProject { name: string; description: L10n<string>; tech: string; href: string }
+export interface Prototype { name: L10n<string>; description: L10n<string>; href: string }
 
 export const site = {
   name: 'José Burgos',
@@ -120,6 +121,33 @@ export const site = {
     { name: { es: 'Introducción a la Ciberseguridad', en: 'Introduction to Cybersecurity' }, issuer: 'Cisco', year: '2025' },
   ] as Cert[],
 
+  /** Prototipos de producto «powered by Burgo» (demos solo front-end, datos ficticios). */
+  prototypes: [
+    {
+      name: { es: 'Pedidos para restaurantes', en: 'Restaurant ordering' },
+      description: {
+        es: 'Tienda web instalable con menú, carrito, checkout y seguimiento del pedido, más panel del negocio.',
+        en: 'Installable web store with menu, cart, checkout and order tracking, plus a business dashboard.',
+      },
+      href: 'https://peperoni.burgo.dev',
+    },
+    {
+      name: { es: 'Pedidos para repostería', en: 'Bakery ordering' },
+      description: {
+        es: 'La misma plataforma adaptada a postres por encargo, con identidad visual propia.',
+        en: 'The same platform adapted to made-to-order desserts, with its own visual identity.',
+      },
+      href: 'https://soet.burgo.dev',
+    },
+    {
+      name: { es: 'Gestión de clubes', en: 'Club management' },
+      description: {
+        es: 'Socios, cuotas, reservas y carnet con QR, con un panel de administración.',
+        en: 'Members, dues, bookings and a QR membership card, with an admin panel.',
+      },
+      href: 'https://creole.burgo.dev',
+    },
+  ] as Prototype[],
   otherProjects: [
     {
       name: 'Hash-Evaluator',

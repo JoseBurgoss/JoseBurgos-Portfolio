@@ -1,0 +1,41 @@
+---
+project: burgo
+title: Burgo
+kind: Installable web app ecosystem · Personal product
+status: Live on my own server, under active development
+summary: Eight installable web apps sharing a single account, an admin panel and a Go backend that I design, build and run myself.
+stack: [Go, PostgreSQL, PostGIS, Redis, TypeScript, React, Vite, PWA, Docker, Caddy, Playwright]
+links:
+  - label: Burgo Account
+    href: https://cuenta.burgo.dev
+  - label: Cancha
+    href: https://cancha.burgo.dev
+  - label: Pique
+    href: https://pique.burgo.dev
+  - label: Brío
+    href: https://brio.burgo.dev
+  - label: Fase
+    href: https://fase.burgo.dev
+  - label: Cuadre
+    href: https://cuadre.burgo.dev
+  - label: Sobre
+    href: https://sobre.burgo.dev
+---
+
+## What it is
+
+Burgo is a family of everyday apps built for Maracaibo that also work outside Venezuela, in Spanish and English. Each one does one thing: **Cancha** organizes pickup games with a waitlist, balanced teams, chat and payments; **Pique** is live group trivia; **Brío** tracks workouts and calories with local food; **Cuadre** handles personal finances in dollars and bolívares; **Fase** shows, sector by sector, whether the power is out; **Sobre** watches card prices and stock. **Account** is the single sign-on and **Admin** the central panel.
+
+## How it is built
+
+The backend is a modular monolith in Go: every module owns its schema in PostgreSQL (with PostGIS for geographic data) and talks to the others through internal events, so it can be split into services if it ever needs to. Redis shares real-time state (chat, alerts) across instances. The apps are React and Vite PWAs in a monorepo with shared UI, auth, API client and i18n packages, each with its own color on a common identity.
+
+One account works everywhere (email, Google or Apple), with verification, password recovery, push notifications and an audit trail of admin actions.
+
+## How I run it
+
+Everything runs on my own VPS with Docker and Caddy (automatic HTTPS), with separate development and production environments, daily backups and self-hosted transactional email. Continuous integration runs Go tests, front-end checks and end-to-end Playwright tests before every deploy.
+
+## What it taught me
+
+Designing a whole system, not just a screen: modeling data across several domains, deciding where each boundary goes, keeping accounts secure and running in production something I use every day.

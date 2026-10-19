@@ -6,6 +6,8 @@ import { describe, expect, it } from 'vitest';
 const phones = [
   ...['login', 'feed', 'guides', 'map'].map((n) => `src/assets/projects/reportaya-${n}.webp`),
   ...['list', 'menu', 'detail', 'favorites'].map((n) => `src/assets/projects/moviesapp-${n}.webp`),
+  ...['cancha', 'fase', 'cuadre', 'brio', 'cuenta'].map((n) => `src/assets/projects/burgo-${n}.webp`),
+  'src/assets/projects/sobre-entrar.webp',
 ];
 const wides = ['src/assets/projects/el-zuliano.webp', 'src/assets/projects/tienda-burgos.webp'];
 

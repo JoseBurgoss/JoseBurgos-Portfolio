@@ -10,8 +10,14 @@ import mvDetail from '../assets/projects/moviesapp-detail.webp';
 import mvFavorites from '../assets/projects/moviesapp-favorites.webp';
 import zuliano from '../assets/projects/el-zuliano.webp';
 import tienda from '../assets/projects/tienda-burgos.webp';
+import bgCancha from '../assets/projects/burgo-cancha.webp';
+import bgFase from '../assets/projects/burgo-fase.webp';
+import bgCuadre from '../assets/projects/burgo-cuadre.webp';
+import bgBrio from '../assets/projects/burgo-brio.webp';
+import bgCuenta from '../assets/projects/burgo-cuenta.webp';
+import sobreEntrar from '../assets/projects/sobre-entrar.webp';
 
-export type ProjectId = 'reportaya' | 'moviesapp' | 'el-zuliano' | 'tienda-burgos';
+export type ProjectId = 'burgo' | 'sobre' | 'reportaya' | 'moviesapp' | 'el-zuliano' | 'tienda-burgos';
 export type Shot = { src: ImageMetadata; alt: Record<Lang, string> };
 export interface ProjectMedia {
   layout: 'phones' | 'wide';
@@ -19,12 +25,32 @@ export interface ProjectMedia {
   gallery: Shot[];
 }
 
+/** Trabajo actual, destacado arriba del muro. */
+export const featuredOrder: ProjectId[] = ['burgo', 'sobre'];
 /** Orden en el muro (la cuadrícula coloca cada uno por nombre de clase). */
 export const tileOrder: ProjectId[] = ['reportaya', 'el-zuliano', 'moviesapp', 'tienda-burgos'];
 /** Orden para "siguiente proyecto" en las páginas de caso de estudio. */
-export const projectOrder: ProjectId[] = ['reportaya', 'moviesapp', 'el-zuliano', 'tienda-burgos'];
+export const projectOrder: ProjectId[] = ['burgo', 'sobre', 'reportaya', 'moviesapp', 'el-zuliano', 'tienda-burgos'];
 
 export const projectMedia: Record<ProjectId, ProjectMedia> = {
+  burgo: {
+    layout: 'phones',
+    tile: [bgCancha, bgFase, bgCuadre],
+    gallery: [
+      { src: bgCancha, alt: { es: 'Cancha: equipos de un partido con balance automático', en: 'Cancha: match teams with automatic balancing' } },
+      { src: bgFase, alt: { es: 'Fase: mapa de bloques por parroquia con reportes de luz', en: 'Fase: block map by parish with power reports' } },
+      { src: bgCuadre, alt: { es: 'Cuadre: resumen mensual de gastos en dólares y bolívares', en: 'Cuadre: monthly spending summary in dollars and bolívares' } },
+      { src: bgBrio, alt: { es: 'Brío: calorías y macros del día', en: 'Brío: daily calories and macros' } },
+    ],
+  },
+  sobre: {
+    layout: 'phones',
+    tile: [sobreEntrar, bgCuenta],
+    gallery: [
+      { src: sobreEntrar, alt: { es: 'Sobre: pantalla de entrada con la cuenta Burgo', en: 'Sobre: sign-in screen with the Burgo account' } },
+      { src: bgCuenta, alt: { es: 'Cuenta Burgo: inicio de sesión único para todas las apps', en: 'Burgo Account: single sign-on for every app' } },
+    ],
+  },
   reportaya: {
     layout: 'phones',
     tile: [rpyFeed, rpyMap, rpyGuides],

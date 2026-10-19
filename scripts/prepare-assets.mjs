@@ -27,6 +27,16 @@ for (const [src, name] of Object.entries(movies)) {
   await sharp(`assets-src/movies-${src}.png`).resize({ width: 480 }).webp(webp).toFile(`${OUT}/moviesapp-${name}.webp`);
 }
 
+// Burgo: capturas de las PWAs (414 px de ancho, del reporte del repo del ecosistema) copiadas a
+// assets-src/burgo-*.png. Se recorta la parte superior a 414x900 y se lleva a 480 px de ancho.
+for (const name of ['cancha', 'fase', 'cuadre', 'brio', 'cuenta']) {
+  await sharp(`assets-src/burgo-${name}.png`)
+    .extract({ left: 0, top: 0, width: 414, height: 896 })
+    .resize({ width: 480, kernel: 'lanczos3' })
+    .webp(webp)
+    .toFile(`${OUT}/burgo-${name}.webp`);
+}
+
 // Foto (retrato 3:4)
 await sharp('assets-src/foto.jpg').resize({ width: 960 }).webp({ quality: 80 }).toFile('src/assets/jose-burgos.webp');
 
