@@ -46,7 +46,7 @@ await render({
     { text: 'José Burgos', y: 270, size: 84, weight: 700, color: PAPER },
     { text: 'Full-Stack &amp; Mobile Developer', y: 335, size: 34, weight: 600, color: ACCENT },
     { text: 'React Native · TypeScript · Node.js · Go', y: 395, size: 26, color: MUTED },
-    { text: 'jose-burgos-portfolio.vercel.app', y: 540, size: 24, color: MUTED },
+    { text: 'jose.burgo.dev', y: 540, size: 24, color: MUTED },
   ],
 });
 
@@ -62,7 +62,7 @@ if (process.argv.includes('--banner')) {
       { text: 'Mobile and web apps that work.', y: 160, size: 44, weight: 700, color: PAPER },
       { text: 'Full-Stack &amp; Mobile Developer', y: 212, size: 26, weight: 600, color: ACCENT },
       { text: 'React Native · TypeScript · Node.js · Go', y: 252, size: 22, color: MUTED },
-      { text: 'jose-burgos-portfolio.vercel.app', y: 292, size: 20, color: MUTED },
+      { text: 'jose.burgo.dev', y: 292, size: 20, color: MUTED },
     ],
   });
 }

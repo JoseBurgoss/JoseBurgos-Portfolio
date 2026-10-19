@@ -1,11 +1,11 @@
 # José Burgos — Portafolio
 
 Sitio personal bilingüe (ES/EN) de José Burgos, desarrollador Full-Stack & Mobile.
-En vivo: https://jose-burgos-portfolio.vercel.app
+En vivo: https://jose.burgo.dev
 
 ## Stack
 
-Astro 7 · CSS propio con tokens OKLCH · una isla de React · MDX · Vitest · Playwright · Vercel.
+Astro 7 · CSS propio con tokens OKLCH · una isla de React · MDX · Vitest · Playwright · Caddy en VPS propio.
 
 ## Comandos
 

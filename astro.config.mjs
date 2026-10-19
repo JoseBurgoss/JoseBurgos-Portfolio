@@ -5,7 +5,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://jose-burgos-portfolio.vercel.app',
+  site: 'https://jose.burgo.dev',
   trailingSlash: 'always',
   build: { inlineStylesheets: 'always' },
   integrations: [

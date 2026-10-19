@@ -83,7 +83,7 @@ Cabecera (nombre, rol, año, estado) → problema → solución → stack → ga
 
 1. Rama `redesign` en `JoseBurgoss/JoseBurgos-Portfolio` con el sitio nuevo; Vercel genera preview.
 2. Revisión del usuario sobre el preview.
-3. Merge a `main`; el dominio `jose-burgos-portfolio.vercel.app` se actualiza solo.
+3. Merge a `main`; se publica en `jose.burgo.dev` (VPS propio con Caddy; antes `jose-burgos-portfolio.vercel.app`).
 4. Se reemplaza `LICENSE`; el README del repo se reescribe.
 5. Se actualizan los enlaces que apunten al portafolio viejo (README del perfil, LinkedIn).
 

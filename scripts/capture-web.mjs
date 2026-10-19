@@ -3,9 +3,9 @@ import sharp from 'sharp';
 import { mkdirSync } from 'node:fs';
 
 const targets = [
-  { url: 'https://el-zuliano.vercel.app/', out: 'el-zuliano' },
+  { url: 'https://el-zuliano.burgo.dev/', out: 'el-zuliano' },
   // La tienda desplegada no termina de cargar sus productos (spinners): se captura solo la parte superior.
-  { url: 'https://tienda-virtual-pi-liart.vercel.app/', out: 'tienda-burgos', height: 640 },
+  { url: 'https://tienda.burgo.dev/', out: 'tienda-burgos', height: 640 },
 ];
 mkdirSync('src/assets/projects', { recursive: true });
 mkdirSync('assets-src', { recursive: true });
