@@ -2,8 +2,9 @@ import type { Lang } from './utils';
 
 export interface Ui {
   meta: { homeTitle: string; homeDescription: string };
-  nav: { label: string; skip: string; work: string; about: string; experience: string; stack: string; contact: string; menu: string; close: string; switchTo: string };
-  hero: { role: string; title: string; sub: string; ctaWork: string; ctaCv: string };
+  nav: { label: string; skip: string; work: string; method: string; about: string; experience: string; stack: string; contact: string; menu: string; close: string; switchTo: string };
+  hero: { role: string; title: string; sub: string; ctaWork: string; ctaCv: string; teaserLabel: string; teaserTitle: string; teaserText: string; teaserCta: string };
+  method: { title: string; lead: string; habitsLabel: string; stepsLabel: string };
   work: { title: string; open: string; featuredTitle: string; featuredIntro: string; moreTitle: string; academic: string; protoTitle: string; protoIntro: string; protoOpen: string };
   about: { title: string; photoAlt: string; facts: string };
   experience: { title: string; education: string };
@@ -21,8 +22,9 @@ export const ui: Record<Lang, Ui> = {
       homeTitle: 'José Burgos — Desarrollador Full-Stack & Mobile',
       homeDescription: 'Ingeniero en Computación en Maracaibo. Apps móviles y web con React Native, TypeScript y Go. Abierto a oportunidades remotas y proyectos freelance.',
     },
-    nav: { label: 'Principal', skip: 'Saltar al contenido', work: 'Proyectos', about: 'Sobre mí', experience: 'Experiencia', stack: 'Stack', contact: 'Contacto', menu: 'Menú', close: 'Cerrar', switchTo: 'Cambiar a inglés' },
-    hero: { role: 'Desarrollador Full-Stack & Mobile', title: 'Apps móviles y web que funcionan.', sub: 'Ingeniero en Computación en Maracaibo. React Native, TypeScript y Go.', ctaWork: 'Ver proyectos', ctaCv: 'Descargar CV' },
+    nav: { label: 'Principal', skip: 'Saltar al contenido', work: 'Proyectos', method: 'Cómo trabajo', about: 'Sobre mí', experience: 'Experiencia', stack: 'Stack', contact: 'Contacto', menu: 'Menú', close: 'Cerrar', switchTo: 'Cambiar a inglés' },
+    hero: { role: 'Desarrollador Full-Stack & Mobile', title: 'Apps móviles y web que se sostienen.', sub: 'Ingeniero en Computación en Maracaibo. React Native, TypeScript y Go. Aquí: lo que construyo y cómo trabajo.', ctaWork: 'Ver proyectos', ctaCv: 'Descargar CV', teaserLabel: 'Un momento real', teaserTitle: 'Dos bordes donde debía haber uno', teaserText: 'Un fallo de foco en Sobre: causa, prueba y producción. Sin el arreglo, 3 pruebas fallan; con él, pasan.', teaserCta: 'Leer el caso' },
+    method: { title: 'Cómo trabajo', lead: 'Cinco hábitos, cada uno con algo concreto detrás, y un momento real que los junta.', habitsLabel: 'Hábitos de trabajo', stepsLabel: 'Pasos del caso' },
     work: {
       title: 'Proyectos',
       open: 'ver caso de estudio',
@@ -48,8 +50,9 @@ export const ui: Record<Lang, Ui> = {
       homeTitle: 'José Burgos — Full-Stack & Mobile Developer',
       homeDescription: 'Computer Engineer based in Maracaibo. Mobile and web apps with React Native, TypeScript and Go. Open to remote roles and freelance projects.',
     },
-    nav: { label: 'Main', skip: 'Skip to content', work: 'Work', about: 'About', experience: 'Experience', stack: 'Stack', contact: 'Contact', menu: 'Menu', close: 'Close', switchTo: 'Switch to Spanish' },
-    hero: { role: 'Full-Stack & Mobile Developer', title: 'Mobile and web apps that work.', sub: 'Computer Engineer in Maracaibo. React Native, TypeScript and Go.', ctaWork: 'See projects', ctaCv: 'Download CV' },
+    nav: { label: 'Main', skip: 'Skip to content', work: 'Work', method: 'How I work', about: 'About', experience: 'Experience', stack: 'Stack', contact: 'Contact', menu: 'Menu', close: 'Close', switchTo: 'Switch to Spanish' },
+    hero: { role: 'Full-Stack & Mobile Developer', title: 'Mobile and web apps that hold up.', sub: 'Computer Engineer in Maracaibo. React Native, TypeScript and Go. Here: what I build and how I work.', ctaWork: 'See projects', ctaCv: 'Download CV', teaserLabel: 'A real moment', teaserTitle: 'Two borders where there should be one', teaserText: 'A focus bug in Sobre: cause, test and production. Without the fix, 3 tests fail; with it, they pass.', teaserCta: 'Read the case' },
+    method: { title: 'How I work', lead: 'Five habits, each with something concrete behind it, and one real moment that ties them together.', habitsLabel: 'Working habits', stepsLabel: 'Case steps' },
     work: {
       title: 'Work',
       open: 'view case study',

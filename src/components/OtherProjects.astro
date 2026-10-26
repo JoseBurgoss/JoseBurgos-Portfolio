@@ -8,7 +8,7 @@ const { lang } = Astro.props;
 const t = ui[lang];
 ---
 <section id="other" class="section container" aria-labelledby="other-title">
-  <h2 id="other-title">{t.other.title}</h2>
+  <h2 id="other-title" class="h-sec">{t.other.title}</h2>
   <p class="intro">{t.other.intro}</p>
   <ul class="list">
     {site.otherProjects.map((p, i) => (

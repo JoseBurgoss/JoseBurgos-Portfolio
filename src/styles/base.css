@@ -53,6 +53,7 @@ h1, h2, h3 {
   overflow-wrap: anywhere;
   text-wrap: balance;
 }
+h4 { margin: 0; }
 h1 { font-size: var(--text-display); }
 h2 { font-size: var(--text-2xl); }
 h3 { font-size: var(--text-lg); letter-spacing: -0.01em; line-height: 1.2; }
@@ -74,6 +75,8 @@ a:hover { color: var(--color-accent); }
   outline-offset: 3px;
   border-radius: 2px;
 }
+
+.h-sec::before { content: ''; display: block; width: 2.5rem; height: 4px; margin-bottom: var(--space-md); background: var(--color-accent); border-radius: 2px; }
 
 .container { width: min(100% - 2 * var(--page-pad), var(--page-max)); margin-inline: auto; }
 .section { padding-block: var(--space-3xl); }

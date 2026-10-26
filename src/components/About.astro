@@ -14,7 +14,7 @@ const t = ui[lang];
     <Image src={portrait} alt={t.about.photoAlt} widths={[360, 640]} sizes="(max-width: 48rem) 90vw, 22rem" loading="lazy" />
   </figure>
   <div class="about__text" data-reveal style="--d:1">
-    <h2 id="about-title">{t.about.title}</h2>
+    <h2 id="about-title" class="h-sec">{t.about.title}</h2>
     {site.about[lang].map((p) => <p>{p}</p>)}
     <ul class="about__facts" aria-label={t.about.facts}>
       {site.facts[lang].map((f) => <li>{f}</li>)}

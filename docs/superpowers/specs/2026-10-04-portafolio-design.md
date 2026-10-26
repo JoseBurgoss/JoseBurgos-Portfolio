@@ -98,3 +98,13 @@ Blog, modo claro/oscuro conmutable, CMS, formulario con backend (el contacto es 
 - Elección final de tipografías (durante la construcción, con las reglas de la sección 3).
 - Texto final de cada caso de estudio (borrador mío, revisión del usuario).
 - Capturas nuevas de Tienda Burgos y MoviesApp.
+
+## 12. Actualización 2026-10-26: «Cómo trabajo» y un momento real
+
+Se mantiene la dirección aprobada (muro asimétrico, fondo tinta, acento naranja, ES/EN). Cambios por instrucción posterior de José («solo trabajo y actitudes de trabajo, con un momento real de un proyecto»):
+
+- Hero nuevo: titular «Apps móviles y web que se sostienen» y una tarjeta que lleva al caso.
+- Sección `#method` «Cómo trabajo»: cinco hábitos, cada uno con algo comprobable detrás (datos en `src/content/case.ts`).
+- Caso `#momento`: el doble aro de foco del campo de código de Sobre (causa por especificidad CSS, prueba de regresión, segunda vuelta, producción). Todo número o hash citado se verificó contra el repo de Sobre; sin métricas inventadas. Incluye una reproducción mínima interactiva con las mismas reglas de especificidad.
+- Choque con la spec original resuelto a favor de la instrucción nueva: la spec no tenía sección de método ni caso real.
+- Cuidado: el repositorio de Sobre es privado; el sitio lo dice y ofrece revisar el historial bajo petición.

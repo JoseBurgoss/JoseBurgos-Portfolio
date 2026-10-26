@@ -8,7 +8,7 @@ const { lang } = Astro.props;
 const t = ui[lang];
 ---
 <section id="certs" class="section container" aria-labelledby="certs-title">
-  <h2 id="certs-title">{t.certs.title}</h2>
+  <h2 id="certs-title" class="h-sec">{t.certs.title}</h2>
   <ul class="certs">
     {site.certs.map((c, i) => (
       <li class="cert" data-reveal style={`--d:${i}`}>

@@ -9,7 +9,7 @@ const { lang } = Astro.props;
 const t = ui[lang];
 ---
 <section id="stack" class="section container" aria-labelledby="stack-title">
-  <h2 id="stack-title">{t.stack.title}</h2>
+  <h2 id="stack-title" class="h-sec">{t.stack.title}</h2>
   <div class="groups">
     {site.stack.map((g, i) => (
       <div class="group" data-reveal style={`--d:${i}`}>

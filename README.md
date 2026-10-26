@@ -22,7 +22,7 @@ Astro 7 · CSS propio con tokens OKLCH · una isla de React · MDX · Vitest · 
 
 ## Estructura
 
-Contenido bilingüe en `src/content/` (`site.ts` y `proyectos/{es,en}/*.mdx`). Textos de interfaz en `src/i18n/ui.ts`. Diseño: tokens en `src/styles/tokens.css`.
+Contenido bilingüe en `src/content/` (`site.ts`, `case.ts` con «Cómo trabajo» y el momento real, y `proyectos/{es,en}/*.mdx`). Textos de interfaz en `src/i18n/ui.ts`. Diseño: tokens en `src/styles/tokens.css`.
 
 ## Licencia
 
