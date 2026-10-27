@@ -23,7 +23,8 @@ const { Content } = await render(entry);
 const nextId = projectOrder[(projectOrder.indexOf(id) + 1) % projectOrder.length];
 const all = await getCollection('proyectos');
 const next = all.find((e) => e.id === `${lang}/${nextId}`)!;
-const phone = media.layout === 'phones';
+const shapeOf = (shot: { shape?: 'phone' | 'wide' }) => shot.shape ?? (media.layout === 'phones' ? 'phone' : 'wide');
+const mixed = media.gallery.some((s) => shapeOf(s) === 'phone');
 ---
 <BaseLayout lang={lang} title={`${entry.data.title} — José Burgos`} description={entry.data.summary} pathname={Astro.url.pathname}>
   <main id="main" class="container case">
@@ -50,9 +51,9 @@ const phone = media.layout === 'phones';
       {entry.data.liveNote && <p class="case__note">{entry.data.liveNote}</p>}
     </header>
 
-    <section class={`gallery ${phone ? 'gallery--phones' : 'gallery--wide'}`} aria-label={t.project.gallery} data-reveal>
+    <section class={`gallery ${mixed ? 'gallery--phones' : 'gallery--wide'}`} aria-label={t.project.gallery} data-reveal>
       {media.gallery.map((shot, i) => (
-        <Frame image={shot.src} alt={shot.alt[lang]} shape={phone ? 'phone' : 'wide'} eager={i === 0} width={phone ? 480 : 1400} />
+        <Frame image={shot.src} alt={shot.alt[lang]} shape={shapeOf(shot)} eager={i === 0} width={shapeOf(shot) === 'phone' ? 480 : 1400} class={mixed && shapeOf(shot) === 'wide' ? 'span-2' : ''} />
       ))}
     </section>
 
@@ -83,6 +84,7 @@ const phone = media.layout === 'phones';
   .gallery { display: grid; gap: var(--space-md); }
   .gallery--phones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .gallery--wide { grid-template-columns: minmax(0, 1fr); }
+  .gallery--phones :global(.span-2) { grid-column: span 2; }
   @media (min-width: 48rem) {
     .gallery--phones { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .case__meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }

@@ -27,14 +27,57 @@ for (const [src, name] of Object.entries(movies)) {
   await sharp(`assets-src/movies-${src}.png`).resize({ width: 480 }).webp(webp).toFile(`${OUT}/moviesapp-${name}.webp`);
 }
 
-// Burgo: capturas de las PWAs (414 px de ancho, del reporte del repo del ecosistema) copiadas a
-// assets-src/burgo-*.png. Se recorta la parte superior a 414x900 y se lleva a 480 px de ancho.
-for (const name of ['cancha', 'fase', 'cuadre', 'brio', 'cuenta']) {
-  await sharp(`assets-src/burgo-${name}.png`)
-    .extract({ left: 0, top: 0, width: 414, height: 896 })
+// Capturas de teléfono: se recorta desde arriba a la proporción del marco (9:19,5) y se lleva a 480 px de ancho.
+// Fuentes en assets-src/ (no versionado):
+//   - "prod": capturas de las páginas públicas en producción (npm run capture).
+//   - "impl": capturas de la implementación con datos de ejemplo, de DocumentacionDiseno<app>-temaimpl//     y de Manuales_capturas (Cancha y Sobre dentro de la sesión; no se usa ninguna cuenta real).
+const phones = {
+  'burgo-cuenta': 'burgo-cuenta.png', // impl: La villa de Cuenta «Credencial»
+  'burgo-cuenta-entrar': 'burgo-cuenta-entrar.png', // prod: entrar
+  'burgo-cancha': 'burgo-cancha.jpg', // impl: partido en «Dorsal»
+  'burgo-cuadre': 'burgo-cuadre.png', // impl: Hoy en «Libreta»
+  'burgo-fase': 'burgo-fase.png', // impl: mi sector en «Esfera»
+  'burgo-pique': 'burgo-pique.png', // impl: inicio en «Capicúa»
+  'burgo-brio': 'burgo-brio.png', // impl: Hoy en «Romana»
+  'burgo-admin': 'burgo-admin.png', // impl: usuarios en «Torre»
+  'sobre-entrar': 'sobre-entrar.png', // prod
+  'sobre-inicio': 'sobre-inicio.jpg', // impl
+  'sobre-productos': 'sobre-productos.jpg', // impl
+  'sobre-comunidad': 'sobre-comunidad.jpg', // impl
+  'burgo-dev-inicio': 'burgo-dev-inicio.png', // prod
+  'burgo-dev-encargo': 'burgo-dev-encargo.png', // prod
+  'burgo-dev-villa': 'burgo-dev-villa.png', // prod
+  'burgo-dev-inicio-en': 'burgo-dev-inicio-en.png', // prod
+};
+for (const [name, file] of Object.entries(phones)) {
+  const m = await sharp(`assets-src/${file}`).metadata();
+  const want = Math.floor((m.width * 19.5) / 9);
+  if (m.height < want - 8) throw new Error(`${file}: ${m.width}x${m.height} es más baja que ${want}`);
+  const height = Math.min(want, m.height);
+  await sharp(`assets-src/${file}`)
+    .extract({ left: 0, top: 0, width: m.width, height })
     .resize({ width: 480, kernel: 'lanczos3' })
     .webp(webp)
-    .toFile(`${OUT}/burgo-${name}.webp`);
+    .toFile(`${OUT}/${name}.webp`);
+}
+
+// Capturas de escritorio: recorte superior a 2,17:1 (proporción del marco ancho), hasta 1400 px de ancho.
+const wides = {
+  'burgo-cuenta-escritorio': 'burgo-cuenta-escritorio.png', // impl
+  'burgo-admin-escritorio': 'burgo-admin-escritorio.png', // impl
+  'sobre-escritorio-inicio': 'sobre-escritorio-inicio.jpg', // impl
+  'sobre-escritorio-entrar': 'sobre-escritorio-entrar.png', // prod
+  'burgo-dev-escritorio': 'burgo-dev-escritorio.png', // prod
+  'burgo-dev-villa-escritorio': 'burgo-dev-villa-escritorio.png', // prod
+};
+for (const [name, file] of Object.entries(wides)) {
+  const m = await sharp(`assets-src/${file}`).metadata();
+  const height = Math.round(m.width / 2.17);
+  await sharp(`assets-src/${file}`)
+    .extract({ left: 0, top: 0, width: m.width, height: Math.min(height, m.height) })
+    .resize({ width: Math.min(1400, m.width), kernel: 'lanczos3' })
+    .webp(webp)
+    .toFile(`${OUT}/${name}.webp`);
 }
 
 // Foto (retrato 3:4)

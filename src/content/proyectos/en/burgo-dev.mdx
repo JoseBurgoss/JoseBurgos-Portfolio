@@ -1,0 +1,29 @@
+---
+project: burgo-dev
+title: burgo.dev
+kind: Brand site · Personal project
+status: Live, in Spanish and English
+summary: "The site for Burgo, my software studio: what I do, the village of my own apps and the PDF manual for each one."
+stack: [Astro, TypeScript, CSS, SVG, Vitest, Playwright, axe-core, Caddy]
+links:
+  - label: burgo.dev
+    href: https://burgo.dev
+  - label: English version
+    href: https://burgo.dev/en/
+---
+
+## What it is
+
+burgo.dev is the site for Burgo, the name I work under. It presents custom software, the village (my own apps, each at its own address) and how I work, in Spanish and English. It also hosts the eight PDF manuals, one per app, at burgo.dev/manuales.
+
+## How it is built
+
+It is a static Astro site with no UI framework in the browser. The illustrations (the village, the site plan, the services) are SVG drawings made with custom components, with a restrained palette and three typefaces: Newsreader for headlines, Public Sans for text and IBM Plex Mono for labels. It has unit and browser tests, with Playwright and axe-core for accessibility.
+
+## How I publish it
+
+A script builds the site, writes its Caddy file, validates and reloads the configuration, and rolls back on its own if anything fails. A separate test environment lets me check before going to production.
+
+## What it taught me
+
+Explaining calmly and without hype what I do and what I have in production, and keeping a small, fast, accessible site in two languages.

@@ -1,0 +1,29 @@
+---
+project: burgo-dev
+title: burgo.dev
+kind: Sitio de marca · Proyecto propio
+status: En producción, en español e inglés
+summary: "El sitio de Burgo, mi estudio de software: qué hago, la villa de apps propias y los manuales en PDF de cada una."
+stack: [Astro, TypeScript, CSS, SVG, Vitest, Playwright, axe-core, Caddy]
+links:
+  - label: burgo.dev
+    href: https://burgo.dev
+  - label: Versión en inglés
+    href: https://burgo.dev/en/
+---
+
+## Qué es
+
+burgo.dev es el sitio de Burgo, el nombre bajo el que trabajo. Presenta el software por encargo, la villa (las apps propias, cada una con su dirección) y cómo trabajo, en español e inglés. Además aloja los ocho manuales en PDF, uno por app, en burgo.dev/manuales.
+
+## Cómo está hecho
+
+Es un sitio estático en Astro, sin framework de interfaz en el navegador. Las ilustraciones (la villa, el plano de obra, los servicios) son dibujos SVG hechos con componentes propios, con una paleta sobria y tres tipografías: Newsreader para los titulares, Public Sans para el texto e IBM Plex Mono para las etiquetas. Tiene pruebas unitarias y de navegador, con Playwright y axe-core para accesibilidad.
+
+## Cómo lo publico
+
+Un script construye el sitio, escribe su archivo de Caddy, valida la configuración y la recarga, y vuelve atrás solo si algo falla. Hay un entorno de pruebas aparte para revisar antes de pasar a producción.
+
+## Lo que me deja
+
+Explicar con calma y sin humo qué hago y qué tengo en producción, y mantener un sitio pequeño, rápido y accesible en dos idiomas.

@@ -5,7 +5,7 @@ import { z } from 'astro/zod';
 const proyectos = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/proyectos' }),
   schema: z.object({
-    project: z.enum(['burgo', 'sobre', 'reportaya', 'moviesapp', 'el-zuliano', 'tienda-burgos']),
+    project: z.enum(['burgo', 'sobre', 'burgo-dev', 'reportaya', 'moviesapp', 'el-zuliano', 'tienda-burgos']),
     title: z.string(),
     kind: z.string(),
     status: z.string(),

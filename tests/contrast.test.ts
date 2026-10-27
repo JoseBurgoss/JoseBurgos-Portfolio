@@ -26,6 +26,7 @@ describe('contraste de tokens (WCAG AA = 4.5, texto principal ≥ 7)', () => {
     ['color-ink', 'color-tile-tienda', 7],
     ['color-ink', 'color-tile-burgo', 7],
     ['color-paper', 'color-tile-sobre', 7],
+    ['color-paper', 'color-tile-marca', 7],
     ['color-muted', 'color-ink-2', 4.5],
     ['color-paper', 'color-ink-2', 7],
     ['color-accent', 'color-ink-2', 4.5],

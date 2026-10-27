@@ -1,10 +1,10 @@
 ---
 project: sobre
 title: Sobre
-kind: Radar de precios y existencias · App de Burgo
+kind: Radar de precios y existencias · Por Burgo
 status: En producción, con fuentes en expansión
-summary: Vigila precios y existencias de producto sellado de Pokémon TCG en tiendas de EE. UU. y avisa por Telegram cuando hay algo que vale la pena.
-stack: [TypeScript, Node.js, Fastify, PostgreSQL, Drizzle, grammY, Web Push, Docker]
+summary: Vigila precios y existencias de producto sellado de Pokémon TCG en tiendas de EE. UU. y avisa por Telegram y notificaciones push cuando hay algo que vale la pena.
+stack: [TypeScript, Node.js, Fastify, React, PostgreSQL, Drizzle, grammY, Web Push, Docker]
 links:
   - label: Sobre
     href: https://sobre.burgo.dev
@@ -18,9 +18,11 @@ El producto sellado de Pokémon TCG se agota rápido y los precios cambian de un
 
 ## Solución
 
-Un servicio en TypeScript consulta periódicamente varias fuentes mediante adaptadores (APIs oficiales o de afiliados cuando existen), normaliza los productos en un catálogo propio y guarda el historial de precio y existencias en PostgreSQL. Cuando algo vuelve a estar disponible o baja de precio, avisa por el bot de Telegram [@BurgoSobreBot](https://t.me/BurgoSobreBot) y por notificaciones push. Nunca compra solo: solo informa.
+Un servicio en TypeScript consulta periódicamente las fuentes mediante adaptadores (APIs oficiales o de afiliados cuando existen, y tiendas Shopify o WooCommerce que se detectan al pegar su dirección), normaliza los productos en un catálogo propio y guarda el historial de precio y existencias en PostgreSQL. Cuando algo vuelve a estar disponible o baja de precio, avisa por el bot de Telegram [@BurgoSobreBot](https://t.me/BurgoSobreBot) y por notificaciones push. Nunca compra solo: solo informa.
 
-La app web entra con la cuenta Burgo (inicio de sesión único) y expone una API documentada con OpenAPI.
+La app es una web instalable con cuentas propias (correo verificado y verificación en dos pasos opcional). El usuario no configura tiendas ni integraciones: ve Inicio, Productos, Comunidad y Ajustes, y elige qué vigilar. Las fuentes las conecta y mantiene un panel de administración en otra web, con verificación en dos pasos obligatoria. La sección Comunidad muestra señales de redes sociales, siempre marcadas «Sin verificar» y apagadas hasta que el administrador las enciende.
+
+Respeta los términos de cada fuente: no evade CAPTCHAs ni sistemas anti-bot, y ante un 403 o un 429 la tienda se frena sola. La API está documentada con OpenAPI.
 
 ## Lo que me deja
 

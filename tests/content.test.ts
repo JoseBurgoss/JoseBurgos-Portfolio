@@ -42,7 +42,7 @@ describe('site.ts: paridad ES/EN', () => {
 });
 
 describe('casos de estudio MDX', () => {
-  const projects = ['burgo', 'sobre', 'reportaya', 'moviesapp', 'el-zuliano', 'tienda-burgos'];
+  const projects = ['burgo', 'sobre', 'burgo-dev', 'reportaya', 'moviesapp', 'el-zuliano', 'tienda-burgos'];
   for (const lang of ['es', 'en']) {
     for (const p of projects) {
       const file = `src/content/proyectos/${lang}/${p}.mdx`;
@@ -70,7 +70,7 @@ describe('casos de estudio MDX', () => {
         expect(src, `${lang}/${p}`).toMatch(/^academic: true$/m);
         expect(src, `${lang}/${p}`).toMatch(/^liveNote: .+/m);
       }
-      for (const p of ['burgo', 'sobre']) {
+      for (const p of ['burgo', 'sobre', 'burgo-dev']) {
         expect(readFileSync(`src/content/proyectos/${lang}/${p}.mdx`, 'utf8'), `${lang}/${p}`).not.toMatch(/^academic: true$/m);
       }
     }

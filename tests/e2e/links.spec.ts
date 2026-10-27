@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-const pages = ['/es/', '/en/', '/es/proyectos/burgo/', '/en/proyectos/sobre/', '/es/proyectos/reportaya/', '/en/proyectos/moviesapp/', '/es/proyectos/el-zuliano/', '/en/proyectos/tienda-burgos/'];
+const pages = ['/es/', '/en/', '/es/proyectos/burgo/', '/en/proyectos/sobre/', '/es/proyectos/burgo-dev/', '/en/proyectos/burgo-dev/', '/es/proyectos/reportaya/', '/en/proyectos/moviesapp/', '/es/proyectos/el-zuliano/', '/en/proyectos/tienda-burgos/'];
 
 for (const p of pages) {
   test(`enlaces internos y descargas responden 200: ${p}`, async ({ page }) => {

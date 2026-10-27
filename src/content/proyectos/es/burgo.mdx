@@ -3,9 +3,11 @@ project: burgo
 title: Burgo
 kind: Ecosistema de apps web instalables · Proyecto propio
 status: En producción en mi servidor, en desarrollo activo
-summary: Ocho apps web instalables con una sola cuenta para todas, un panel de administración y un backend en Go que diseño, programo y opero yo.
+summary: Seis apps web instalables con una sola cuenta para todas, un panel de administración y un backend en Go que diseño, programo y opero yo.
 stack: [Go, PostgreSQL, PostGIS, Redis, TypeScript, React, Vite, PWA, Docker, Caddy, Playwright]
 links:
+  - label: Sitio de Burgo
+    href: https://burgo.dev
   - label: Cuenta Burgo
     href: https://cuenta.burgo.dev
   - label: Cancha
@@ -18,23 +20,23 @@ links:
     href: https://fase.burgo.dev
   - label: Cuadre
     href: https://cuadre.burgo.dev
-  - label: Sobre
-    href: https://sobre.burgo.dev
 ---
 
 ## Qué es
 
-Burgo es una familia de apps para la vida diaria en Maracaibo que también funcionan fuera de Venezuela, en español e inglés. Cada una resuelve una cosa: **Cancha** organiza partidos con lista de espera, equipos parejos, chat y cobros; **Pique** es trivia en vivo para jugar en grupo; **Brío** lleva entrenamiento y calorías con comida local; **Cuadre** ordena finanzas personales en dólares y bolívares; **Fase** muestra por sector si se fue la luz; **Sobre** vigila precios y existencias de cartas. **Cuenta** es el inicio de sesión único y **Admin** el panel central.
+Burgo es una familia de apps para la vida diaria en Maracaibo que también funcionan fuera de Venezuela, en español e inglés. Cada una resuelve una cosa: **Cancha** organiza partidos con lista de espera, equipos parejos, chat y cobros; **Pique** es trivia en vivo para jugar en grupo; **Brío** lleva entrenamiento y calorías con comida local; **Cuadre** ordena finanzas personales en dólares y bolívares; **Fase** muestra por sector si se fue la luz. **Cuenta** es el inicio de sesión único y **Admin** el panel central. [Sobre](/es/proyectos/sobre/), el radar de precios, salió de aquí y hoy es un servicio aparte.
 
 ## Cómo está hecho
 
-El backend es un monolito modular en Go: cada módulo tiene su propio esquema en PostgreSQL (con PostGIS para lo geográfico) y se comunica con los demás por eventos internos, de modo que puede separarse en servicios si algún día hace falta. Redis reparte el tiempo real (chat, avisos) entre instancias. Las apps son PWAs con React y Vite dentro de un monorepo con paquetes compartidos de interfaz, autenticación, cliente de API e idiomas, cada una con su color sobre una identidad común.
+El backend es un monolito modular en Go: cada módulo tiene su propio esquema en PostgreSQL (con PostGIS para lo geográfico) y se comunica con los demás por eventos internos, de modo que puede separarse en servicios si algún día hace falta. Redis reparte el tiempo real (chat, avisos) entre instancias. Las apps son PWAs con React y Vite dentro de un monorepo con paquetes compartidos de interfaz, autenticación, cliente de API e idiomas.
+
+Cada app tiene su propio tema (colores, tipografía de títulos y forma de los componentes) sobre una misma letra de texto, y una prueba de guardia vigila el contraste AA de los estados de todas.
 
 Una sola cuenta sirve para todas (correo, Google o Apple), con verificación, recuperación de contraseña, notificaciones push y auditoría de las acciones de administración.
 
 ## Cómo lo opero
 
-Todo corre en un VPS propio con Docker y Caddy (HTTPS automático), con entornos separados de desarrollo y producción, copias de seguridad diarias y correo transaccional propio. La integración continua ejecuta pruebas de Go, chequeos del frontend y pruebas de punta a punta con Playwright antes de cada despliegue.
+Todo corre en un VPS propio con Docker y Caddy (HTTPS automático), con entornos separados de desarrollo y producción, copias de seguridad diarias y correo transaccional propio. La integración continua ejecuta pruebas de Go, chequeos del frontend y pruebas de punta a punta con Playwright antes de cada despliegue. Cada app tiene su manual en PDF.
 
 ## Lo que me deja
 

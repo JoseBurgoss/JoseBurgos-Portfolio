@@ -1,10 +1,10 @@
 ---
 project: sobre
 title: Sobre
-kind: Price and stock radar · Burgo app
+kind: Price and stock radar · By Burgo
 status: Live, with more sources on the way
-summary: Watches prices and stock of sealed Pokémon TCG products at US stores and sends a Telegram alert when something is worth it.
-stack: [TypeScript, Node.js, Fastify, PostgreSQL, Drizzle, grammY, Web Push, Docker]
+summary: Watches prices and stock of sealed Pokémon TCG products at US stores and sends a Telegram or push alert when something is worth it.
+stack: [TypeScript, Node.js, Fastify, React, PostgreSQL, Drizzle, grammY, Web Push, Docker]
 links:
   - label: Sobre
     href: https://sobre.burgo.dev
@@ -18,10 +18,12 @@ Sealed Pokémon TCG products sell out fast and prices vary from store to store. 
 
 ## Solution
 
-A TypeScript service polls several sources through adapters (official or affiliate APIs where they exist), normalizes products into its own catalog and stores price and stock history in PostgreSQL. When something is back in stock or drops in price, it alerts through the Telegram bot [@BurgoSobreBot](https://t.me/BurgoSobreBot) and push notifications. It never buys on its own: it only informs.
+A TypeScript service polls its sources through adapters (official or affiliate APIs where they exist, plus Shopify or WooCommerce stores that are detected when you paste their address), normalizes products into its own catalog and stores price and stock history in PostgreSQL. When something is back in stock or drops in price, it alerts through the Telegram bot [@BurgoSobreBot](https://t.me/BurgoSobreBot) and push notifications. It never buys on its own: it only informs.
 
-The web app signs in with the Burgo account (single sign-on) and exposes an API documented with OpenAPI.
+The app is an installable web app with its own accounts (verified email and optional two-step verification). Users do not configure stores or integrations: they see Home, Products, Community and Settings, and choose what to watch. Sources are connected and maintained from an admin panel on a separate site, with two-step verification required. The Community section shows social-media signals, always labeled “Unverified” and off until the admin turns them on.
+
+It respects each source’s terms: it does not evade CAPTCHAs or anti-bot systems, and on a 403 or 429 the store backs off on its own. The API is documented with OpenAPI.
 
 ## What it taught me
 
-Designing integrations with unreliable sources, respecting each store's terms and running a service that works on its own in the background on my own server.
+Designing integrations with unreliable sources, respecting each store’s terms and running a service that works on its own in the background on my own server.

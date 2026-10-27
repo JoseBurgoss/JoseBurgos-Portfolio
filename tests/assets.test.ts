@@ -6,10 +6,17 @@ import { describe, expect, it } from 'vitest';
 const phones = [
   ...['login', 'feed', 'guides', 'map'].map((n) => `src/assets/projects/reportaya-${n}.webp`),
   ...['list', 'menu', 'detail', 'favorites'].map((n) => `src/assets/projects/moviesapp-${n}.webp`),
-  ...['cancha', 'fase', 'cuadre', 'brio', 'cuenta'].map((n) => `src/assets/projects/burgo-${n}.webp`),
-  'src/assets/projects/sobre-entrar.webp',
+  ...['cuenta', 'cuenta-entrar', 'cancha', 'cuadre', 'fase', 'pique', 'brio', 'admin'].map((n) => `src/assets/projects/burgo-${n}.webp`),
+  ...['entrar', 'inicio', 'productos', 'comunidad'].map((n) => `src/assets/projects/sobre-${n}.webp`),
+  ...['inicio', 'encargo', 'villa', 'inicio-en'].map((n) => `src/assets/projects/burgo-dev-${n}.webp`),
 ];
-const wides = ['src/assets/projects/el-zuliano.webp', 'src/assets/projects/tienda-burgos.webp'];
+const wides = [
+  'src/assets/projects/el-zuliano.webp',
+  'src/assets/projects/tienda-burgos.webp',
+  ...['cuenta-escritorio', 'admin-escritorio'].map((n) => `src/assets/projects/burgo-${n}.webp`),
+  ...['escritorio-inicio', 'escritorio-entrar'].map((n) => `src/assets/projects/sobre-${n}.webp`),
+  ...['escritorio', 'villa-escritorio'].map((n) => `src/assets/projects/burgo-dev-${n}.webp`),
+];
 
 describe('capturas de teléfono', () => {
   for (const f of phones) {
