@@ -26,13 +26,6 @@ const t = ui[lang];
         <a class="btn" href={site.cv[lang]} download>{t.hero.ctaCv}</a>
       </div>
     </div>
-    <a class="teaser" href="#momento">
-      <span class="teaser__label">{t.hero.teaserLabel}</span>
-      <span class="teaser__field" aria-hidden="true"><i></i></span>
-      <strong class="teaser__title">{t.hero.teaserTitle}</strong>
-      <span class="teaser__text">{t.hero.teaserText}</span>
-      <span class="teaser__cta u-draw">{t.hero.teaserCta} <span aria-hidden="true">↓</span></span>
-    </a>
   </section>
   <Wall lang={lang} />
   <Method lang={lang} />
@@ -49,29 +42,9 @@ const t = ui[lang];
   .hero__text { display: grid; gap: var(--space-lg); }
   /* Entrada única al cargar y luego quieto. El titular solo se desplaza (sin opacidad) para no retrasar el LCP. */
   .hero h1 { animation: hero-in 700ms var(--ease-out) both; }
-  .hero__role, .hero__sub, .hero__cta, .teaser { animation: rise 700ms var(--ease-out) 120ms both; }
+  .hero__role, .hero__sub, .hero__cta { animation: rise 700ms var(--ease-out) 120ms both; }
   .hero__role { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-accent); }
   .hero h1 { max-width: 14ch; }
   .hero__sub { font-size: var(--text-lg); color: var(--color-muted); }
   .hero__cta { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
-
-  /* Tarjeta del momento real: el doble aro de foco se reduce a uno (la historia del caso), una sola vez. */
-  .teaser { display: grid; gap: var(--space-sm); padding: var(--space-lg); border: 1px solid var(--color-line); border-radius: var(--radius-md); background: var(--color-ink-2); color: inherit; text-decoration: none; transition: border-color var(--dur-base) var(--ease-out); }
-  .teaser:hover { border-color: var(--color-accent); color: inherit; }
-  .teaser__label { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-accent); }
-  .teaser__title { font-family: var(--font-display); font-size: var(--text-xl); line-height: 1.1; letter-spacing: -0.02em; text-wrap: balance; }
-  .teaser__text { color: var(--color-muted); font-size: var(--text-sm); }
-  .teaser__cta { justify-self: start; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-paper); }
-  .teaser:hover .teaser__cta::after { transform: scaleX(1); }
-  .teaser__field { position: relative; display: block; height: 3rem; margin-block: var(--space-xs); border-radius: var(--radius-sm); background: var(--color-ink); box-shadow: inset 0 0 0 2px var(--color-focus); }
-  .teaser__field i { position: absolute; inset: 0.4rem 0.9rem; border-radius: 0.3rem; outline: 2px solid var(--color-focus); outline-offset: 2px; opacity: 0; }
-  @media (prefers-reduced-motion: no-preference) {
-    .teaser__field i { animation: ring-collapse 1100ms var(--ease-in-out) 900ms both; }
-    @keyframes ring-collapse { 0% { opacity: 1; } 100% { opacity: 0; } }
-    .teaser__field i { opacity: 1; }
-  }
-
-  @media (min-width: 56rem) {
-    .hero { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: var(--space-2xl); }
-  }
 </style>

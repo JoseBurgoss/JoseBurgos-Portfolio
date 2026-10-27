@@ -1,16 +1,11 @@
 ---
-import { Image } from 'astro:assets';
-import shot from '../assets/case/sobre-codigo.webp';
-import { habits, moment } from '../content/case';
+import { habits } from '../content/habits';
 import { ui } from '../i18n/ui';
 import type { Lang } from '../i18n/utils';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = ui[lang];
-const d = moment.demo;
-// Texto con `código` entre comillas invertidas → fragmentos {text, code}.
-const parts = (s: string) => s.split('`').map((text, i) => ({ text, code: i % 2 === 1 }));
 ---
 <section id="method" class="section container method" aria-labelledby="method-title">
   <header class="method__head" data-reveal>
@@ -24,74 +19,12 @@ const parts = (s: string) => s.split('`').map((text, i) => ({ text, code: i % 2 
         <span class="habit__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
         <h3>{h.title[lang]}</h3>
         <p>{h.text[lang]}</p>
-        {h.proof && (
-          h.proof.href
-            ? <a class="habit__proof u-draw" href={h.proof.href} target="_blank" rel="noopener noreferrer">{h.proof.label[lang]} <span aria-hidden="true">↗</span></a>
-            : <a class="habit__proof u-draw" href="#momento">{h.proof.label[lang]} <span aria-hidden="true">↓</span></a>
+        {h.proof?.href && (
+          <a class="habit__proof u-draw" href={h.proof.href} target="_blank" rel="noopener noreferrer">{h.proof.label[lang]} <span aria-hidden="true">↗</span></a>
         )}
       </li>
     ))}
   </ol>
-
-  <article id="momento" class="case" aria-labelledby="case-title">
-    <header class="case__head" data-reveal>
-      <p class="case__kicker"><strong>{moment.kicker[lang]}</strong> <span>{moment.meta[lang]}</span></p>
-      <h3 id="case-title">{moment.title[lang]}</h3>
-      <p class="case__lede">{moment.lede[lang]}</p>
-    </header>
-
-    <div class="case__grid">
-      <ol class="steps" aria-label={t.method.stepsLabel}>
-        {moment.steps.map((s) => (
-          <li class="step" data-reveal>
-            <h4>{s.title[lang]}</h4>
-            <p>{parts(s.text[lang]).map((x) => (x.code ? <code>{x.text}</code> : x.text))}</p>
-          </li>
-        ))}
-      </ol>
-
-      <div class="case__side" data-reveal>
-        <section class="dm" aria-labelledby="dm-title">
-          <h4 id="dm-title">{d.title[lang]}</h4>
-          <p class="dm__intro">{d.intro[lang]}</p>
-          <div class="dm__pair">
-            <div class="dm__col">
-              <span class="dm__tag">{d.before[lang]} · {d.beforeNote[lang]}</span>
-              <div class="dm-field dm-field--bug is-on">
-                <input type="text" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="······" aria-label={d.beforeLabel[lang]} />
-              </div>
-            </div>
-            <div class="dm__col">
-              <span class="dm__tag">{d.after[lang]} · {d.afterNote[lang]}</span>
-              <div class="dm-field dm-field--ok is-on">
-                <input type="text" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="······" aria-label={d.afterLabel[lang]} />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <figure class="shot">
-          <Image src={shot} alt={moment.shot.alt[lang]} widths={[390]} sizes="(max-width: 48rem) 90vw, 390px" loading="lazy" />
-          <figcaption>{moment.shot.caption[lang]}</figcaption>
-        </figure>
-      </div>
-    </div>
-
-    <section class="evidence" aria-labelledby="ev-title" data-reveal>
-      <h4 id="ev-title">{moment.evidenceTitle[lang]}</h4>
-      <ul>
-        {moment.evidence.map((e) => (
-          <li>
-            {e.href
-              ? <a href={e.href} target="_blank" rel="noopener noreferrer"><code>{e.code}</code></a>
-              : <code>{e.code}</code>}
-            <span>{e.label[lang]}</span>
-          </li>
-        ))}
-      </ul>
-      <p class="evidence__note">{moment.evidenceNote[lang]}</p>
-    </section>
-  </article>
 </section>
 
 <style>
@@ -106,74 +39,9 @@ const parts = (s: string) => s.split('`').map((text, i) => ({ text, code: i % 2 
   .habit p { color: var(--color-muted); font-size: var(--text-sm); }
   .habit__proof { justify-self: start; margin-top: var(--space-xs); font-size: var(--text-sm); font-family: var(--font-mono); }
 
-  /* Caso */
-  .case { display: grid; gap: var(--space-xl); padding-top: var(--space-xl); border-top: 1px solid var(--color-line); scroll-margin-top: 5rem; }
-  .case__head { display: grid; gap: var(--space-md); }
-  .case__kicker { display: flex; flex-wrap: wrap; gap: 0.25rem var(--space-md); font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-muted); }
-  .case__kicker strong { color: var(--color-accent); font-weight: 500; }
-  .case__head h3 { font-size: var(--text-2xl); max-width: 18ch; }
-  .case__lede { font-size: var(--text-lg); }
-  .case__grid { display: grid; gap: var(--space-xl); grid-template-columns: minmax(0, 1fr); align-items: start; }
-
-  .steps { counter-reset: step; display: grid; gap: var(--space-lg); }
-  .step { counter-increment: step; position: relative; display: grid; gap: var(--space-xs); padding-left: 3rem; }
-  .step::before { content: counter(step); position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; border: 2px solid var(--color-accent); font-family: var(--font-mono); font-size: var(--text-sm); }
-  .step::after { content: ''; position: absolute; left: 0.9375rem; top: 2.25rem; bottom: calc(var(--space-lg) * -1 + 0.25rem); width: 2px; background: var(--color-line); }
-  .step:last-child::after { display: none; }
-  .step h4 { font-family: var(--font-display); font-size: var(--text-lg); line-height: 1.25; letter-spacing: -0.01em; }
-  .step p { color: var(--color-muted); }
-  .step :global(code), .evidence :global(code) { font-family: var(--font-mono); font-size: 0.86em; color: var(--color-paper); background: var(--color-ink-2); padding: 0.1em 0.35em; border-radius: 0.3rem; overflow-wrap: anywhere; }
-
-  .case__side { display: grid; gap: var(--space-lg); grid-template-columns: minmax(0, 1fr); }
-  .dm { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-sm); padding: var(--space-lg); border: 1px solid var(--color-line); border-radius: var(--radius-md); background: var(--color-ink-2); }
-  .dm h4 { font-family: var(--font-display); font-size: var(--text-lg); line-height: 1.25; }
-  .dm__intro { font-size: var(--text-sm); color: var(--color-muted); }
-  .dm__pair { display: grid; gap: var(--space-md); margin-top: var(--space-xs); grid-template-columns: minmax(0, 1fr); }
-  .dm__col { display: grid; gap: var(--space-xs); min-width: 0; }
-  .dm__tag { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-muted); }
-
-  .shot { margin: 0; display: grid; gap: var(--space-xs); }
-  .shot :global(img) { width: 100%; max-width: 390px; border-radius: var(--radius-sm); border: 1px solid var(--color-line); }
-  .shot figcaption { font-size: var(--text-sm); color: var(--color-muted); max-width: 44ch; }
-
-  .evidence { display: grid; gap: var(--space-sm); padding: var(--space-lg); border: 1px dashed var(--color-line); border-radius: var(--radius-md); }
-  .evidence h4 { font-family: var(--font-mono); font-size: var(--text-sm); font-weight: 500; letter-spacing: 0; color: var(--color-accent); }
-  .evidence ul { display: grid; gap: var(--space-sm); }
-  .evidence li { display: grid; gap: 0.15rem; }
-  .evidence li span { color: var(--color-muted); font-size: var(--text-sm); }
-  .evidence a { justify-self: start; }
-  .evidence__note { font-size: var(--text-sm); color: var(--color-muted); }
-
   @media (min-width: 48rem) {
     .habits { grid-template-columns: repeat(6, minmax(0, 1fr)); }
     .habit { grid-column: span 2; }
     .habit:nth-child(n+4) { grid-column: span 3; }
-    .case__grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: var(--space-2xl); }
-    .case__side { position: sticky; top: 5.5rem; }
-    .evidence li { grid-template-columns: 13rem minmax(0, 1fr); align-items: baseline; gap: var(--space-md); }
-  }
-</style>
-
-<!--
-  Reproducción del fallo. Estilos globales a propósito: Astro añade [data-astro-cid] a los selectores con ámbito
-  y eso cambiaría la especificidad, que es justo lo que se demuestra. Aquí:
-    global      .dm :focus-visible                 -> 0,2,0  (la regla del tema)
-    del campo   .dm-field input                    -> 0,1,1  (pierde: el contorno global se suma)
-    arreglo     .dm-field--ok input:focus-visible  -> 0,3,1  (gana: un solo aro, el del contenedor)
-  `.is-on` deja el estado de foco fijo para que se vea sin interactuar; con foco real aplica la misma cascada.
--->
-<style is:global>
-  .dm :focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
-  .dm-field { display: flex; align-items: center; height: 3.25rem; padding: 0 1rem; border-radius: var(--radius-sm); background: var(--color-ink); box-shadow: inset 0 0 0 1.5px var(--color-line); transition: box-shadow var(--dur-base) var(--ease-out); }
-  .dm-field input { flex: 1; width: 0; min-width: 0; height: 100%; border: 0; background: transparent; color: var(--color-paper); font: 500 1.125rem/1 var(--font-mono); letter-spacing: 0.3em; outline: none; }
-  .dm-field input::placeholder { color: var(--color-muted); }
-  .dm-field:has(> input:focus-visible), .dm-field.is-on { box-shadow: inset 0 0 0 2px var(--color-focus); }
-  .dm-field--ok input:focus-visible { outline: none; }
-  /* Estado fijo del "antes": el contorno interior que sí pintaba el bug (misma geometría que el foco real). */
-  .dm-field--bug.is-on input { outline: 2px solid var(--color-focus); outline-offset: 2px; }
-  .dm-field--ok.is-on input { outline: none; }
-  @media (prefers-reduced-motion: no-preference) {
-    .dm-field.is-on { animation: ring-in 700ms var(--ease-out) both; }
-    @keyframes ring-in { from { box-shadow: inset 0 0 0 1.5px var(--color-line); } }
   }
 </style>
