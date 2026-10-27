@@ -3,7 +3,7 @@ import type { Lang } from './utils';
 export interface Ui {
   meta: { homeTitle: string; homeDescription: string };
   nav: { label: string; skip: string; work: string; method: string; about: string; experience: string; stack: string; contact: string; menu: string; close: string; switchTo: string };
-  hero: { role: string; title: string; sub: string; ctaWork: string; ctaCv: string };
+  hero: { role: string; title: string; sub: string; ctaWork: string; ctaCv: string; nowTitle: string; now: { name: string; text: string; path: string }[] };
   method: { title: string; lead: string; habitsLabel: string };
   work: { title: string; open: string; featuredTitle: string; featuredIntro: string; moreTitle: string; academic: string; protoTitle: string; protoIntro: string; protoOpen: string };
   about: { title: string; photoAlt: string; facts: string };
@@ -23,7 +23,7 @@ export const ui: Record<Lang, Ui> = {
       homeDescription: 'Ingeniero en Computación en Maracaibo. Apps móviles y web con React Native, TypeScript y Go. Abierto a oportunidades remotas y proyectos freelance.',
     },
     nav: { label: 'Principal', skip: 'Saltar al contenido', work: 'Proyectos', method: 'Cómo trabajo', about: 'Sobre mí', experience: 'Experiencia', stack: 'Stack', contact: 'Contacto', menu: 'Menú', close: 'Cerrar', switchTo: 'Cambiar a inglés' },
-    hero: { role: 'Desarrollador Full-Stack & Mobile', title: 'Apps móviles y web que se sostienen.', sub: 'Ingeniero en Computación en Maracaibo. React Native, TypeScript y Go. Aquí: lo que construyo y cómo trabajo.', ctaWork: 'Ver proyectos', ctaCv: 'Descargar CV' },
+    hero: { role: 'Desarrollador Full-Stack & Mobile', title: 'Apps móviles y web que se sostienen.', sub: 'Ingeniero en Computación en Maracaibo. React Native, TypeScript y Go. Aquí: lo que construyo y cómo trabajo.', ctaWork: 'Ver proyectos', ctaCv: 'Descargar CV', nowTitle: 'Ahora estoy en', now: [{ name: 'Burgo', text: 'Seis apps propias y el backend en Go que las sostiene', path: 'proyectos/burgo/' }, { name: 'Sobre', text: 'Radar de precios y existencias de Pokémon TCG', path: 'proyectos/sobre/' }, { name: 'burgo.dev', text: 'El sitio de mi estudio y los manuales de cada app', path: 'proyectos/burgo-dev/' }] },
     method: { title: 'Cómo trabajo', lead: 'Cinco hábitos, cada uno con algo concreto detrás.', habitsLabel: 'Hábitos de trabajo' },
     work: {
       title: 'Proyectos',
@@ -51,7 +51,7 @@ export const ui: Record<Lang, Ui> = {
       homeDescription: 'Computer Engineer based in Maracaibo. Mobile and web apps with React Native, TypeScript and Go. Open to remote roles and freelance projects.',
     },
     nav: { label: 'Main', skip: 'Skip to content', work: 'Work', method: 'How I work', about: 'About', experience: 'Experience', stack: 'Stack', contact: 'Contact', menu: 'Menu', close: 'Close', switchTo: 'Switch to Spanish' },
-    hero: { role: 'Full-Stack & Mobile Developer', title: 'Mobile and web apps that hold up.', sub: 'Computer Engineer in Maracaibo. React Native, TypeScript and Go. Here: what I build and how I work.', ctaWork: 'See projects', ctaCv: 'Download CV' },
+    hero: { role: 'Full-Stack & Mobile Developer', title: 'Mobile and web apps that hold up.', sub: 'Computer Engineer in Maracaibo. React Native, TypeScript and Go. Here: what I build and how I work.', ctaWork: 'See projects', ctaCv: 'Download CV', nowTitle: 'Right now I am on', now: [{ name: 'Burgo', text: 'Six apps of my own and the Go backend behind them', path: 'proyectos/burgo/' }, { name: 'Sobre', text: 'Pokémon TCG price and stock radar', path: 'proyectos/sobre/' }, { name: 'burgo.dev', text: 'My studio’s site and a manual for each app', path: 'proyectos/burgo-dev/' }] },
     method: { title: 'How I work', lead: 'Five habits, each with something concrete behind it.', habitsLabel: 'Working habits' },
     work: {
       title: 'Work',
