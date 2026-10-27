@@ -53,7 +53,7 @@ const mixed = media.gallery.some((s) => shapeOf(s) === 'phone');
 
     <section class={`gallery ${mixed ? 'gallery--phones' : 'gallery--wide'}`} aria-label={t.project.gallery} data-reveal>
       {media.gallery.map((shot, i) => (
-        <Frame image={shot.src} alt={shot.alt[lang]} shape={shapeOf(shot)} eager={i === 0} width={shapeOf(shot) === 'phone' ? 480 : 1400} class={mixed && shapeOf(shot) === 'wide' ? 'span-2' : ''} />
+        <Frame image={shot.src} alt={shot.alt[lang]} shape={shapeOf(shot)} eager={i === 0} width={shapeOf(shot) === 'phone' ? 780 : 2000} sizes={shapeOf(shot) === 'phone' ? '(max-width: 48rem) 45vw, 280px' : mixed ? '(max-width: 48rem) 92vw, 560px' : '(max-width: 48rem) 92vw, 1100px'} class={mixed && shapeOf(shot) === 'wide' ? 'span-2' : ''} />
       ))}
     </section>
 

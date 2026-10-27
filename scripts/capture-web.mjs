@@ -3,7 +3,7 @@ import sharp from 'sharp';
 import { mkdirSync } from 'node:fs';
 
 // Solo páginas públicas (sin sesión ni cuentas). Un solo navegador a la vez.
-// `mobile`: teléfono 414x900 a 2x. `scrollTo`: id de sección a la que se baja antes de capturar.
+// `mobile`: teléfono 390x844 a 2x, escritorio 1440x900 a 2x. `scrollTo`: id de sección a la que se baja antes de capturar.
 // `webp`: además escribe el .webp final (las capturas antiguas de El Zuliano y la tienda); el resto pasa por `npm run assets`.
 const all = [
   { url: 'https://el-zuliano.burgo.dev/', out: 'el-zuliano', height: 800, webp: true },
@@ -26,8 +26,8 @@ mkdirSync('src/assets/projects', { recursive: true });
 mkdirSync('assets-src', { recursive: true });
 
 const browser = await chromium.launch();
-const desktop = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1, locale: 'es-VE' });
-const phone = await browser.newContext({ viewport: { width: 414, height: 900 }, deviceScaleFactor: 2, locale: 'es-VE', isMobile: true, hasTouch: true });
+const desktop = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2, locale: 'es-VE' });
+const phone = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, locale: 'es-VE', isMobile: true, hasTouch: true });
 for (const t of targets) {
   const page = await (t.mobile ? phone : desktop).newPage();
   await page.goto(t.url, { waitUntil: 'load', timeout: 60000 }); // 'networkidle' nunca llega en la tienda (peticiones continuas)
@@ -40,7 +40,7 @@ for (const t of targets) {
     ? await page.screenshot({ type: 'png', clip: { x: 0, y: 0, width: 1440, height: t.height } })
     : await page.screenshot({ type: 'png' });
   await sharp(png).toFile(`assets-src/${t.out}.png`); // fuente para `npm run assets`
-  if (t.webp) await sharp(png).webp({ quality: 85 }).toFile(`src/assets/projects/${t.out}.webp`);
+  if (t.webp) await sharp(png).resize({ width: 2000, kernel: 'lanczos3' }).webp({ quality: 90, effort: 6, smartSubsample: false }).toFile(`src/assets/projects/${t.out}.webp`);
   await page.close();
 }
 await browser.close();

@@ -7,17 +7,19 @@ interface Props {
   alt: string;
   shape: 'phone' | 'wide';
   width?: number;
+  sizes?: string;
   eager?: boolean;
   class?: string;
 }
-const { image, alt, shape, width = shape === 'phone' ? 360 : 1100, eager = false, class: className = '' } = Astro.props;
-// Varios tamaños para que el móvil no descargue la captura grande.
+const { image, alt, shape, width = shape === 'phone' ? 720 : 1800, sizes: sizesProp, eager = false, class: className = '' } = Astro.props;
+// Las capturas son 2x: varios anchos para que cada pantalla elija el suyo (y el móvil no baje la grande).
 const max = Math.min(width, image.width);
-const widths = shape === 'phone' ? [Math.round(max / 2), max] : [Math.min(640, max), max];
-const sizes = shape === 'phone' ? `(max-width: 48rem) 40vw, ${Math.round(max / 2)}px` : `(max-width: 48rem) 100vw, ${max}px`;
+const widths = shape === 'phone' ? [Math.round(max / 2), Math.round(max * 0.75), max] : [Math.min(640, max), Math.min(1200, max), max];
+// `sizes` en px CSS de la pantalla (no del archivo): el navegador multiplica por su densidad.
+const sizes = sizesProp ?? (shape === 'phone' ? '(max-width: 48rem) 40vw, 300px' : '(max-width: 48rem) 100vw, 900px');
 ---
 <figure class:list={['frame', `frame--${shape}`, className]}>
-  <Image src={image} alt={alt} widths={[...new Set(widths)]} sizes={sizes} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  <Image src={image} alt={alt} widths={[...new Set(widths)]} sizes={sizes} loading={eager ? 'eager' : 'lazy'} decoding="async" quality={90} />
 </figure>
 
 <style>

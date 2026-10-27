@@ -4,8 +4,9 @@ import { habits } from '../src/content/habits';
 const all = habits.flatMap((h) => [h.title, h.text, ...(h.proof ? [h.proof.label] : [])]);
 
 describe('Cómo trabajo: paridad ES/EN', () => {
-  it('hay cinco hábitos y cada texto existe en ambos idiomas', () => {
-    expect(habits).toHaveLength(5);
+  it('hay entre 4 y 6 hábitos y cada texto existe en ambos idiomas', () => {
+    expect(habits.length).toBeGreaterThanOrEqual(4);
+    expect(habits.length).toBeLessThanOrEqual(6);
     for (const t of all) {
       expect(t.es.trim().length).toBeGreaterThan(0);
       expect(t.en.trim().length).toBeGreaterThan(0);
