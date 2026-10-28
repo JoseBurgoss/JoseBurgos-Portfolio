@@ -24,7 +24,7 @@ links:
 
 ## What it is
 
-Burgo is a family of everyday apps built for Maracaibo that also work outside Venezuela, in Spanish and English. Each one does one thing: **Cancha** organizes pickup games with a waitlist, balanced teams, chat and payments; **Pique** is live group trivia; **Brío** tracks workouts and calories with local food; **Cuadre** handles personal finances in dollars and bolívares; **Fase** shows, sector by sector, whether the power is out. **Account** is the single sign-on and **Admin** the central panel. [Sobre](/en/proyectos/sobre/), the price radar, started here and is now a separate service.
+Burgo is a family of everyday apps built for Maracaibo that also work outside Venezuela, in Spanish and English. Each one does one thing: **Cancha** organizes pickup games with a waitlist, balanced teams, chat and fees, and runs leagues and tournaments; **Pique** is live group trivia; **Brío** tracks workouts and calories with local food; **Cuadre** handles personal finances in dollars and bolívares, with budgets, goals and a rate calculator; **Fase** shows, sector by sector, whether the power is out. **Account** is the single sign-on and **Admin** the central panel. [Sobre](/en/proyectos/sobre/), the price radar, started here and is now a separate service.
 
 Today the apps install from the browser, as PWAs. My plan is to publish them soon as native apps, starting with Google Play; they are not in the store yet.
 
@@ -34,7 +34,7 @@ The backend is a modular monolith in Go: every module owns its schema in Postgre
 
 Every app has its own theme (colors, heading typeface and component shapes) on a shared body typeface, and a guard test watches the AA contrast of every app’s states.
 
-One account works everywhere (email, Google or Apple), with verification, password recovery, push notifications and an audit trail of admin actions.
+One account works everywhere (email, Google or Apple), with verification, password recovery, push notifications and an audit trail of admin actions. Each app has its own landing page on the web and its own sign-in; signing in from a new network triggers an approval email.
 
 ## How I run it
 

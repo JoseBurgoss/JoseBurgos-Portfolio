@@ -24,7 +24,7 @@ links:
 
 ## Qué es
 
-Burgo es una familia de apps para la vida diaria en Maracaibo que también funcionan fuera de Venezuela, en español e inglés. Cada una resuelve una cosa: **Cancha** organiza partidos con lista de espera, equipos parejos, chat y cobros; **Pique** es trivia en vivo para jugar en grupo; **Brío** lleva entrenamiento y calorías con comida local; **Cuadre** ordena finanzas personales en dólares y bolívares; **Fase** muestra por sector si se fue la luz. **Cuenta** es el inicio de sesión único y **Admin** el panel central. [Sobre](/es/proyectos/sobre/), el radar de precios, salió de aquí y hoy es un servicio aparte.
+Burgo es una familia de apps para la vida diaria en Maracaibo que también funcionan fuera de Venezuela, en español e inglés. Cada una resuelve una cosa: **Cancha** organiza partidos con lista de espera, equipos parejos, chat y cuotas, y arma ligas y torneos; **Pique** es trivia en vivo para jugar en grupo; **Brío** lleva entrenamiento y calorías con comida local; **Cuadre** ordena finanzas personales en dólares y bolívares, con presupuestos, metas y una calculadora de tasas; **Fase** muestra por sector si se fue la luz. **Cuenta** es el inicio de sesión único y **Admin** el panel central. [Sobre](/es/proyectos/sobre/), el radar de precios, salió de aquí y hoy es un servicio aparte.
 
 Hoy las apps se instalan desde el navegador, como PWA. Mi plan es publicarlas pronto como apps nativas, empezando por Google Play; todavía no están en la tienda.
 
@@ -34,7 +34,7 @@ El backend es un monolito modular en Go: cada módulo tiene su propio esquema en
 
 Cada app tiene su propio tema (colores, tipografía de títulos y forma de los componentes) sobre una misma letra de texto, y una prueba de guardia vigila el contraste AA de los estados de todas.
 
-Una sola cuenta sirve para todas (correo, Google o Apple), con verificación, recuperación de contraseña, notificaciones push y auditoría de las acciones de administración.
+Una sola cuenta sirve para todas (correo, Google o Apple), con verificación, recuperación de contraseña, notificaciones push y auditoría de las acciones de administración. Cada app tiene su propia página de entrada en la web y su propio inicio de sesión; si alguien entra desde una red nueva, le llega un correo para aprobarlo.
 
 ## Cómo lo opero
 

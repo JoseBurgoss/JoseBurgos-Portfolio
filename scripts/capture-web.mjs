@@ -14,10 +14,10 @@ const all = [
   { url: 'https://sobre.burgo.dev/entrar', out: 'sobre-escritorio-entrar' },
   { url: 'https://burgo.dev/', out: 'burgo-dev-inicio', mobile: true },
   { url: 'https://burgo.dev/', out: 'burgo-dev-encargo', mobile: true, scrollTo: 'l2' },
-  { url: 'https://burgo.dev/', out: 'burgo-dev-villa', mobile: true, scrollTo: 'l3' },
+  { url: 'https://burgo.dev/', out: 'burgo-dev-villa', mobile: true, scrollTo: 'l4' },
   { url: 'https://burgo.dev/en/', out: 'burgo-dev-inicio-en', mobile: true },
   { url: 'https://burgo.dev/', out: 'burgo-dev-escritorio' },
-  { url: 'https://burgo.dev/', out: 'burgo-dev-villa-escritorio', scrollTo: 'l3' },
+  { url: 'https://burgo.dev/', out: 'burgo-dev-villa-escritorio', scrollTo: 'l4' },
 ];
 // `npm run capture -- sobre-entrar burgo-dev-inicio` captura solo esas; sin argumentos, todas.
 const only = process.argv.slice(2);
