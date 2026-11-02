@@ -13,7 +13,7 @@ export interface Ui {
   other: { title: string; intro: string; repo: string };
   contact: { title: string; lead: string; linkedin: string; github: string; cvEs: string; cvEn: string; copy: string; copied: string };
   project: { back: string; kind: string; status: string; stack: string; links: string; gallery: string; next: string; academic: string };
-  footer: { built: string };
+  footer: { built: string; legalNav: string; privacy: string; terms: string; privacyUrl: string; termsUrl: string; notice: string };
 }
 
 export const ui: Record<Lang, Ui> = {
@@ -43,7 +43,15 @@ export const ui: Record<Lang, Ui> = {
     other: { title: 'Otros proyectos', intro: 'Trabajos de la universidad y de práctica, con el código en GitHub.', repo: 'Ver en GitHub' },
     contact: { title: 'Hablemos.', lead: 'Estoy abierto a oportunidades remotas y a proyectos freelance de web y móvil.', linkedin: 'LinkedIn', github: 'GitHub', cvEs: 'CV en español', cvEn: 'CV en inglés', copy: 'Copiar correo', copied: 'Copiado' },
     project: { back: 'Todos los proyectos', kind: 'Tipo', status: 'Estado', stack: 'Stack', links: 'Enlaces', gallery: 'Capturas', next: 'Siguiente proyecto', academic: 'Proyecto universitario' },
-    footer: { built: 'Hecho con Astro.' },
+    footer: {
+      built: 'Hecho con Astro.',
+      legalNav: 'Legal',
+      privacy: 'Privacidad',
+      terms: 'Términos',
+      privacyUrl: 'https://burgo.dev/legal/privacidad/',
+      termsUrl: 'https://burgo.dev/legal/terminos/',
+      notice: 'Este sitio no usa cookies de terceros ni analítica de terceros. Las capturas de proyectos muestran datos de ejemplo; no hay clientes ni pagos reales en las demos.',
+    },
   },
   en: {
     meta: {
@@ -71,6 +79,14 @@ export const ui: Record<Lang, Ui> = {
     other: { title: 'Other projects', intro: 'University and practice work, with the code on GitHub.', repo: 'View on GitHub' },
     contact: { title: "Let's talk.", lead: "I'm open to remote roles and freelance web and mobile projects.", linkedin: 'LinkedIn', github: 'GitHub', cvEs: 'CV in Spanish', cvEn: 'CV in English', copy: 'Copy email', copied: 'Copied' },
     project: { back: 'All projects', kind: 'Type', status: 'Status', stack: 'Stack', links: 'Links', gallery: 'Screenshots', next: 'Next project', academic: 'University project' },
-    footer: { built: 'Built with Astro.' },
+    footer: {
+      built: 'Built with Astro.',
+      legalNav: 'Legal',
+      privacy: 'Privacy',
+      terms: 'Terms',
+      privacyUrl: 'https://burgo.dev/en/legal/privacidad/',
+      termsUrl: 'https://burgo.dev/en/legal/terminos/',
+      notice: 'This site uses no third-party cookies or third-party analytics. Project screenshots show sample data; there are no real clients or payments in the demos.',
+    },
   },
 };

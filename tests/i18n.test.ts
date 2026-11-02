@@ -64,3 +64,18 @@ describe('paridad de textos de interfaz', () => {
     }
   });
 });
+
+describe('pie legal', () => {
+  it('enlaza a Privacidad y Términos de burgo.dev según el idioma', () => {
+    expect(ui.es.footer.privacyUrl).toBe('https://burgo.dev/legal/privacidad/');
+    expect(ui.es.footer.termsUrl).toBe('https://burgo.dev/legal/terminos/');
+    expect(ui.en.footer.privacyUrl).toBe('https://burgo.dev/en/legal/privacidad/');
+    expect(ui.en.footer.termsUrl).toBe('https://burgo.dev/en/legal/terminos/');
+  });
+  it('avisa de que no hay cookies ni analítica de terceros y de que las capturas son de ejemplo', () => {
+    expect(ui.es.footer.notice).toMatch(/no usa cookies de terceros/);
+    expect(ui.es.footer.notice).toMatch(/datos de ejemplo/);
+    expect(ui.en.footer.notice).toMatch(/no third-party cookies/);
+    expect(ui.en.footer.notice).toMatch(/sample data/);
+  });
+});

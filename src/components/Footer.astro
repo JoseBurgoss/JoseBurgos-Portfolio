@@ -11,10 +11,18 @@ const year = new Date().getFullYear();
   <div class="container footer__row">
     <p>© {year} {site.name}</p>
     <p>{ui[lang].footer.built}</p>
+    <nav class="footer__legal" aria-label={ui[lang].footer.legalNav}>
+      <a href={ui[lang].footer.privacyUrl} rel="noopener">{ui[lang].footer.privacy}</a>
+      <a href={ui[lang].footer.termsUrl} rel="noopener">{ui[lang].footer.terms}</a>
+    </nav>
+    <p class="footer__note">{ui[lang].footer.notice}</p>
   </div>
 </footer>
 
 <style>
   .site-footer { border-top: 1px solid var(--color-line); padding-block: var(--space-xl); color: var(--color-muted); font-size: var(--text-sm); }
+  .footer__legal { display: flex; gap: var(--space-md); }
+  .footer__legal a { display: inline-flex; align-items: center; min-height: 44px; color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .footer__note { flex-basis: 100%; margin: 0; max-width: 70ch; }
   .footer__row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-sm) var(--space-lg); }
 </style>
