@@ -1,0 +1,32 @@
+---
+project: cabal
+title: Cabal
+kind: Gestión de negocio · En construcción · Por Burgo
+status: En construcción. Primera versión en línea, sin clientes todavía
+summary: Un panel para saber quién te debe, qué entregas, qué cobraste y si el negocio deja ganancia, con portal para el cliente y conciliación de pagos con comprobante.
+stack: [React 19, TypeScript, Go, PostgreSQL, PWA, Docker]
+liveNote: La landing es pública y la aplicación requiere acceso por invitación; todavía no tiene clientes. Las capturas son de la demo local, con datos de ejemplo inventados; ningún cliente ni pago son reales.
+links:
+  - label: Cabal
+    href: https://cabal.burgo.dev
+---
+
+## Qué es
+
+Cabal es el sistema de gestión que estoy construyendo para negocios de servicios como el mío. Junta en un solo lugar los clientes y prospectos, los proyectos y sus entregas, los cobros por cuotas, los gastos y la rentabilidad de cada cliente y de cada proyecto, en dólares y bolívares. Es una web instalable, pensada primero para el teléfono, y lleva la marca «Powered by Burgo». No forma parte de las apps de Burgo: es un producto de gestión aparte.
+
+## Qué resuelve
+
+Cada cliente entra a su portal con su propio acceso y ve solo lo suyo: su saldo, la próxima cuota y dónde pagar. Desde ahí reporta un pago con su comprobante, su referencia y el monto. Del otro lado, quien administra el negocio revisa una cola de conciliación: ve el comprobante junto a los datos y decide si lo aprueba, lo observa o lo rechaza. Al aprobar, el pago se aplica a la cuota, baja el saldo y queda en el historial; un pago con la misma referencia, banco y monto se marca como duplicado. Con eso el Resumen y la rentabilidad se recalculan solos.
+
+## Cómo está hecho
+
+El frente es una aplicación instalable en React 19 y TypeScript. La API es un servicio en Go sobre PostgreSQL. Cada negocio es un espacio de trabajo aislado: toda tabla lleva su identificador, el repositorio lo exige y PostgreSQL añade seguridad a nivel de fila (RLS) como segunda barrera. El dueño entra con correo y contraseña y tiene la verificación en dos pasos (códigos TOTP) obligatoria: sin activarla no pasa de esa pantalla. Los clientes del negocio entran con un enlace al correo, o reportan un pago sin crear cuenta desde un enlace de pago. La aplicación está en español y en inglés. Los comprobantes se guardan detrás de una interfaz de almacenamiento que se puede mover a otro proveedor. Todo corre con Docker.
+
+## En qué estado está
+
+Es un proyecto en construcción, y lo digo así a propósito: la primera versión ya está en línea en cabal.burgo.dev (la landing es pública; la aplicación se usa por invitación) y todavía no hay clientes usándola. Ya tiene inicio de sesión con contraseña, 2FA obligatorio para el dueño, enlaces de pago para que los clientes del negocio reporten sin cuenta y la app en español e inglés. Las capturas son de la demo con datos de ejemplo.
+
+## Lo que me deja
+
+Diseñar un sistema multi-tenant donde el aislamiento no depende de un solo filtro, modelar la conciliación de pagos con sus estados y sus casos raros (duplicados, montos en bolívares con la tasa del día), proteger el acceso con segundo factor y pensar el producto desde quien lo va a usar cada día.

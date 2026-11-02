@@ -1,0 +1,32 @@
+---
+project: cabal
+title: Cabal
+kind: Business management · Under construction · By Burgo
+status: Under construction. First version online, no clients yet
+summary: A dashboard to know who owes you, what you deliver, what you have collected and whether the business is profitable, with a client portal and payment reconciliation by proof of payment.
+stack: [React 19, TypeScript, Go, PostgreSQL, PWA, Docker]
+liveNote: The landing page is public and the application requires an invitation; it has no clients yet. The screenshots come from the local demo, with made-up sample data; no client or payment is real.
+links:
+  - label: Cabal
+    href: https://cabal.burgo.dev
+---
+
+## What it is
+
+Cabal is the management system I am building for service businesses like mine. It brings clients and prospects, projects and their deliveries, installment billing, expenses and the profitability of each client and project into one place, in dollars and bolívares. It is an installable web app, designed phone-first, and carries the “Powered by Burgo” mark. It is not one of the Burgo apps: it is a separate management product.
+
+## What it solves
+
+Each client signs in to their own portal and sees only what is theirs: their balance, the next installment and where to pay. From there they report a payment with its proof, reference and amount. On the other side, whoever runs the business reviews a reconciliation queue: they see the proof next to the details and decide whether to approve, flag or reject it. On approval the payment is applied to the installment, the balance drops and it is logged; a payment with the same reference, bank and amount is flagged as a duplicate. The Overview and profitability then recalculate on their own.
+
+## How it is built
+
+The front end is an installable app in React 19 and TypeScript. The API is a Go service on PostgreSQL. Each business is an isolated workspace: every table carries its identifier, the repository requires it, and PostgreSQL adds row-level security (RLS) as a second barrier. The owner signs in with email and password and has two-step verification (TOTP codes) mandatory: without turning it on they get no further than that screen. The business’s clients sign in through an emailed link, or report a payment without creating an account from a payment link. The app is in Spanish and English. Proofs of payment are stored behind a storage interface that can be moved to another provider. Everything runs on Docker.
+
+## Where it stands
+
+It is under construction, and I say so on purpose: the first version is already online at cabal.burgo.dev (the landing page is public; the application is invitation-only) and no clients are using it yet. It already has password sign-in, mandatory 2FA for the owner, payment links so the business’s clients can report without an account, and the app in Spanish and English. The screenshots come from the demo with sample data.
+
+## What it taught me
+
+Designing a multi-tenant system where isolation does not depend on a single filter, modeling payment reconciliation with its states and edge cases (duplicates, bolívar amounts with the day’s rate), protecting access with a second factor and thinking about the product from the point of view of the person who will use it every day.

@@ -9,6 +9,7 @@ const phones = [
   ...['cuenta', 'cuenta-entrar', 'cancha', 'cuadre', 'fase', 'pique', 'brio', 'admin'].map((n) => `src/assets/projects/burgo-${n}.webp`),
   ...['entrar', 'inicio', 'productos', 'comunidad'].map((n) => `src/assets/projects/sobre-${n}.webp`),
   ...['inicio', 'encargo', 'villa', 'inicio-en'].map((n) => `src/assets/projects/burgo-dev-${n}.webp`),
+  ...['resumen', 'pagos', 'portal'].map((n) => `src/assets/projects/cabal-${n}.webp`),
 ];
 const wides = [
   'src/assets/projects/el-zuliano.webp',
@@ -16,6 +17,7 @@ const wides = [
   ...['cuenta-escritorio', 'admin-escritorio'].map((n) => `src/assets/projects/burgo-${n}.webp`),
   ...['escritorio-inicio', 'escritorio-entrar'].map((n) => `src/assets/projects/sobre-${n}.webp`),
   ...['escritorio', 'villa-escritorio'].map((n) => `src/assets/projects/burgo-dev-${n}.webp`),
+  ...['escritorio', 'pagos-escritorio'].map((n) => `src/assets/projects/cabal-${n}.webp`),
 ];
 
 describe('capturas de teléfono', () => {

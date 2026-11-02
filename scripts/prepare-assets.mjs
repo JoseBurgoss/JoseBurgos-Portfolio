@@ -50,6 +50,10 @@ const phones = {
   'burgo-dev-encargo': 'burgo-dev-encargo.png', // prod
   'burgo-dev-villa': 'burgo-dev-villa.png', // prod
   'burgo-dev-inicio-en': 'burgo-dev-inicio-en.png', // prod
+  'cabal-resumen': 'cabal-resumen.png', // demo local (VITE_DATA_SOURCE=local, puerto 5192), 390 px a 2x: Resumen
+  'cabal-pagos': 'cabal-pagos.png', // demo local: cola de conciliación
+  'cabal-portal': 'cabal-portal.png', // demo local: portal del cliente
+  'cabal-pagos-en': 'cabal-pagos-en.png', // demo local, en inglés: cola de conciliación
 };
 for (const [name, file] of Object.entries(phones)) {
   const m = await sharp(`assets-src/${file}`).metadata();
@@ -71,6 +75,9 @@ const wides = {
   'sobre-escritorio-entrar': 'sobre-escritorio-entrar.png', // prod
   'burgo-dev-escritorio': 'burgo-dev-escritorio.png', // prod
   'burgo-dev-villa-escritorio': 'burgo-dev-villa-escritorio.png', // prod
+  'cabal-escritorio': 'cabal-escritorio.png', // demo local, 1440 px a 2x: Resumen
+  'cabal-pagos-escritorio': 'cabal-pagos-escritorio.png', // demo local: conciliación con comprobante
+  'cabal-landing-escritorio': 'cabal-landing-escritorio.png', // landing pública (sin sesión), 1440 px a 2x
 };
 for (const [name, file] of Object.entries(wides)) {
   const m = await sharp(`assets-src/${file}`).metadata();

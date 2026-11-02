@@ -32,8 +32,15 @@ import marcaVilla from '../assets/projects/burgo-dev-villa.webp';
 import marcaInicioEn from '../assets/projects/burgo-dev-inicio-en.webp';
 import marcaDesk from '../assets/projects/burgo-dev-escritorio.webp';
 import marcaVillaDesk from '../assets/projects/burgo-dev-villa-escritorio.webp';
+import cabalResumen from '../assets/projects/cabal-resumen.webp';
+import cabalPagos from '../assets/projects/cabal-pagos.webp';
+import cabalPortal from '../assets/projects/cabal-portal.webp';
+import cabalDesk from '../assets/projects/cabal-escritorio.webp';
+import cabalPagosDesk from '../assets/projects/cabal-pagos-escritorio.webp';
+import cabalPagosEn from '../assets/projects/cabal-pagos-en.webp';
+import cabalLandingDesk from '../assets/projects/cabal-landing-escritorio.webp';
 
-export type ProjectId = 'burgo' | 'sobre' | 'burgo-dev' | 'reportaya' | 'moviesapp' | 'el-zuliano' | 'tienda-burgos';
+export type ProjectId = 'burgo' | 'sobre' | 'burgo-dev' | 'cabal' | 'reportaya' | 'moviesapp' | 'el-zuliano' | 'tienda-burgos';
 /** `shape` por captura: la galería puede mezclar teléfono y escritorio. Por defecto, el de la tarjeta. */
 export type Shot = { src: ImageMetadata; alt: Record<Lang, string>; shape?: 'phone' | 'wide' };
 export interface ProjectMedia {
@@ -43,11 +50,11 @@ export interface ProjectMedia {
 }
 
 /** Trabajo actual, destacado arriba del muro. */
-export const featuredOrder: ProjectId[] = ['burgo', 'sobre', 'burgo-dev'];
+export const featuredOrder: ProjectId[] = ['burgo', 'sobre', 'burgo-dev', 'cabal'];
 /** Orden en el muro (la cuadrícula coloca cada uno por nombre de clase). */
 export const tileOrder: ProjectId[] = ['reportaya', 'el-zuliano', 'moviesapp', 'tienda-burgos'];
 /** Orden para "siguiente proyecto" en las páginas de caso de estudio. */
-export const projectOrder: ProjectId[] = ['burgo', 'sobre', 'burgo-dev', 'reportaya', 'moviesapp', 'el-zuliano', 'tienda-burgos'];
+export const projectOrder: ProjectId[] = ['burgo', 'sobre', 'burgo-dev', 'cabal', 'reportaya', 'moviesapp', 'el-zuliano', 'tienda-burgos'];
 
 export const projectMedia: Record<ProjectId, ProjectMedia> = {
   burgo: {
@@ -88,6 +95,20 @@ export const projectMedia: Record<ProjectId, ProjectMedia> = {
       { src: marcaInicioEn, shape: 'phone', alt: { es: 'burgo.dev en inglés, en teléfono: «We design and build custom software»', en: 'burgo.dev in English, on phone: “We design and build custom software”' } },
       { src: marcaDesk, shape: 'wide', alt: { es: 'burgo.dev en escritorio: índice lateral, titular y plano dibujado de la villa', en: 'burgo.dev on desktop: side index, headline and drawn plan of the village' } },
       { src: marcaVillaDesk, shape: 'wide', alt: { es: 'burgo.dev en escritorio: la calle de la villa con cada app y su dirección', en: 'burgo.dev on desktop: the village street with each app and its address' } },
+    ],
+  },
+  // Capturas de la demo local con datos de ejemplo (VITE_DATA_SOURCE=local): ningún cliente ni pago reales.
+  cabal: {
+    layout: 'wide',
+    tile: [cabalPagosDesk],
+    gallery: [
+      { src: cabalResumen, shape: 'phone', alt: { es: 'Cabal en teléfono (demo con datos de ejemplo): Resumen con lo que está por cobrar, lo vencido, el cobrado y el margen del mes', en: 'Cabal on phone (demo with sample data): Overview with what is owed, what is overdue, what was collected and the month’s margin' } },
+      { src: cabalPagos, shape: 'phone', alt: { es: 'Cabal en teléfono (demo): cola de conciliación de pagos con estados Pendiente, Observado, Conciliado y Rechazado, y pagos marcados como duplicados', en: 'Cabal on phone (demo): payment reconciliation queue with Pending, Flagged, Reconciled and Rejected states, and payments marked as duplicates' } },
+      { src: cabalPortal, shape: 'phone', alt: { es: 'Cabal en teléfono (demo): portal del cliente con su saldo por pagar, la próxima cuota y el botón «Reportar pago»', en: 'Cabal on phone (demo): client portal with the balance due, the next installment and the “Report payment” button' } },
+      { src: cabalPagosEn, shape: 'phone', alt: { es: 'Cabal en teléfono, en inglés (demo): la cola de conciliación como «Payments», con los sellos «Duplicate» en los pagos repetidos', en: 'Cabal on phone, in English (demo): the reconciliation queue as “Payments”, with “Duplicate” stamps on the repeated payments' } },
+      { src: cabalDesk, shape: 'wide', alt: { es: 'Cabal en escritorio (demo): Resumen con menú lateral, cifras del mes, gráfico de ingresos contra gastos y alertas', en: 'Cabal on desktop (demo): Overview with side menu, the month’s figures, an income versus expenses chart and alerts' } },
+      { src: cabalPagosDesk, shape: 'wide', alt: { es: 'Cabal en escritorio (demo): conciliación con la lista de pagos, un comprobante de ejemplo y los datos del pago para decidir', en: 'Cabal on desktop (demo): reconciliation with the payment list, a sample proof of payment and the payment details to decide on' } },
+      { src: cabalLandingDesk, shape: 'wide', alt: { es: 'Landing pública de Cabal en escritorio: titular «Que las cuentas salgan cabales», papel crema y tinta, y una vista previa de la demo con datos de ejemplo', en: 'Cabal’s public landing page on desktop: headline “Que las cuentas salgan cabales” (“May the accounts add up”), cream paper and ink, and a preview of the demo with sample data' } },
     ],
   },
   reportaya: {
