@@ -87,3 +87,20 @@ describe('casos de estudio MDX', () => {
     expect(readdirSync('src/content/proyectos/en').sort()).toEqual(projects.map((p) => `${p}.mdx`).sort());
   });
 });
+
+describe('site.ts: demos de comercios (prototypes)', () => {
+  const ids = ['peperoni', 'soet', 'creole', 'sandos', 'vaquita', 'practico', 'megarepa', 'subs'];
+  it('son las ocho demos, con nombre, tipo y enlace a su subdominio de burgo.dev', () => {
+    expect(site.prototypes.map((p) => p.id)).toEqual(ids);
+    for (const p of site.prototypes) {
+      expect(p.href).toBe(`https://${p.id}.burgo.dev`);
+      expect(p.name.length).toBeGreaterThan(2);
+      expect(p.kind.es.length).toBeGreaterThan(2);
+      expect(existsSync(`src/assets/projects/demo-${p.id}.webp`), p.id).toBe(true);
+    }
+  });
+  it('no llevan precios ni teléfonos', () => {
+    const text = JSON.stringify(site.prototypes);
+    expect(text).not.toMatch(/\$\s?\d|\d\s?(USD|Bs)|0\d{3}[-\s]?\d{3}/);
+  });
+});

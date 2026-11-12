@@ -14,7 +14,8 @@ export interface Experience {
 export interface StackGroup { id: string; label: L10n<string>; items: string[] }
 export interface Cert { name: L10n<string>; issuer: string; year?: string; detail?: L10n<string> }
 export interface OtherProject { name: string; description: L10n<string>; tech: string; href: string }
-export interface Prototype { name: L10n<string>; description: L10n<string>; href: string }
+export type DemoId = 'peperoni' | 'soet' | 'creole' | 'sandos' | 'vaquita' | 'practico' | 'megarepa' | 'subs';
+export interface Prototype { id: DemoId; name: string; kind: L10n<string>; description: L10n<string>; href: string }
 
 export const site = {
   name: 'José Burgos',
@@ -121,31 +122,87 @@ export const site = {
     { name: { es: 'Introducción a la Ciberseguridad', en: 'Introduction to Cybersecurity' }, issuer: 'Cisco', year: '2025' },
   ] as Cert[],
 
-  /** Prototipos de producto «powered by Burgo» (demos solo front-end, datos ficticios). */
+  /** Demos de comercios «powered by Burgo» (propuestas solo front-end, datos de ejemplo; no son los sitios oficiales de esos negocios). */
   prototypes: [
     {
-      name: { es: 'Pedidos para restaurantes', en: 'Restaurant ordering' },
+      id: 'peperoni',
+      name: 'Peperoni',
+      kind: { es: 'Pizzería y birrería', en: 'Pizzeria and beer house' },
       description: {
-        es: 'Tienda web instalable con menú, carrito, checkout y seguimiento del pedido, más panel del negocio.',
-        en: 'Installable web store with menu, cart, checkout and order tracking, plus a business dashboard.',
+        es: 'Tienda web instalable con menú, carrito, pedido a domicilio y seguimiento del estado, más panel del negocio.',
+        en: 'Installable web store with menu, cart, home delivery orders and status tracking, plus a business panel.',
       },
       href: 'https://peperoni.burgo.dev',
     },
     {
-      name: { es: 'Pedidos para repostería', en: 'Bakery ordering' },
+      id: 'soet',
+      name: 'Soet',
+      kind: { es: 'Pastelería y café', en: 'Bakery and café' },
       description: {
-        es: 'La misma plataforma adaptada a postres por encargo, con identidad visual propia.',
-        en: 'The same platform adapted to made-to-order desserts, with its own visual identity.',
+        es: 'La misma plataforma con otra identidad: cajas de postres por encargo, recogida o delivery según la distancia y panel para la cocina.',
+        en: 'The same platform with its own identity: made-to-order dessert boxes, pickup or distance-based delivery and a kitchen panel.',
       },
       href: 'https://soet.burgo.dev',
     },
     {
-      name: { es: 'Gestión de clubes', en: 'Club management' },
+      id: 'creole',
+      name: 'Lago Maracaibo Club',
+      kind: { es: 'Club social', en: 'Social club' },
       description: {
-        es: 'Socios, cuotas, reservas y carnet con QR, con un panel de administración.',
-        en: 'Members, dues, bookings and a QR membership card, with an admin panel.',
+        es: 'App del socio con carnet y QR, reservas, eventos y estado de cuenta, más panel de administración.',
+        en: 'Member app with a QR card, bookings, events and account statement, plus an admin panel.',
       },
       href: 'https://creole.burgo.dev',
+    },
+    {
+      id: 'sandos',
+      name: 'Sandos MCBO',
+      kind: { es: 'Sándwiches y tenders', en: 'Sandwiches and tenders' },
+      description: {
+        es: 'Combos, sándwiches y extras con pedido a domicilio o para recoger, y panel del local.',
+        en: 'Combos, sandwiches and extras for delivery or pickup, with a panel for the venue.',
+      },
+      href: 'https://sandos.burgo.dev',
+    },
+    {
+      id: 'vaquita',
+      name: 'Mi Vaquita',
+      kind: { es: 'Steak house y bar', en: 'Steak house and bar' },
+      description: {
+        es: 'Carta, reserva de mesa o botella, pago dividido entre los comensales y pase con QR para entrar sin cola.',
+        en: 'Menu, table or bottle booking, a bill split between diners and a QR pass to get in without a queue.',
+      },
+      href: 'https://vaquita.burgo.dev',
+    },
+    {
+      id: 'practico',
+      name: 'Tiendas Práctico',
+      kind: { es: 'Utensilios y equipos de cocina', en: 'Kitchenware and equipment' },
+      description: {
+        es: 'Tienda con catálogo por categorías, búsqueda y carrito, más panel para administrar productos.',
+        en: 'Store with a catalogue by category, search and cart, plus a panel to manage products.',
+      },
+      href: 'https://practico.burgo.dev',
+    },
+    {
+      id: 'megarepa',
+      name: 'Mega Arepa House',
+      kind: { es: 'Arepera', en: 'Arepa house' },
+      description: {
+        es: 'Pedidos en línea de arepas, megarepas y combos, con panel para el local.',
+        en: 'Online orders for arepas, megarepas and combos, with a panel for the venue.',
+      },
+      href: 'https://megarepa.burgo.dev',
+    },
+    {
+      id: 'subs',
+      name: 'Subs · Fun & Drinks',
+      kind: { es: 'Dark kitchen de subs', en: 'Subs dark kitchen' },
+      description: {
+        es: 'Subs, hamburguesas y ensaladas con pedido a domicilio y panel de pedidos.',
+        en: 'Subs, burgers and salads with home delivery and an orders panel.',
+      },
+      href: 'https://subs.burgo.dev',
     },
   ] as Prototype[],
   otherProjects: [

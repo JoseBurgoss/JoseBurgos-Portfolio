@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
+import { existsSync, statSync } from 'node:fs';
 import sharp from 'sharp';
 import { describe, expect, it } from 'vitest';
 
@@ -42,6 +42,18 @@ describe('capturas web', () => {
       const ratio = (width ?? 0) / (height ?? 1);
       expect(ratio).toBeGreaterThan(1.6);
       expect(ratio).toBeLessThan(2.4);
+    });
+  }
+});
+
+describe('miniaturas de demos', () => {
+  for (const id of ['peperoni', 'soet', 'creole', 'sandos', 'vaquita', 'practico', 'megarepa', 'subs']) {
+    it(`demo-${id}.webp: cuadrada, ≥ 380 px y ligera (< 60 KB)`, async () => {
+      const f = `src/assets/projects/demo-${id}.webp`;
+      const { width, height } = await sharp(f).metadata();
+      expect(width).toBe(height);
+      expect(width).toBeGreaterThanOrEqual(380);
+      expect(statSync(f).size).toBeLessThan(60_000);
     });
   }
 });

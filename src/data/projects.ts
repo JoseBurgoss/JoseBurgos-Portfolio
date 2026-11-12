@@ -39,7 +39,16 @@ import cabalDesk from '../assets/projects/cabal-escritorio.webp';
 import cabalPagosDesk from '../assets/projects/cabal-pagos-escritorio.webp';
 import cabalPagosEn from '../assets/projects/cabal-pagos-en.webp';
 import cabalLandingDesk from '../assets/projects/cabal-landing-escritorio.webp';
+import demoPeperoni from '../assets/projects/demo-peperoni.webp';
+import demoSoet from '../assets/projects/demo-soet.webp';
+import demoCreole from '../assets/projects/demo-creole.webp';
+import demoSandos from '../assets/projects/demo-sandos.webp';
+import demoVaquita from '../assets/projects/demo-vaquita.webp';
+import demoPractico from '../assets/projects/demo-practico.webp';
+import demoMegarepa from '../assets/projects/demo-megarepa.webp';
+import demoSubs from '../assets/projects/demo-subs.webp';
 
+import type { DemoId } from '../content/site';
 export type ProjectId = 'burgo' | 'sobre' | 'burgo-dev' | 'cabal' | 'reportaya' | 'moviesapp' | 'el-zuliano' | 'tienda-burgos';
 /** `shape` por captura: la galería puede mezclar teléfono y escritorio. Por defecto, el de la tarjeta. */
 export type Shot = { src: ImageMetadata; alt: Record<Lang, string>; shape?: 'phone' | 'wide' };
@@ -141,4 +150,16 @@ export const projectMedia: Record<ProjectId, ProjectMedia> = {
     tile: [tienda],
     gallery: [{ src: tienda, alt: { es: 'Tienda Burgos: página de inicio', en: 'Tienda Burgos: home page' } }],
   },
+};
+
+/** Miniatura de cada demo de comercio (portada en teléfono, cuadrada; se genera con `npm run assets`). */
+export const demoShots: Record<DemoId, ImageMetadata> = {
+  peperoni: demoPeperoni,
+  soet: demoSoet,
+  creole: demoCreole,
+  sandos: demoSandos,
+  vaquita: demoVaquita,
+  practico: demoPractico,
+  megarepa: demoMegarepa,
+  subs: demoSubs,
 };

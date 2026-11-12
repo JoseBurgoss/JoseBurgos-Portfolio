@@ -89,6 +89,31 @@ for (const [name, file] of Object.entries(wides)) {
     .toFile(`${OUT}/${name}.webp`);
 }
 
+// Demos de comercios (Propuestas, «powered by Burgo»): miniatura cuadrada de la portada en teléfono (390 px), día.
+// Fuente: assets-src/demo-<id>.png, de `node <demo>/scripts/shots.mjs <url> <portada>` (01-portada/01-inicio/01-home, `m-day`;
+// Sandos y Vaquita: `m-01-…`). `top` salta el aviso «propuesta de Burgo / demo» y los avisos con teléfonos de ejemplo (px CSS).
+const demos = {
+  peperoni: 42,
+  soet: 42,
+  creole: 42,
+  sandos: 30,
+  vaquita: 42,
+  practico: 114,
+  megarepa: 122,
+  subs: 104,
+};
+for (const [id, top] of Object.entries(demos)) {
+  const file = `assets-src/demo-${id}.png`;
+  const m = await sharp(file).metadata();
+  const k = m.width / 390; // 1 (capturas a 1x) o 2 (a 2x)
+  const side = Math.min(m.width, 468);
+  await sharp(file)
+    .extract({ left: 0, top: Math.round(top * k), width: m.width, height: m.width })
+    .resize({ width: side, kernel: 'lanczos3' })
+    .webp({ quality: 86, effort: 6 })
+    .toFile(`${OUT}/demo-${id}.webp`);
+}
+
 // Foto (retrato 3:4)
 await sharp('assets-src/foto.jpg').resize({ width: 960 }).webp({ quality: 80 }).toFile('src/assets/jose-burgos.webp');
 
