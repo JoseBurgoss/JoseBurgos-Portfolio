@@ -5,7 +5,7 @@ export interface Ui {
   nav: { label: string; skip: string; work: string; method: string; about: string; experience: string; stack: string; contact: string; menu: string; close: string; switchTo: string };
   hero: { role: string; title: string; sub: string; ctaWork: string; ctaCv: string; nowTitle: string; now: { name: string; text: string; path: string }[] };
   method: { title: string; lead: string; habitsLabel: string };
-  work: { title: string; open: string; featuredTitle: string; featuredIntro: string; moreTitle: string; academic: string; protoTitle: string; protoIntro: string; protoOpen: string };
+  work: { title: string; open: string; featuredTitle: string; featuredIntro: string; moreTitle: string; academic: string; protoTitle: string; protoIntro: string; protoOpen: string; protoExternal: string };
   about: { title: string; photoAlt: string; facts: string };
   experience: { title: string; education: string };
   stack: { title: string };
@@ -13,7 +13,7 @@ export interface Ui {
   other: { title: string; intro: string; repo: string };
   contact: { title: string; lead: string; linkedin: string; github: string; cvEs: string; cvEn: string; copy: string; copied: string };
   project: { back: string; kind: string; status: string; stack: string; links: string; gallery: string; next: string; academic: string };
-  footer: { built: string; legalNav: string; privacy: string; terms: string; privacyUrl: string; termsUrl: string; notice: string };
+  footer: { top: string; built: string; legalNav: string; privacy: string; terms: string; privacyUrl: string; termsUrl: string; notice: string };
 }
 
 export const ui: Record<Lang, Ui> = {
@@ -35,6 +35,7 @@ export const ui: Record<Lang, Ui> = {
       protoTitle: 'Prototipos «powered by Burgo»',
       protoIntro: 'Demos de comercios de Maracaibo hechas como propuesta: solo front-end y con datos de ejemplo. No son los sitios oficiales de esos negocios.',
       protoOpen: 'Ver demo',
+      protoExternal: 'se abre en otra pestaña',
     },
     about: { title: 'Sobre mí', photoAlt: 'Retrato de José Burgos', facts: 'Datos rápidos' },
     experience: { title: 'Experiencia', education: 'Educación' },
@@ -44,6 +45,7 @@ export const ui: Record<Lang, Ui> = {
     contact: { title: 'Hablemos.', lead: 'Estoy abierto a oportunidades remotas y a proyectos freelance de web y móvil.', linkedin: 'LinkedIn', github: 'GitHub', cvEs: 'CV en español', cvEn: 'CV en inglés', copy: 'Copiar correo', copied: 'Copiado' },
     project: { back: 'Todos los proyectos', kind: 'Tipo', status: 'Estado', stack: 'Stack', links: 'Enlaces', gallery: 'Capturas', next: 'Siguiente proyecto', academic: 'Proyecto universitario' },
     footer: {
+      top: 'Volver arriba',
       built: 'Hecho con Astro.',
       legalNav: 'Legal',
       privacy: 'Privacidad',
@@ -71,6 +73,7 @@ export const ui: Record<Lang, Ui> = {
       protoTitle: 'Prototypes “powered by Burgo”',
       protoIntro: 'Demos for Maracaibo businesses, built as proposals: front-end only and with sample data. They are not those businesses’ official sites.',
       protoOpen: 'Open demo',
+      protoExternal: 'opens in a new tab',
     },
     about: { title: 'About', photoAlt: 'Portrait of José Burgos', facts: 'Quick facts' },
     experience: { title: 'Experience', education: 'Education' },
@@ -80,6 +83,7 @@ export const ui: Record<Lang, Ui> = {
     contact: { title: "Let's talk.", lead: "I'm open to remote roles and freelance web and mobile projects.", linkedin: 'LinkedIn', github: 'GitHub', cvEs: 'CV in Spanish', cvEn: 'CV in English', copy: 'Copy email', copied: 'Copied' },
     project: { back: 'All projects', kind: 'Type', status: 'Status', stack: 'Stack', links: 'Links', gallery: 'Screenshots', next: 'Next project', academic: 'University project' },
     footer: {
+      top: 'Back to top',
       built: 'Built with Astro.',
       legalNav: 'Legal',
       privacy: 'Privacy',

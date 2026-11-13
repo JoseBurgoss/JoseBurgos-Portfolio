@@ -14,6 +14,7 @@ const entries = (await getCollection('proyectos')).filter((e) => e.id.startsWith
 const byProject = new Map(entries.map((e) => [e.data.project, e]));
 let n = 0;
 const toTiles = (ids: ProjectId[]) => ids.map((project) => ({ project, entry: byProject.get(project)!, media: projectMedia[project], i: n++ }));
+const hostOf = (href: string) => new URL(href).host;
 const groups = [
   { key: 'featured', title: t.work.featuredTitle, intro: t.work.featuredIntro, tiles: toTiles(featuredOrder) },
   { key: 'more', title: t.work.moreTitle, intro: '', tiles: toTiles(tileOrder) },
@@ -29,7 +30,7 @@ const groups = [
       </header>
       <ul class={`wall__grid wall__grid--${g.key}`}>
         {g.tiles.map(({ project, entry, media, i }) => (
-          <li class={`tile tile--${project}`} style={`--i:${i}`}>
+          <li class={`tile tile--${project} tile--${media.layout}`} data-reveal style={`--d:${i % 2}`}>
             <a class="tile__link" href={localePath(lang, `proyectos/${project}/`)} aria-label={`${entry.data.title} — ${t.work.open}`}>
               <div class={`tile__media tile__media--${media.layout}`} data-count={media.tile.length}>
                 {media.tile.map((img) => (
@@ -38,118 +39,142 @@ const groups = [
               </div>
               {entry.data.academic && <span class="tile__badge">{t.work.academic}</span>}
               <div class="tile__cap">
-                <strong>{entry.data.title}</strong>
-                <span>{entry.data.kind}</span>
+                <span class="tile__text">
+                  <strong>{entry.data.title}</strong>
+                  <span>{entry.data.kind}</span>
+                </span>
+                <span class="tile__go" aria-hidden="true">→</span>
               </div>
             </a>
           </li>
         ))}
       </ul>
-      {g.key === 'featured' && (
-        <div class="protos" aria-labelledby="protos-title">
-          <h4 id="protos-title">{t.work.protoTitle}</h4>
-          <p class="protos__intro">{t.work.protoIntro}</p>
-          <ul class="protos__list">
-            {site.prototypes.map((p) => (
-              <li>
-                <a href={p.href} target="_blank" rel="noopener noreferrer">
-                  <Image class="proto__shot" src={demoShots[p.id]} alt="" width={234} height={234} widths={[117, 234, 351]} sizes="(max-width: 48rem) 88px, (max-width: 64rem) 30vw, 234px" loading="lazy" decoding="async" quality={82} />
-                  <span class="proto__text">
-                    <strong><span class="u-draw">{p.name}</span> <span class="arrow" aria-hidden="true">↗</span></strong>
-                    <span class="proto__kind">{p.kind[lang]}</span>
-                    <span class="proto__desc">{p.description[lang]}</span>
-                    <span class="sr-only">({t.work.protoOpen})</span>
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   ))}
+
+  <div class="wall__group wall__group--demos" aria-labelledby="protos-title">
+    <header class="wall__head">
+      <h3 id="protos-title">{t.work.protoTitle}</h3>
+      <p>{t.work.protoIntro}</p>
+    </header>
+    <ul class="demos">
+      {site.prototypes.map((p) => (
+        <li>
+          <a class="demo" href={p.href} target="_blank" rel="noopener noreferrer">
+            <span class="demo__shot">
+              <Image src={demoShots[p.id]} alt="" width={234} height={234} widths={[117, 234, 351]} sizes="(max-width: 48rem) 88px, 160px" loading="lazy" decoding="async" quality={82} />
+            </span>
+            <span class="demo__body">
+              <span class="demo__kind">{p.kind[lang]}</span>
+              <strong class="demo__name"><span class="u-draw">{p.name}</span></strong>
+              <span class="demo__desc">{p.description[lang]}</span>
+              <span class="demo__host">{hostOf(p.href)} <span class="arrow" aria-hidden="true">↗</span></span>
+              <span class="sr-only">({t.work.protoOpen}, {t.work.protoExternal})</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
 </section>
 
 <style>
-  .wall { display: grid; gap: var(--space-2xl); padding-bottom: var(--space-3xl); }
-  .wall__group { display: grid; gap: var(--space-md); }
-  .wall__head { display: grid; gap: var(--space-xs); }
+  .wall { display: grid; gap: var(--space-3xl); padding-bottom: var(--space-3xl); }
+  .wall__group { display: grid; gap: var(--space-lg); }
+  .wall__head { display: grid; gap: var(--space-xs); padding-bottom: var(--space-md); border-bottom: var(--hair); }
   .wall__head h3 { font-size: var(--text-xl); }
-  .wall__head p { color: var(--color-muted); }
+  .wall__head p { color: var(--color-muted); max-width: 52ch; }
   .wall__grid { display: grid; gap: var(--space-sm); grid-template-columns: minmax(0, 1fr); }
 
-  .tile { position: relative; container-type: inline-size; overflow: hidden; min-height: 20rem; border-radius: var(--radius-md); animation: rise var(--dur-slow) var(--ease-out) both; animation-delay: calc(var(--i) * 120ms); transition: translate var(--dur-base) var(--ease-out); }
-  /* `translate` (no `transform`): la animación de entrada deja fijado su último `transform` y anularía el hover. */
-  .tile:hover { translate: 0 -4px; }
+  /* La tarjeta: un color por proyecto, la imagen arriba y un pie con el nombre separado por un filete (el texto nunca pisa la imagen). */
+  .tile { position: relative; container-type: inline-size; display: grid; grid-template-rows: minmax(0, 1fr); overflow: hidden; border-radius: var(--radius-md); }
   /* Anillo de foco sobre el fondo oscuro de la página, fuera de la tarjeta (contraste suficiente con cualquier color de tarjeta). */
   .tile:has(.tile__link:focus-visible) { outline: 3px solid var(--color-focus); outline-offset: 3px; }
-  .tile--reportaya { min-height: 26rem; background: var(--color-accent); color: var(--color-accent-ink); }
+  .tile--reportaya { height: 26rem; background: var(--color-accent); color: var(--color-accent-ink); }
   .tile--el-zuliano { background: var(--color-tile-zuliano); color: var(--color-ink); }
-  .tile--moviesapp { background: var(--color-tile-movies); color: var(--color-paper); }
+  .tile--moviesapp { height: 24rem; background: var(--color-tile-movies); color: var(--color-paper); }
   .tile--tienda-burgos { background: var(--color-tile-tienda); color: var(--color-ink); }
-  .tile--burgo { min-height: 26rem; background: var(--color-tile-burgo); color: var(--color-ink); }
-  .tile--sobre { min-height: 26rem; background: var(--color-tile-sobre); color: var(--color-paper); }
-  .tile--burgo-dev { min-height: 20rem; background: var(--color-tile-marca); color: var(--color-paper); }
-  .tile--cabal { min-height: 20rem; background: var(--color-tile-cabal); color: var(--color-paper); }
+  .tile--burgo { height: 26rem; background: var(--color-tile-burgo); color: var(--color-ink); }
+  .tile--sobre { height: 26rem; background: var(--color-tile-sobre); color: var(--color-paper); }
+  .tile--burgo-dev { background: var(--color-tile-marca); color: var(--color-paper); }
+  .tile--cabal { background: var(--color-tile-cabal); color: var(--color-paper); }
 
-  .tile__link { position: absolute; inset: 0; display: block; color: inherit; text-decoration: none; }
+  .tile__link { position: relative; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; color: inherit; text-decoration: none; }
   .tile__link:hover { color: inherit; }
   .tile__link:focus-visible { outline: none; }
 
-  .tile__media { position: absolute; inset: 0 0 3.75rem 0; overflow: hidden; }
-  .tile__media--phones { display: flex; justify-content: center; align-items: flex-start; padding-top: 7%; }
-  .tile__media--phones :global(.frame) { width: 34cqw; animation: float 8s var(--ease-in-out) infinite; }
-  .tile__media--phones[data-count='2'] :global(.frame) + :global(.frame) { margin-left: 6cqw; margin-top: 7%; animation-delay: -4s; }
+  .tile__media { position: relative; min-height: 0; overflow: hidden; }
+  .tile__media :global(.frame) { transition: translate var(--dur-base) var(--ease-out); }
+  .tile__media--phones { display: flex; justify-content: center; align-items: flex-start; padding-top: 1.5rem; }
+  .tile__media--phones :global(.frame) { width: 34cqw; }
+  .tile__media--phones[data-count='2'] :global(.frame) + :global(.frame) { margin-left: 6cqw; margin-top: 7cqw; }
   .tile__media--phones[data-count='3'] :global(.frame) { width: 46cqw; }
-  .tile__media--phones[data-count='3'] :global(.frame) + :global(.frame) { margin-left: -20cqw; margin-top: 7%; animation-delay: -4s; }
-  .tile__media--phones[data-count='3'] :global(.frame):nth-child(3) { margin-top: 0; animation-delay: -2s; }
-  .tile__media--wide { padding: 1.25rem 1.25rem 0; }
-  .tile:has(.tile__badge) .tile__media--wide { padding-top: 2.75rem; }
-  /* Trabajo actual: tarjetas anchas y bajas, teléfonos más pequeños y en fila. */
-  .wall__grid--featured .tile__media--phones[data-count='3'] :global(.frame) { width: 27cqw; }
-  .wall__grid--featured .tile__media--phones[data-count='3'] :global(.frame) + :global(.frame) { margin-left: 4cqw; margin-top: 5%; }
-  .wall__grid--featured .tile__media--phones[data-count='3'] :global(.frame):nth-child(3) { margin-top: 0; }
-  .tile__media--wide :global(.frame) { width: 100%; transition: transform var(--dur-base) var(--ease-out); }
-  .tile:hover .tile__media--wide :global(.frame) { transform: scale(1.03); }
+  .tile__media--phones[data-count='3'] :global(.frame) + :global(.frame) { margin-left: -20cqw; margin-top: 7cqw; }
+  .tile__media--phones[data-count='3'] :global(.frame):nth-child(3) { margin-top: 0; }
+  /* Capturas de escritorio: en el móvil la altura la da la captura; en la cuadrícula se centra o se recorta por abajo, sin huecos. */
+  .tile__media--wide { display: flex; align-items: safe center; padding: 1rem; }
+  .tile:has(.tile__badge) .tile__media--wide { padding-top: 3rem; }
+  .tile__media--wide :global(.frame) { width: 100%; }
+  .tile__media--phones[data-count='2'] :global(.frame) { width: 42cqw; }
+  @media (hover: hover) {
+    .tile:hover .tile__media :global(.frame) { translate: 0 -0.375rem; }
+    .tile:hover .tile__go { translate: 4px 0; }
+  }
+  .tile__link:focus-visible .tile__go { translate: 4px 0; }
 
-  .tile__cap { position: absolute; left: 1.25rem; right: 1.25rem; bottom: 0.9rem; display: flex; flex-direction: column; gap: 0.1rem; line-height: 1.25; }
-  .tile__cap strong { font-family: var(--font-display); font-size: var(--text-lg); }
-  .tile__badge { position: absolute; top: 0.75rem; left: 0.75rem; z-index: 1; padding: 0.2rem 0.65rem; border-radius: 999px; background: var(--color-ink); color: var(--color-paper); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.02em; }
+  .tile__cap { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: var(--space-sm); padding: 0.85rem 1.25rem 1rem; border-top: 1px solid color-mix(in oklch, currentColor 22%, transparent); line-height: 1.25; }
+  .tile__text { display: grid; gap: 0.15rem; min-width: 0; }
+  .tile__cap strong { font-family: var(--font-display); font-size: var(--text-lg); letter-spacing: -0.01em; }
+  .tile__text span { font-size: var(--text-sm); opacity: 0.85; }
+  .tile__go { font-size: var(--text-lg); line-height: 1; transition: translate var(--dur-base) var(--ease-out); }
+  .tile__badge { position: absolute; top: 0.75rem; left: 0.75rem; z-index: 1; padding: 0.2rem 0.55rem; border-radius: var(--radius-xs); background: var(--color-ink); color: var(--color-paper); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.02em; }
 
-  .protos { display: grid; gap: var(--space-xs); margin-top: var(--space-md); }
-  .protos h4 { margin: 0; font-size: var(--text-lg); }
-  .protos__intro { margin: 0; }
-  .protos__intro { color: var(--color-muted); }
-  .protos__list { display: grid; gap: var(--space-sm); margin-top: var(--space-sm); grid-template-columns: minmax(0, 1fr); }
-  /* Móvil: miniatura a la izquierda y texto a la derecha (ocho demos no deben alargar la página); desde 48rem, miniatura arriba. */
-  .protos__list a { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: var(--space-sm); align-items: start; height: 100%; padding: var(--space-sm); border: 1px solid var(--color-line); border-radius: var(--radius-md); color: inherit; text-decoration: none; transition: border-color var(--dur-base) var(--ease-out); }
-  .protos__list :global(.proto__shot) { width: 100%; aspect-ratio: 1; height: auto; object-fit: cover; object-position: top; border-radius: var(--radius-sm); border: 1px solid var(--color-line); background: var(--color-paper); }
-  .proto__text { display: grid; gap: 0.2rem; min-width: 0; }
-  .protos__list .proto__kind { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.02em; }
-  .protos__list a:hover, .protos__list a:focus-visible { border-color: var(--color-accent); }
-  .protos__list strong { font-family: var(--font-display); color: var(--color-accent); }
-  .proto__text > span { font-size: var(--text-sm); color: var(--color-muted); }
-  .protos__list .arrow { display: inline-block; transition: translate var(--dur-base) var(--ease-out); }
-  .protos__list a:hover .arrow, .protos__list a:focus-visible .arrow { translate: 2px -2px; }
-  .tile__cap span { font-size: var(--text-sm); opacity: 0.8; }
+  /* Demos: una fila por comercio, miniatura cuadrada con el mismo recorte (arriba de la portada) y la dirección a la vista. */
+  .demos { display: grid; gap: var(--space-sm); grid-template-columns: minmax(0, 1fr); }
+  .demo { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: var(--space-md); align-items: start; height: 100%; padding: var(--space-sm); border: var(--hair); border-radius: var(--radius-md); color: inherit; text-decoration: none; transition: border-color var(--dur-base) var(--ease-out); }
+  .demo:hover { color: inherit; }
+  .demo__shot { display: block; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-sm); border: 1px solid var(--color-line); background: var(--color-ink-2); }
+  .demo__shot :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .demo__body { display: grid; gap: 0.2rem; min-width: 0; align-content: start; }
+  .demo__kind { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.02em; color: var(--color-muted); }
+  .demo__name { font-family: var(--font-display); font-size: var(--text-lg); line-height: 1.2; letter-spacing: -0.01em; }
+  .demo__desc { font-size: var(--text-sm); color: var(--color-muted); }
+  .demo__host { margin-top: 0.35rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-paper); overflow-wrap: anywhere; }
+  .demo .arrow { display: inline-block; color: var(--color-accent); transition: translate var(--dur-base) var(--ease-out); }
+  .demo:hover, .demo:focus-visible { border-color: var(--color-line-strong); }
+  .demo:hover .u-draw::after, .demo:focus-visible .u-draw::after { transform: scaleX(1); }
+  .demo:hover .arrow, .demo:focus-visible .arrow { translate: 2px -2px; }
 
   @media (min-width: 48rem) {
-    .wall__grid--more { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.1fr) minmax(0, 1fr); grid-template-rows: repeat(2, minmax(17rem, 1fr)); min-height: 38rem; }
-    .wall__grid--featured { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); min-height: 30rem; }
-    .protos__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .protos__list a { grid-template-columns: minmax(0, 1fr); padding: var(--space-md); gap: var(--space-xs); }
-    .protos__list .proto__text { gap: 0.25rem; }
-    .tile { min-height: 0; }
-    .tile--reportaya { grid-row: 1 / 3; min-height: 0; }
-    .tile--el-zuliano { grid-column: 2 / 4; }
-    /* Sitio de marca: franja ancha bajo las dos apps; la captura asoma recortada, como una ventana de navegador. */
-    .wall__grid--featured .tile--burgo-dev, .wall__grid--featured .tile--cabal { grid-column: 1 / -1; min-height: 18rem; }
-    .wall__grid--featured { grid-template-rows: minmax(0, 30rem) 18rem 18rem; min-height: 0; }
-    .tile--burgo-dev .tile__media--wide, .tile--cabal .tile__media--wide { display: flex; justify-content: center; }
-    .tile--burgo-dev .tile__media--wide :global(.frame), .tile--cabal .tile__media--wide :global(.frame) { width: min(100%, 56rem); }
+    /* Trabajo actual en escritorio: tarjetas anchas y bajas, teléfonos más pequeños y en fila. */
+    .tile__media--phones[data-count='2'] :global(.frame) { width: 34cqw; }
+    .wall__grid--featured .tile__media--phones[data-count='3'] :global(.frame) { width: 27cqw; }
+    .wall__grid--featured .tile__media--phones[data-count='3'] :global(.frame) + :global(.frame) { margin-left: 4cqw; margin-top: 5cqw; }
+    .wall__grid--featured .tile__media--phones[data-count='3'] :global(.frame):nth-child(3) { margin-top: 0; }
+    .wall__grid--featured { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); grid-template-rows: clamp(30rem, 36vw, 40rem) clamp(17rem, 21vw, 23rem) clamp(17rem, 21vw, 23rem); }
+    .wall__grid--featured .tile { height: auto; }
+    .wall__grid--featured .tile--burgo-dev, .wall__grid--featured .tile--cabal { grid-column: 1 / -1; }
+    /* Sitio de marca y Cabal: franja ancha, nombre a la izquierda y la captura recortada abajo a la derecha, como una ventana de navegador. */
+    .tile--burgo-dev .tile__link, .tile--cabal .tile__link { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); grid-template-rows: minmax(0, 1fr); grid-template-areas: 'cap media'; }
+    .tile--burgo-dev .tile__media, .tile--cabal .tile__media { grid-area: media; align-items: flex-start; justify-content: flex-end; padding: 1.5rem 1.5rem 0 0; }
+    .tile--burgo-dev .tile__cap, .tile--cabal .tile__cap { grid-area: cap; align-self: end; border-top: 0; padding: 1.5rem; }
+    .tile--burgo-dev .tile__cap strong, .tile--cabal .tile__cap strong { font-size: var(--text-xl); }
+
+    .wall__grid--more { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, 24rem); }
+    .wall__grid--more .tile { height: auto; }
+    .tile--el-zuliano .tile__media--wide { align-items: flex-start; }
+
+    .demos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .demo { grid-template-columns: 8rem minmax(0, 1fr); padding: var(--space-md); }
   }
 
   @media (min-width: 64rem) {
-    .protos__list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .wall__grid--more { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: repeat(2, clamp(18rem, 19vw, 22rem)); }
+    .tile--reportaya { grid-column: 1 / 6; grid-row: 1 / 3; }
+    .tile--el-zuliano { grid-column: 6 / 13; grid-row: 1; }
+    .tile--moviesapp { grid-column: 6 / 9; grid-row: 2; }
+    .tile--tienda-burgos { grid-column: 9 / 13; grid-row: 2; }
+    .wall__head { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-xl); align-items: end; }
+    .demo { grid-template-columns: 10rem minmax(0, 1fr); gap: var(--space-lg); }
   }
 </style>

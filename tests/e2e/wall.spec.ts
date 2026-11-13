@@ -19,18 +19,19 @@ test('el foco de teclado en una tarjeta dibuja un anillo visible fuera de la tar
   expect(ring.link).toBe('none');
 });
 
-test('las tarjetas se elevan al pasar el mouse (movimiento normal)', async ({ page }) => {
+test('al pasar el mouse las capturas de la tarjeta suben un poco (movimiento normal)', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/es/');
   const tile = page.locator('.tile--moviesapp');
   await tile.scrollIntoViewIfNeeded();
-  await page.waitForTimeout(1500); // termina la animación de entrada
-  const before = await tile.evaluate((el) => getComputedStyle(el).translate);
+  await page.waitForTimeout(1000); // termina la aparición con el scroll
+  const frame = tile.locator('.frame').first();
+  const before = await frame.evaluate((el) => getComputedStyle(el).translate);
   await tile.hover();
   await page.waitForTimeout(600);
-  const after = await tile.evaluate((el) => getComputedStyle(el).translate);
+  const after = await frame.evaluate((el) => getComputedStyle(el).translate);
   expect(before === 'none' || before === '0px').toBe(true);
-  expect(after).toContain('-4px');
+  expect(after).toContain('-6px');
 });
 
 test('las imágenes decorativas de las tarjetas tienen alt vacío', async ({ page }) => {

@@ -15,6 +15,7 @@
   --color-tile-marca: oklch(0.30 0.035 160);
   --color-tile-cabal: oklch(0.27 0.04 235);
   --color-line: oklch(0.95 0.012 85 / 0.18);
+  --color-line-strong: oklch(0.95 0.012 85 / 0.42);
 
   /* Tipografía */
   --font-display: 'Schibsted Grotesk Variable', system-ui, sans-serif;
@@ -37,20 +38,22 @@
   --space-3xl: clamp(4rem, 8vw, 7rem);
 
   /* Forma y capas */
-  --radius-sm: 0.5rem;
-  --radius-md: 0.875rem;
-  --shadow-frame: 0 20px 40px -18px oklch(0 0 0 / 0.6);
+  /* Esquinas pequeñas y filetes de 1 px: nada de sombras difusas ni píldoras. */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --hair: 1px solid var(--color-line);
 
   /* Movimiento */
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --dur-fast: 150ms;
-  --dur-base: 300ms;
+  --dur-base: 240ms;
   --dur-slow: 800ms;
 
   /* Layout */
   --measure: 62ch;
   --page-pad: clamp(1rem, 4vw, 2rem);
-  --page-max: 78rem;
+  --page-max: 88rem;
 }

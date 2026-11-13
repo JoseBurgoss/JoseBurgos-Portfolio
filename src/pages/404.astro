@@ -3,19 +3,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout lang="es" title="Página no encontrada — José Burgos" description="Esta página no existe. This page doesn't exist." pathname="/es/" noindex>
   <main id="main" class="container section notfound">
-    <p class="notfound__code">404</p>
-    <h1>Esta página no existe.</h1>
-    <p lang="en" class="notfound__en">This page doesn't exist.</p>
-    <p class="notfound__links">
-      <a class="btn btn--primary" href="/es/">Ir al inicio</a>
-      <a class="btn" href="/en/" lang="en">Go to the home page</a>
-    </p>
+    <p class="notfound__code" aria-hidden="true">404</p>
+    <div class="notfound__text">
+      <h1>Esta página no existe.</h1>
+      <p lang="en" class="notfound__en">This page doesn't exist.</p>
+      <p class="notfound__links">
+        <a class="btn btn--primary" href="/es/">Ir al inicio</a>
+        <a class="btn" href="/en/" lang="en">Go to the home page</a>
+      </p>
+    </div>
   </main>
 </BaseLayout>
 
 <style>
   .notfound { display: grid; gap: var(--space-lg); min-height: 60svh; align-content: center; }
-  .notfound__code { font-family: var(--font-mono); color: var(--color-accent); }
+  /* El número es la composición: grande, en mono, con filete; el acento solo en él. */
+  .notfound__code { font-family: var(--font-mono); font-size: clamp(5rem, 22vw, 14rem); line-height: 0.9; letter-spacing: -0.06em; color: var(--color-accent); padding-bottom: var(--space-md); border-bottom: var(--hair); }
+  .notfound__text { display: grid; gap: var(--space-md); }
+  .notfound h1 { font-size: var(--text-2xl); }
   .notfound__en { font-size: var(--text-lg); color: var(--color-muted); }
-  .notfound__links { display: flex; flex-wrap: wrap; gap: var(--space-sm); max-width: none; }
+  .notfound__links { display: flex; flex-wrap: wrap; gap: var(--space-sm); max-width: none; margin-top: var(--space-sm); }
+  @media (min-width: 64rem) {
+    .notfound { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; column-gap: var(--space-3xl); }
+    .notfound__code { border-bottom: 0; padding-bottom: 0; }
+  }
 </style>

@@ -28,16 +28,20 @@ const t = ui[lang];
     </div>
     <aside class="hero__now" aria-labelledby="now-title">
       <h2 id="now-title">{t.hero.nowTitle}</h2>
-      <ul>
-        {t.hero.now.map((n) => (
+      <ol>
+        {t.hero.now.map((n, i) => (
           <li>
             <a href={localePath(lang, n.path)}>
-              <strong>{n.name}</strong>
-              <span>{n.text}</span>
+              <span class="now__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <span class="now__text">
+                <strong>{n.name}</strong>
+                <span>{n.text}</span>
+              </span>
+              <span class="now__go" aria-hidden="true">→</span>
             </a>
           </li>
         ))}
-      </ul>
+      </ol>
     </aside>
   </section>
   <Wall lang={lang} />
@@ -51,24 +55,33 @@ const t = ui[lang];
 </main>
 
 <style>
-  .hero { display: grid; gap: var(--space-xl); padding-block: var(--space-2xl) var(--space-xl); align-items: end; }
+  .hero { display: grid; gap: var(--space-xl); padding-block: var(--space-xl) var(--space-2xl); align-items: end; }
   .hero__text { display: grid; gap: var(--space-lg); }
   /* Entrada única al cargar y luego quieto. El titular solo se desplaza (sin opacidad) para no retrasar el LCP. */
-  .hero h1 { animation: hero-in 700ms var(--ease-out) both; }
-  .hero__role, .hero__sub, .hero__cta { animation: rise 700ms var(--ease-out) 120ms both; }
+  .hero h1 { animation: hero-in 500ms var(--ease-out) both; }
+  .hero__role, .hero__sub, .hero__cta { animation: rise 400ms var(--ease-out) 100ms both; }
   .hero__role { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-accent); }
-  .hero h1 { max-width: 14ch; }
-  .hero__sub { font-size: var(--text-lg); color: var(--color-muted); }
+  .hero h1 { max-width: 13ch; }
+  .hero__sub { font-size: var(--text-lg); color: var(--color-muted); max-width: 34em; }
   .hero__cta { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+
+  /* Índice del trabajo actual: filas numeradas con filete, cada una de 44 px o más. */
   .hero__now h2 { font-family: var(--font-mono); font-size: var(--text-sm); font-weight: 500; letter-spacing: 0; color: var(--color-accent); margin-bottom: var(--space-sm); }
-  .hero__now li { border-top: 1px solid var(--color-line); }
-  .hero__now li:last-child { border-bottom: 1px solid var(--color-line); }
-  .hero__now a { display: grid; gap: 0.15rem; padding-block: var(--space-md); color: inherit; text-decoration: none; }
+  .hero__now li { border-top: var(--hair); }
+  .hero__now li:last-child { border-bottom: var(--hair); }
+  .hero__now a { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr) auto; align-items: baseline; gap: var(--space-xs); padding-block: var(--space-md); color: inherit; text-decoration: none; }
+  .now__n { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-muted); }
+  .now__text { display: grid; gap: 0.2rem; }
   .hero__now strong { font-family: var(--font-display); font-size: var(--text-xl); line-height: 1.1; letter-spacing: -0.02em; transition: color var(--dur-base) var(--ease-out); }
-  .hero__now a:hover strong, .hero__now a:focus-visible strong { color: var(--color-accent); }
-  .hero__now span { color: var(--color-muted); font-size: var(--text-sm); }
-  @media (min-width: 56rem) {
-    .hero { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: var(--space-2xl); }
-    .hero__now { padding-bottom: var(--space-xs); }
+  .now__text span { color: var(--color-muted); font-size: var(--text-sm); }
+  .now__go { color: var(--color-muted); transition: translate var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out); }
+  .hero__now a:hover strong, .hero__now a:focus-visible strong, .hero__now a:hover .now__go, .hero__now a:focus-visible .now__go { color: var(--color-accent); }
+  .hero__now a:hover .now__go, .hero__now a:focus-visible .now__go { translate: 4px 0; }
+  .hero__now a:hover { color: inherit; }
+
+  @media (min-width: 64rem) {
+    .hero { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: var(--space-3xl); padding-block: var(--space-2xl) var(--space-2xl); }
+    .hero__now strong { font-size: var(--text-lg); }
   }
+  @media (min-width: 64rem) and (min-height: 50rem) { .hero { padding-block: clamp(3rem, 7vh, 5rem) var(--space-2xl); } }
 </style>

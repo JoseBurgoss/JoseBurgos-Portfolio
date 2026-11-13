@@ -8,21 +8,27 @@ const { lang } = Astro.props;
 const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
-  <div class="container footer__row">
-    <p>© {year} {site.name}</p>
-    <p>{ui[lang].footer.built}</p>
-    <nav class="footer__legal" aria-label={ui[lang].footer.legalNav}>
-      <a href={ui[lang].footer.privacyUrl} rel="noopener">{ui[lang].footer.privacy}</a>
-      <a href={ui[lang].footer.termsUrl} rel="noopener">{ui[lang].footer.terms}</a>
-    </nav>
+  <div class="container footer">
+    <div class="footer__row">
+      <p class="footer__id"><strong>© {year} {site.name}</strong> <span>{ui[lang].footer.built}</span></p>
+      <nav class="footer__legal" aria-label={ui[lang].footer.legalNav}>
+        <a href={ui[lang].footer.privacyUrl} rel="noopener">{ui[lang].footer.privacy}</a>
+        <a href={ui[lang].footer.termsUrl} rel="noopener">{ui[lang].footer.terms}</a>
+        <a href="#main" class="footer__top">{ui[lang].footer.top} <span aria-hidden="true">↑</span></a>
+      </nav>
+    </div>
     <p class="footer__note">{ui[lang].footer.notice}</p>
   </div>
 </footer>
 
 <style>
-  .site-footer { border-top: 1px solid var(--color-line); padding-block: var(--space-xl); color: var(--color-muted); font-size: var(--text-sm); }
-  .footer__legal { display: flex; gap: var(--space-md); }
-  .footer__legal a { display: inline-flex; align-items: center; min-height: 44px; color: inherit; text-decoration: underline; text-underline-offset: 3px; }
-  .footer__note { flex-basis: 100%; margin: 0; max-width: 70ch; }
-  .footer__row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-sm) var(--space-lg); }
+  .site-footer { border-top: var(--hair); padding-block: var(--space-lg) var(--space-xl); color: var(--color-muted); font-size: var(--text-sm); }
+  .footer { display: grid; gap: var(--space-sm); }
+  .footer__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 var(--space-lg); }
+  .footer__id { display: flex; flex-wrap: wrap; gap: 0 var(--space-md); max-width: none; }
+  .footer__id strong { font-weight: 600; color: var(--color-paper); }
+  .footer__legal { display: flex; flex-wrap: wrap; gap: 0 var(--space-lg); }
+  .footer__legal a { display: inline-flex; align-items: center; min-height: 2.75rem; color: inherit; text-decoration-color: var(--color-line-strong); }
+  .footer__legal a:hover { color: var(--color-paper); }
+  .footer__note { max-width: 72ch; }
 </style>

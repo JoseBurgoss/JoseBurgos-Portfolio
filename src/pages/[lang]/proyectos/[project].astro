@@ -25,72 +25,136 @@ const all = await getCollection('proyectos');
 const next = all.find((e) => e.id === `${lang}/${nextId}`)!;
 const shapeOf = (shot: { shape?: 'phone' | 'wide' }) => shot.shape ?? (media.layout === 'phones' ? 'phone' : 'wide');
 const mixed = media.gallery.some((s) => shapeOf(s) === 'phone');
+// Mismo color que la tarjeta del muro: la página sigue la identidad del proyecto sin pintar el texto.
+const stageOf: Record<ProjectId, string> = {
+  burgo: 'var(--color-tile-burgo)',
+  sobre: 'var(--color-tile-sobre)',
+  'burgo-dev': 'var(--color-tile-marca)',
+  cabal: 'var(--color-tile-cabal)',
+  reportaya: 'var(--color-accent)',
+  moviesapp: 'var(--color-tile-movies)',
+  'el-zuliano': 'var(--color-tile-zuliano)',
+  'tienda-burgos': 'var(--color-tile-tienda)',
+};
+// Con un número impar de capturas de escritorio, la última ocupa todo el ancho (sin hueco al lado).
+const wideIdx = media.gallery.flatMap((s, i) => (shapeOf(s) === 'wide' ? [i] : []));
+const lastWide = mixed && wideIdx.length % 2 === 1 ? wideIdx[wideIdx.length - 1] : -1;
+const [primary, ...secondary] = entry.data.links;
 ---
 <BaseLayout lang={lang} title={`${entry.data.title} — José Burgos`} description={entry.data.summary} pathname={Astro.url.pathname}>
   <main id="main" class="container case">
-    <a class="case__back" href={`${localePath(lang)}#work`}>← <span class="u-draw">{t.project.back}</span></a>
+    <a class="case__back" href={`${localePath(lang)}#work`}><span aria-hidden="true">←</span> <span class="u-draw">{t.project.back}</span></a>
 
     <header class="case__head">
-      {entry.data.academic && <p class="case__badge">{t.project.academic}</p>}
-      <h1>{entry.data.title}</h1>
-      <p class="case__summary">{entry.data.summary}</p>
+      <div class="case__title">
+        {entry.data.academic && <p class="case__badge">{t.project.academic}</p>}
+        <h1>{entry.data.title}</h1>
+        <p class="case__summary">{entry.data.summary}</p>
+        {primary && (
+          <p class="case__links">
+            <a class="btn btn--primary" href={primary.href} target="_blank" rel="noopener noreferrer">{primary.label} <span aria-hidden="true">↗</span></a>
+            {secondary.map((l) => (
+              <a class="btn" href={l.href} target="_blank" rel="noopener noreferrer">{l.label} <span aria-hidden="true">↗</span></a>
+            ))}
+          </p>
+        )}
+        {entry.data.liveNote && <p class="case__note">{entry.data.liveNote}</p>}
+      </div>
       <dl class="case__meta">
         <div><dt>{t.project.kind}</dt><dd>{entry.data.kind}</dd></div>
         <div><dt>{t.project.status}</dt><dd>{entry.data.status}</dd></div>
+        <div>
+          <dt>{t.project.stack}</dt>
+          <dd><ul class="chips">{entry.data.stack.map((s) => <li>{s}</li>)}</ul></dd>
+        </div>
       </dl>
-      <ul class="chips" aria-label={t.project.stack}>
-        {entry.data.stack.map((s) => <li>{s}</li>)}
-      </ul>
-      {entry.data.links.length > 0 && (
-        <p class="case__links">
-          {entry.data.links.map((l) => (
-            <a class="btn btn--primary" href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a>
-          ))}
-        </p>
-      )}
-      {entry.data.liveNote && <p class="case__note">{entry.data.liveNote}</p>}
     </header>
 
-    <section class={`gallery ${mixed ? 'gallery--phones' : 'gallery--wide'}`} aria-label={t.project.gallery} data-reveal>
-      {media.gallery.map((shot, i) => (
-        <Frame image={shot.src} alt={shot.alt[lang]} shape={shapeOf(shot)} eager={i === 0} width={shapeOf(shot) === 'phone' ? 780 : 2000} sizes={shapeOf(shot) === 'phone' ? '(max-width: 48rem) 45vw, 280px' : mixed ? '(max-width: 48rem) 92vw, 560px' : '(max-width: 48rem) 92vw, 1100px'} class={mixed && shapeOf(shot) === 'wide' ? 'span-2' : ''} />
-      ))}
+    <section class={`gallery ${mixed ? 'gallery--phones' : 'gallery--wide'}`} style={`--stage:${stageOf[id]}`} aria-label={t.project.gallery} data-reveal>
+      {media.gallery.map((shot, i) => {
+        const shape = shapeOf(shot);
+        const full = i === lastWide;
+        return (
+          <Frame
+            image={shot.src}
+            alt={shot.alt[lang]}
+            shape={shape}
+            eager={i === 0}
+            width={shape === 'phone' ? 780 : 2000}
+            sizes={shape === 'phone' ? '(max-width: 48rem) 45vw, 300px' : mixed ? (full ? '(max-width: 48rem) 92vw, 1200px' : '(max-width: 48rem) 92vw, 640px') : '(max-width: 48rem) 92vw, 1200px'}
+            class={mixed && shape === 'wide' ? (full ? 'span-all' : 'span-2') : ''}
+          />
+        );
+      })}
     </section>
 
     <article class="prose" data-reveal><Content /></article>
 
     <nav class="case__next" aria-label={t.project.next}>
-      <a class="btn" href={localePath(lang, `proyectos/${nextId}/`)}>{t.project.next}: {next.data.title} →</a>
+      <a href={localePath(lang, `proyectos/${nextId}/`)}>
+        <span class="next__label">{t.project.next}</span>
+        <span class="next__title">{next.data.title} <span class="next__go" aria-hidden="true">→</span></span>
+      </a>
     </nav>
   </main>
 </BaseLayout>
 
 <style>
-  .case { display: grid; gap: var(--space-2xl); padding-block: var(--space-xl) var(--space-3xl); }
-  .case__back { width: fit-content; white-space: nowrap; font-size: var(--text-sm); text-decoration: none; }
-  .case__head { display: grid; gap: var(--space-lg); }
-  .case__head h1 { font-size: var(--text-display); }
-  .case__summary { font-size: var(--text-lg); color: var(--color-muted); }
-  .case__meta { display: grid; gap: var(--space-md); margin: 0; }
-  .case__meta div { display: grid; gap: 0.15rem; }
-  .case__meta dt { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-muted); }
-  .case__meta dd { margin: 0; }
-  .chips { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
-  .chips li { padding: 0.35rem 0.75rem; border: 1px solid var(--color-line); border-radius: 999px; font-family: var(--font-mono); font-size: var(--text-sm); }
-  .case__badge { width: fit-content; padding: 0.2rem 0.75rem; border: 1px solid var(--color-accent); border-radius: 999px; color: var(--color-accent); font-family: var(--font-mono); font-size: var(--text-sm); }
-  .case__note { padding-left: var(--space-sm); border-left: 2px solid var(--color-accent); color: var(--color-muted); font-size: var(--text-sm); }
-  .case__links { display: flex; flex-wrap: wrap; gap: var(--space-sm); max-width: none; }
+  .case { display: grid; gap: var(--space-2xl); padding-block: var(--space-md) var(--space-3xl); }
+  .case__back { display: inline-flex; align-items: center; gap: 0.4rem; width: fit-content; min-height: 2.75rem; white-space: nowrap; font-size: var(--text-sm); text-decoration: none; }
+  .case__back:hover { color: inherit; }
 
-  .gallery { display: grid; gap: var(--space-md); }
+  .case__head { display: grid; gap: var(--space-xl); }
+  .case__title { display: grid; gap: var(--space-lg); align-content: start; }
+  .case__head h1 { font-size: var(--text-display); }
+  .case__summary { font-size: var(--text-lg); color: var(--color-muted); max-width: 40em; }
+  .case__links { display: flex; flex-wrap: wrap; gap: var(--space-sm); max-width: none; }
+  .case__badge { width: fit-content; padding: 0.2rem 0.55rem; border: 1px solid var(--color-accent); border-radius: var(--radius-xs); color: var(--color-accent); font-family: var(--font-mono); font-size: var(--text-sm); }
+  .case__note { padding-left: var(--space-sm); border-left: 2px solid var(--color-accent); color: var(--color-muted); font-size: var(--text-sm); }
+
+  /* Ficha: tipo, estado y stack, con filetes en vez de tarjetas. */
+  .case__meta { display: grid; margin: 0; align-content: start; }
+  .case__meta > div { display: grid; gap: 0.35rem; padding-block: var(--space-md); border-top: var(--hair); }
+  .case__meta > div:last-child { border-bottom: var(--hair); }
+  .case__meta dt { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-accent); }
+  .case__meta dd { margin: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .chips li { padding: 0.2rem 0.55rem; border: 1px solid var(--color-line-strong); border-radius: var(--radius-xs); font-family: var(--font-mono); font-size: var(--text-sm); }
+
+  /* Capturas sobre el color de la tarjeta del proyecto. */
+  .gallery { display: grid; gap: var(--space-sm); padding: clamp(0.75rem, 3vw, 2.5rem); border-radius: var(--radius-md); background: var(--stage); }
   .gallery--phones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .gallery--wide { grid-template-columns: minmax(0, 1fr); }
-  .gallery--phones :global(.span-2) { grid-column: span 2; }
+  .gallery--phones :global(.span-2), .gallery--phones :global(.span-all) { grid-column: span 2; }
+
+  .prose { display: grid; gap: var(--space-md); }
+  .prose :global(p), .prose :global(ul), .prose :global(ol) { max-width: var(--measure); }
+  .prose :global(ul), .prose :global(ol) { display: grid; gap: var(--space-xs); padding-left: 1.25rem; list-style: revert; }
+  .prose :global(h2) { font-size: var(--text-xl); margin-top: var(--space-lg); }
+  .prose :global(h2:first-child) { margin-top: 0; }
+  .prose :global(strong) { font-weight: 700; }
+
+  .case__next { margin-top: var(--space-md); border-top: var(--hair); border-bottom: var(--hair); }
+  .case__next a { display: grid; gap: 0.25rem; padding-block: var(--space-lg); color: inherit; text-decoration: none; }
+  .next__label { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-muted); }
+  .next__title { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; transition: color var(--dur-base) var(--ease-out); overflow-wrap: anywhere; }
+  .next__go { display: inline-block; transition: translate var(--dur-base) var(--ease-out); }
+  .case__next a:hover .next__title, .case__next a:focus-visible .next__title { color: var(--color-accent); }
+  .case__next a:hover .next__go, .case__next a:focus-visible .next__go { translate: 0.4rem 0; }
+
   @media (min-width: 48rem) {
     .gallery--phones { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .case__meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .gallery--phones :global(.span-all) { grid-column: 1 / -1; }
   }
 
-  .prose { display: grid; gap: var(--space-md); max-width: var(--measure); }
-  .prose :global(h2) { font-size: var(--text-xl); margin-top: var(--space-lg); }
-  .case__next { padding-top: var(--space-xl); border-top: 1px solid var(--color-line); }
+  @media (min-width: 64rem) {
+    .case__head { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: var(--space-3xl); align-items: end; }
+    /* Texto: el título de cada sección a la izquierda (fijo al desplazarse) y el cuerpo a la derecha. */
+    .prose { grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr); column-gap: var(--space-3xl); }
+    .prose > :global(*) { grid-column: 2; }
+    .prose > :global(h2) { grid-column: 1; position: sticky; top: 5.5rem; align-self: start; margin-top: var(--space-xl); }
+    .prose > :global(h2:first-child) { margin-top: 0; }
+    .prose > :global(h2 + *) { margin-top: var(--space-xl); }
+    .prose > :global(h2:first-child + *) { margin-top: 0; }
+  }
 </style>

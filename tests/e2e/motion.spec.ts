@@ -10,9 +10,15 @@ test('prefers-reduced-motion desactiva las animaciones', async ({ page }) => {
   expect(names.every((n) => n === 'none')).toBe(true);
 });
 
-test('con movimiento normal el muro sí anima', async ({ page }) => {
+test('con movimiento normal el muro aparece con el scroll (js-reveal) y con movimiento reducido no', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/es/');
-  const name = await page.locator('.tile').first().evaluate((el) => getComputedStyle(el).animationName);
-  expect(name).not.toBe('none');
+  await expect(page.locator('html')).toHaveClass(/js-reveal/);
+  const tile = page.locator('.tile').first();
+  await expect(tile).toHaveAttribute('data-reveal', '');
+  const transition = await tile.evaluate((el) => getComputedStyle(el).transitionProperty);
+  expect(transition).toContain('opacity');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/es/');
+  await expect(page.locator('html')).not.toHaveClass(/js-reveal/);
 });
