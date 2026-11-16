@@ -1,6 +1,13 @@
 import sharp from 'sharp';
 import { mkdirSync } from 'node:fs';
 
+// Uso: npm run assets                    → regenera todo
+//      npm run assets -- --only cabal     → solo lo que empieza por «cabal» (p. ej. al reemplazar sus capturas)
+// Fuentes: assets-src/ (no versionado) o la carpeta de ASSETS_SRC. Cada captura nueva se guarda allí con el mismo nombre de archivo.
+const SRC = (process.env.ASSETS_SRC ?? 'assets-src').replace(/[\/]+$/, '');
+const onlyIdx = process.argv.indexOf('--only');
+const only = onlyIdx > -1 ? process.argv[onlyIdx + 1] : null;
+const wanted = (name) => !only || name.startsWith(only);
 const OUT = 'src/assets/projects';
 mkdirSync(OUT, { recursive: true });
 const webp = { quality: 82 };
@@ -8,8 +15,8 @@ const webp = { quality: 82 };
 const hq = { quality: 90, effort: 6, smartSubsample: false };
 
 // ReportaYa: tira de 4 pantallas (1920x1080). Cada pantalla mide ~486 px; la última queda recortada en 462.
-const strip = 'assets-src/reportaya.png';
-const meta = await sharp(strip).metadata();
+const strip = `${SRC}/reportaya.png`;
+const meta = wanted("reportaya") ? await sharp(strip).metadata() : { width: 1920, height: 1080 };
 if (meta.width !== 1920 || meta.height !== 1080) {
   throw new Error(`Se esperaba 1920x1080, llegó ${meta.width}x${meta.height}`);
 }
@@ -20,13 +27,15 @@ const screens = [
   ['map', 1458, 462],
 ];
 for (const [name, left, width] of screens) {
+  if (!wanted(`reportaya-${name}`)) continue;
   await sharp(strip).extract({ left, top: 0, width, height: 1080 }).webp(webp).toFile(`${OUT}/reportaya-${name}.webp`);
 }
 
 // MoviesApp: capturas de iPhone 1170x2532 reducidas a 780 px de ancho.
 const movies = { IMG_5730: 'list', IMG_5731: 'menu', IMG_5733: 'detail', IMG_5737: 'favorites' };
 for (const [src, name] of Object.entries(movies)) {
-  await sharp(`assets-src/movies-${src}.png`).resize({ width: 780, kernel: 'lanczos3' }).webp(hq).toFile(`${OUT}/moviesapp-${name}.webp`);
+  if (!wanted(`moviesapp-${name}`)) continue;
+  await sharp(`${SRC}/movies-${src}.png`).resize({ width: 780, kernel: 'lanczos3' }).webp(hq).toFile(`${OUT}/moviesapp-${name}.webp`);
 }
 
 // Capturas de teléfono: se recorta desde arriba a la proporción del marco (9:19,5) y se conserva a 780 px de ancho (2x de un teléfono de 390).
@@ -56,11 +65,12 @@ const phones = {
   'cabal-pagos-en': 'cabal-pagos-en.png', // demo local, en inglés: cola de conciliación
 };
 for (const [name, file] of Object.entries(phones)) {
-  const m = await sharp(`assets-src/${file}`).metadata();
+  if (!wanted(name)) continue;
+  const m = await sharp(`${SRC}/${file}`).metadata();
   const want = Math.floor((m.width * 19.5) / 9);
   if (m.height < want - 8) throw new Error(`${file}: ${m.width}x${m.height} es más baja que ${want}`);
   const height = Math.min(want, m.height);
-  await sharp(`assets-src/${file}`)
+  await sharp(`${SRC}/${file}`)
     .extract({ left: 0, top: 0, width: m.width, height })
     .resize({ width: 780, kernel: 'lanczos3' })
     .webp(hq)
@@ -80,9 +90,10 @@ const wides = {
   'cabal-landing-escritorio': 'cabal-landing-escritorio.png', // landing pública (sin sesión), 1440 px a 2x
 };
 for (const [name, file] of Object.entries(wides)) {
-  const m = await sharp(`assets-src/${file}`).metadata();
+  if (!wanted(name)) continue;
+  const m = await sharp(`${SRC}/${file}`).metadata();
   const height = Math.round(m.width / 2.17);
-  await sharp(`assets-src/${file}`)
+  await sharp(`${SRC}/${file}`)
     .extract({ left: 0, top: 0, width: m.width, height: Math.min(height, m.height) })
     .resize({ width: Math.min(2000, m.width), kernel: 'lanczos3' })
     .webp(hq)
@@ -103,7 +114,8 @@ const demos = {
   subs: 104,
 };
 for (const [id, top] of Object.entries(demos)) {
-  const file = `assets-src/demo-${id}.png`;
+  if (!wanted(`demo-${id}`)) continue;
+  const file = `${SRC}/demo-${id}.png`;
   const m = await sharp(file).metadata();
   const k = m.width / 390; // 1 (capturas a 1x) o 2 (a 2x)
   const side = Math.min(m.width, 468);
@@ -115,6 +127,6 @@ for (const [id, top] of Object.entries(demos)) {
 }
 
 // Foto (retrato 3:4)
-await sharp('assets-src/foto.jpg').resize({ width: 960 }).webp({ quality: 80 }).toFile('src/assets/jose-burgos.webp');
+if (wanted("jose-burgos")) await sharp(`${SRC}/foto.jpg`).resize({ width: 960 }).webp({ quality: 80 }).toFile('src/assets/jose-burgos.webp');
 
 console.log('Activos generados en src/assets');
