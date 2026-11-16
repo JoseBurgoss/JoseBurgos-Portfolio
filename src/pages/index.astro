@@ -1,19 +1,21 @@
 ---
 ---
 <!doctype html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="refresh" content="0; url=/es/" />
-    <link rel="canonical" href="https://jose.burgo.dev/es/" />
+    <meta http-equiv="refresh" content="0; url=/en/" />
+    <link rel="canonical" href="https://jose.burgo.dev/en/" />
     <title>José Burgos</title>
     <script is:inline>
-      var l = (navigator.language || 'es').toLowerCase().indexOf('en') === 0 ? 'en' : 'es';
+      /* Entrada en inglés; si la persona eligió español antes, se respeta. */
+      var l = 'en';
+      try { var s = localStorage.getItem('jb-lang'); if (s === 'es' || s === 'en') l = s; } catch (e) {}
       location.replace('/' + l + '/');
     </script>
   </head>
   <body>
-    <p><a href="/es/">Español</a> · <a href="/en/">English</a></p>
+    <p><a href="/en/">English</a> · <a href="/es/">Español</a></p>
   </body>
 </html>

@@ -1,59 +1,88 @@
+/* «Catatumbo»: tinta sobre papel de mediodía (día) o tormenta de noche (noche), con un solo amarillo.
+   Regla del amarillo: es RELLENO, nunca texto sobre claro; siempre lleva tinta encima (--on-acc).
+   Cada bloque de tema es independiente para que la prueba de contraste lo lea por separado. */
+
+/* Noche: valor por defecto (sin JS y sin preferencia). */
+:root,
+:root[data-theme='night'] {
+  color-scheme: dark;
+  --bg: oklch(0.155 0.022 265);
+  --surface: oklch(0.205 0.026 265);
+  --surface-2: oklch(0.25 0.028 265);
+  --text: oklch(0.95 0.01 95);
+  --text-2: oklch(0.76 0.02 265);
+  --line: oklch(0.34 0.03 265);
+  --line-strong: oklch(0.58 0.035 265);
+  --acc: oklch(0.9 0.18 100);
+  --on-acc: oklch(0.18 0.03 265);
+  --link: oklch(0.8 0.1 205);
+  --ok: oklch(0.82 0.17 150);
+  --shadow: 0 30px 60px -30px oklch(0 0 0 / 0.7);
+}
+
+/* Día. */
+:root[data-theme='day'] {
+  color-scheme: light;
+  --bg: oklch(0.965 0.012 95);
+  --surface: oklch(0.995 0.005 95);
+  --surface-2: oklch(0.93 0.014 95);
+  --text: oklch(0.2 0.03 265);
+  --text-2: oklch(0.42 0.03 265);
+  --line: oklch(0.84 0.015 95);
+  --line-strong: oklch(0.55 0.03 265);
+  --acc: oklch(0.9 0.18 100);
+  --on-acc: oklch(0.18 0.03 265);
+  --link: oklch(0.42 0.11 230);
+  --ok: oklch(0.45 0.13 150);
+  --shadow: 0 30px 50px -30px oklch(0.3 0.04 265 / 0.35);
+}
+
+/* Sin elección guardada, el sistema decide (el script del <head> fija data-theme antes de pintar). */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+    --bg: oklch(0.965 0.012 95);
+    --surface: oklch(0.995 0.005 95);
+    --surface-2: oklch(0.93 0.014 95);
+    --text: oklch(0.2 0.03 265);
+    --text-2: oklch(0.42 0.03 265);
+    --line: oklch(0.84 0.015 95);
+    --line-strong: oklch(0.55 0.03 265);
+    --link: oklch(0.42 0.11 230);
+    --ok: oklch(0.45 0.13 150);
+    --shadow: 0 30px 50px -30px oklch(0.3 0.04 265 / 0.35);
+  }
+}
+
 :root {
-  /* Color */
-  --color-ink: oklch(0.20 0.015 260);
-  --color-ink-2: oklch(0.26 0.018 260);
-  --color-paper: oklch(0.95 0.012 85);
-  --color-muted: oklch(0.74 0.012 85);
-  --color-accent: oklch(0.70 0.19 48);
-  --color-accent-ink: oklch(0.18 0.03 50);
-  --color-focus: oklch(0.82 0.15 85);
-  --color-tile-zuliano: oklch(0.90 0.02 85);
-  --color-tile-movies: oklch(0.32 0.03 265);
-  --color-tile-tienda: oklch(0.85 0.02 85);
-  --color-tile-burgo: oklch(0.93 0.012 95);
-  --color-tile-sobre: oklch(0.42 0.2 264);
-  --color-tile-marca: oklch(0.30 0.035 160);
-  --color-tile-cabal: oklch(0.27 0.04 235);
-  --color-line: oklch(0.95 0.012 85 / 0.18);
-  --color-line-strong: oklch(0.95 0.012 85 / 0.42);
+  /* Tipografía: Mona Sans (ancho variable) + Martian Mono para metadatos. */
+  --font-display: 'Mona Sans Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Mona Sans Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'Martian Mono Variable', ui-monospace, 'Cascadia Mono', monospace;
+  --t-xs: 0.72rem;
+  --t-sm: 0.875rem;
+  --t-base: 1.0625rem;
+  --t-lg: 1.3rem;
+  /* Escala de titulares ~20 % más baja que la maqueta (decisión de José): misma jerarquía, menos grito. */
+  --t-xl: clamp(1.35rem, 1.05rem + 1.3vw, 2rem);
+  --t-2xl: clamp(1.9rem, 1.2rem + 2.9vw, 3.5rem);
+  --t-hero: clamp(2.75rem, 1.6rem + 9.2vw, 10.5rem);
+  --t-big: clamp(2.6rem, 1.6rem + 9vw, 9rem);
 
-  /* Tipografía */
-  --font-display: 'Schibsted Grotesk Variable', system-ui, sans-serif;
-  --font-body: 'Atkinson Hyperlegible Next Variable', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
-  --text-sm: clamp(0.875rem, 0.85rem + 0.1vw, 0.95rem);
-  --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
-  --text-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.3rem);
-  --text-xl: clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem);
-  --text-2xl: clamp(2rem, 1.4rem + 3vw, 3.5rem);
-  --text-display: clamp(2.5rem, 1.2rem + 6.4vw, 5.5rem);
+  /* Espacio */
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-6: 1.5rem;
+  --sp-8: 2rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-24: clamp(4rem, 9vw, 8rem);
+  --pad: clamp(1.1rem, 4vw, 3rem);
+  --max: 92rem;
 
-  /* Espacio (escala de 4 pt) */
-  --space-xs: 0.5rem;
-  --space-sm: 0.75rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2.5rem;
-  --space-2xl: 4rem;
-  --space-3xl: clamp(4rem, 8vw, 7rem);
-
-  /* Forma y capas */
-  /* Esquinas pequeñas y filetes de 1 px: nada de sombras difusas ni píldoras. */
-  --radius-xs: 0.25rem;
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --hair: 1px solid var(--color-line);
-
-  /* Movimiento */
+  /* Forma y movimiento */
+  --r: 3px;
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --ease-in: cubic-bezier(0.4, 0, 1, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --dur-fast: 150ms;
-  --dur-base: 240ms;
-  --dur-slow: 800ms;
-
-  /* Layout */
-  --measure: 62ch;
-  --page-pad: clamp(1rem, 4vw, 2rem);
-  --page-max: 88rem;
 }

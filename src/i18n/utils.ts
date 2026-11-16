@@ -1,6 +1,7 @@
 export const locales = ['es', 'en'] as const;
 export type Lang = (typeof locales)[number];
-export const defaultLang: Lang = 'es';
+/** Idioma de entrada: inglés (la raíz y las rutas sin prefijo caen aquí). Quien elige español queda recordado. */
+export const defaultLang: Lang = 'en';
 
 export function isLang(value: unknown): value is Lang {
   return typeof value === 'string' && (locales as readonly string[]).includes(value);

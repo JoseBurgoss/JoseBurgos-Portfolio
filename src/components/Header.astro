@@ -12,57 +12,78 @@ const links = [
   ['work', t.nav.work],
   ['method', t.nav.method],
   ['about', t.nav.about],
-  ['experience', t.nav.experience],
   ['stack', t.nav.stack],
   ['contact', t.nav.contact],
 ] as const;
 ---
 <a class="skip" href="#main">{t.nav.skip}</a>
-<header class="site-header">
-  <div class="container site-header__row">
-    <a class="wordmark" href={home}>José Burgos</a>
-    <MobileNav client:media="(max-width: 48rem)" label={t.nav.menu} closeLabel={t.nav.close} />
-    <nav id="site-nav" aria-label={t.nav.label}>
+<header class="hd">
+  <div class="wrap hd__row">
+    <a class="logo" href={home} aria-label={t.nav.home}><b aria-hidden="true"></b>José Burgos</a>
+    <nav id="site-nav" class="nav" aria-label={t.nav.label}>
       <ul>
         {links.map(([id, label]) => (
           <li><a href={`${home}#${id}`}>{label}</a></li>
         ))}
       </ul>
-      <a class="lang" data-lang-switch href={switchLangPath(pathname, other)} hreflang={other} lang={other} aria-label={t.nav.switchTo}>{other.toUpperCase()}</a>
     </nav>
+    <div class="hd__tools">
+      <span class="clock mono" aria-hidden="true"><i></i>MCBO <span data-clock>--:--</span></span>
+      <a class="ibtn" data-lang-switch data-lang={other} href={switchLangPath(pathname, other)} hreflang={other} lang={other} aria-label={`${lang.toUpperCase()} / ${other.toUpperCase()}: ${t.nav.switchTo}`}>{lang.toUpperCase()} / {other.toUpperCase()}</a>
+      <button class="ibtn theme" type="button" data-theme-toggle data-to-day={t.nav.toDay} data-to-night={t.nav.toNight} aria-label={t.nav.toDay}>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+      </button>
+      <MobileNav client:media="(max-width: 53.75rem)" label={t.nav.menu} closeLabel={t.nav.close} />
+    </div>
   </div>
 </header>
 
 <style>
-  .skip { position: absolute; left: var(--space-md); top: -4rem; z-index: 20; padding: var(--space-xs) var(--space-md); background: var(--color-paper); color: var(--color-ink); border-radius: var(--radius-sm); }
-  .skip:focus { top: var(--space-sm); }
-  .site-header { position: sticky; top: 0; z-index: 10; background: var(--color-ink); border-bottom: var(--hair); }
-  .site-header__row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); min-height: 4rem; }
-  .wordmark { display: inline-flex; align-items: center; min-height: 2.75rem; font-family: var(--font-display); font-weight: 700; font-size: var(--text-lg); letter-spacing: -0.02em; text-decoration: none; white-space: nowrap; }
-  .wordmark:hover { color: var(--color-accent); }
-  nav { display: flex; align-items: center; gap: var(--space-md); }
-  nav ul { display: flex; gap: var(--space-xs); }
-  /* Enlaces de 44 px de alto; el subrayado se dibuja al pasar o con foco. */
-  nav li a { position: relative; display: inline-flex; align-items: center; min-height: 2.75rem; padding-inline: 0.6rem; white-space: nowrap; text-decoration: none; font-size: var(--text-sm); }
-  nav li a::after { content: ''; position: absolute; left: 0.6rem; right: 0.6rem; bottom: 0.55rem; height: 1px; background: var(--color-accent); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-base) var(--ease-out); }
-  nav li a:hover { color: inherit; }
-  nav li a:hover::after, nav li a:focus-visible::after { transform: scaleX(1); }
-  /* Idioma: cuadro de 44 px con filete, no una píldora. */
-  .lang { display: inline-grid; place-items: center; min-width: 2.75rem; min-height: 2.75rem; border: 1px solid var(--color-line-strong); border-radius: var(--radius-md); font-family: var(--font-mono); font-size: var(--text-sm); font-weight: 500; text-decoration: none; transition: border-color var(--dur-fast) var(--ease-out); }
-  .lang:hover { color: inherit; border-color: var(--color-paper); }
+  .skip { position: fixed; left: 0.75rem; top: 0.75rem; z-index: 99; padding: 0.75rem 1rem; background: var(--acc); color: var(--on-acc); font-weight: 600; transform: translateY(-200%); }
+  .skip:focus { transform: none; }
 
-  :global(.nav-toggle) { display: none; min-height: 2.75rem; padding: 0 1rem; border: 1px solid var(--color-line-strong); border-radius: var(--radius-md); background: transparent; color: inherit; font: inherit; font-size: var(--text-sm); cursor: pointer; white-space: nowrap; }
+  .hd { position: sticky; top: 0; z-index: 50; background: var(--bg); border-bottom: 1px solid var(--line); }
+  .hd__row { display: flex; align-items: center; gap: var(--sp-6); min-height: 4rem; }
+  .logo { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 44px; text-decoration: none; font-weight: 750; font-stretch: 112%; letter-spacing: -0.01em; font-size: 1.05rem; white-space: nowrap; }
+  .logo b { display: block; width: 0.8rem; height: 0.8rem; background: var(--acc); }
 
-  @media (max-width: 48rem) {
-    .site-header__row { flex-wrap: wrap; }
-    nav { flex-wrap: wrap; width: 100%; gap: var(--space-xs) var(--space-lg); padding-bottom: var(--space-md); }
-    nav ul { flex-wrap: wrap; gap: 0 var(--space-md); }
+  .nav { margin-left: auto; }
+  .nav ul { display: flex; gap: 0.25rem; }
+  .nav a { position: relative; display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.8rem; text-decoration: none; font-size: var(--t-sm); font-weight: 500; color: var(--text-2); white-space: nowrap; }
+  .nav a::after { content: ''; position: absolute; left: 0.8rem; right: 0.8rem; bottom: 0.55rem; height: 2px; background: var(--acc); transform: scaleX(0); transform-origin: 0 50%; transition: transform 0.35s var(--ease-out); }
+  .nav a:hover, .nav a:focus-visible { color: var(--text); }
+  .nav a:hover::after, .nav a:focus-visible::after { transform: scaleX(1); }
+
+  .hd__tools { display: flex; align-items: center; gap: 0.5rem; }
+  .clock { white-space: nowrap; color: var(--text-2); }
+  .clock i { display: inline-block; width: 0.45rem; height: 0.45rem; margin-right: 0.5rem; border-radius: 50%; background: var(--ok); animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: 0.35; } }
+  .ibtn { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 0.7rem; border: 1px solid var(--line-strong); border-radius: var(--r); background: transparent; color: var(--text); font: 500 var(--t-xs) / 1 var(--font-mono); letter-spacing: 0.06em; cursor: pointer; text-decoration: none; white-space: nowrap; transition: background-color 0.2s, border-color 0.2s; }
+  .ibtn:hover { background: var(--surface-2); }
+  .theme svg { width: 18px; height: 18px; }
+  .theme .sun { display: none; }
+  :global(:root[data-theme='day']) .theme .sun { display: block; }
+  :global(:root[data-theme='day']) .theme .moon { display: none; }
+  @media (prefers-color-scheme: light) {
+    :global(:root:not([data-theme])) .theme .sun { display: block; }
+    :global(:root:not([data-theme])) .theme .moon { display: none; }
+  }
+  :global(.nav-toggle) { display: none; min-height: 44px; padding: 0 0.9rem; border: 1px solid var(--line-strong); border-radius: var(--r); background: transparent; color: inherit; font: 500 var(--t-xs) / 1 var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
+
+  @media (max-width: 53.75rem) {
+    .clock { display: none; }
+    .hd__row { flex-wrap: wrap; gap: 0 var(--sp-4); }
+    .hd__tools { margin-left: auto; }
+    /* Sin JS el menú queda como una fila de enlaces bajo la cabecera. */
+    .nav { order: 3; width: 100%; margin: 0; padding-bottom: var(--sp-3); }
+    .nav ul { flex-wrap: wrap; }
+    :global(.js-nav) .nav { display: none; order: 0; width: auto; padding: 0; }
     :global(.js-nav) :global(.nav-toggle) { display: inline-flex; align-items: center; }
-    :global(.js-nav) nav { display: none; }
-    :global(.js-nav) nav[data-open='true'] { display: flex; flex-direction: column; align-items: flex-start; }
-    :global(.js-nav) nav[data-open='true'] ul { flex-direction: column; gap: 0; width: 100%; }
-    :global(.js-nav) nav[data-open='true'] li { border-top: var(--hair); }
-    :global(.js-nav) nav li a { width: 100%; padding-inline: 0; }
-    :global(.js-nav) nav li a::after { display: none; }
+    /* Con JS: menú a pantalla completa con enlaces de 64 px. */
+    :global(.js-nav) .nav[data-open='true'] { display: block; position: fixed; inset: 4rem 0 0 0; z-index: 49; overflow: auto; padding: var(--sp-6) var(--pad); background: var(--bg); }
+    :global(.js-nav) .nav[data-open='true'] ul { flex-direction: column; gap: 0; }
+    :global(.js-nav) .nav[data-open='true'] a { width: 100%; min-height: 64px; padding: 0; border-bottom: 1px solid var(--line); color: var(--text); font-size: clamp(1.7rem, 8vw, 2.6rem); font-weight: 700; font-stretch: 80%; }
+    :global(.js-nav) .nav[data-open='true'] a::after { display: none; }
   }
 </style>

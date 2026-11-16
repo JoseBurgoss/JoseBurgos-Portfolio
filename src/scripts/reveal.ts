@@ -13,7 +13,7 @@ export function initReveal(): void {
         io.unobserve(entry.target);
       }
     },
-    { rootMargin: '0px 0px -8% 0px', threshold: 0.05 },
+    { rootMargin: '0px 0px -6% 0px', threshold: 0.12 },
   );
   document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
   root.classList.add('reveal-ready');

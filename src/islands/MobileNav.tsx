@@ -15,6 +15,7 @@ export default function MobileNav({ label, closeLabel }: Props) {
     const nav = document.getElementById('site-nav');
     if (!nav) return;
     nav.dataset.open = String(open);
+    document.documentElement.classList.toggle('nav-open', open); // bloquea el scroll de la página con el menú abierto
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
