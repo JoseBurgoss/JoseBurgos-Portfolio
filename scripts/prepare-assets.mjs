@@ -1,5 +1,5 @@
 import sharp from 'sharp';
-import { mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync } from 'node:fs';
 
 // Uso: npm run assets                    → regenera todo
 //      npm run assets -- --only cabal     → solo lo que empieza por «cabal» (p. ej. al reemplazar sus capturas)
@@ -8,6 +8,8 @@ const SRC = (process.env.ASSETS_SRC ?? 'assets-src').replace(/[\/]+$/, '');
 const onlyIdx = process.argv.indexOf('--only');
 const only = onlyIdx > -1 ? process.argv[onlyIdx + 1] : null;
 const wanted = (name) => !only || name.startsWith(only);
+// Con --only, una captura sin fuente nueva se deja como está (así se puede reemplazar solo una parte).
+const missing = (file) => only && !existsSync(`${SRC}/${file}`);
 const OUT = 'src/assets/projects';
 mkdirSync(OUT, { recursive: true });
 const webp = { quality: 82 };
@@ -65,7 +67,7 @@ const phones = {
   'cabal-pagos-en': 'cabal-pagos-en.png', // demo local, en inglés: cola de conciliación
 };
 for (const [name, file] of Object.entries(phones)) {
-  if (!wanted(name)) continue;
+  if (!wanted(name) || missing(file)) continue;
   const m = await sharp(`${SRC}/${file}`).metadata();
   const want = Math.floor((m.width * 19.5) / 9);
   if (m.height < want - 8) throw new Error(`${file}: ${m.width}x${m.height} es más baja que ${want}`);
@@ -90,7 +92,7 @@ const wides = {
   'cabal-landing-escritorio': 'cabal-landing-escritorio.png', // landing pública (sin sesión), 1440 px a 2x
 };
 for (const [name, file] of Object.entries(wides)) {
-  if (!wanted(name)) continue;
+  if (!wanted(name) || missing(file)) continue;
   const m = await sharp(`${SRC}/${file}`).metadata();
   const height = Math.round(m.width / 2.17);
   await sharp(`${SRC}/${file}`)
