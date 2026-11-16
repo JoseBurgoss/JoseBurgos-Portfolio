@@ -1,0 +1,44 @@
+---
+import { ui } from '../i18n/ui';
+import type { Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const plan = ui[lang].plan;
+---
+<div class="plan" data-plan data-reveal>
+  <p class="mono muted">{plan.kicker}</p>
+  <div class="plan__bar" role="group" aria-label={plan.label}>
+    {plan.steps.map((s, i) => (
+      <button type="button" style={`--k:${i}`} aria-pressed={i === 0 ? 'true' : 'false'} data-note={s.note}><b>{s.pct}</b><span class="mono">{s.name}</span></button>
+    ))}
+  </div>
+  <p class="plan__note" data-plan-note role="status" aria-live="polite">{plan.steps[0].note}</p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-plan]').forEach((root) => {
+    const note = root.querySelector<HTMLElement>('[data-plan-note]');
+    const buttons = root.querySelectorAll<HTMLButtonElement>('.plan__bar button');
+    root.querySelector('.plan__bar')?.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button');
+      if (!b || !note) return;
+      buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      note.textContent = b.dataset.note ?? '';
+    });
+  });
+</script>
+
+<style>
+  .plan { margin-top: var(--sp-8); padding: var(--sp-6); border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+  .plan__bar { display: grid; grid-template-columns: 40fr 20fr 20fr 20fr; gap: 3px; margin-top: 1rem; }
+  .plan__bar button { position: relative; min-height: 44px; padding: 1rem 0.8rem 3.2rem; border: 0; border-radius: 2px; background: var(--surface-2); color: var(--text); font: 600 1rem / 1 var(--font-display); text-align: left; cursor: pointer; transform-origin: 0 50%; transition: background-color 0.25s, color 0.25s; }
+  .plan__bar b { display: block; font-size: clamp(1.2rem, 2.6vw, 2rem); font-weight: 800; letter-spacing: -0.03em; }
+  .plan__bar span { position: absolute; left: 0.8rem; bottom: 0.8rem; max-width: calc(100% - 1.2rem); color: var(--text-2); font-size: 0.62rem; line-height: 1.2; }
+  .plan__bar button:hover, .plan__bar button[aria-pressed='true'] { background: var(--acc); color: var(--on-acc); }
+  .plan__bar button:hover span, .plan__bar button[aria-pressed='true'] span { color: var(--on-acc); }
+  :global(.js-reveal) .plan:not(.is-in) .plan__bar button { transform: scaleX(0); }
+  :global(.js-reveal) .plan__bar button { transition: transform 0.8s var(--ease-out) calc(var(--k) * 120ms), background-color 0.25s, color 0.25s; }
+  .plan__note { min-height: 3.2rem; margin-top: 1rem; color: var(--text-2); font-size: var(--t-sm); }
+  @media (max-width: 40rem) { .plan__bar button { padding-bottom: 4.4rem; } }
+</style>

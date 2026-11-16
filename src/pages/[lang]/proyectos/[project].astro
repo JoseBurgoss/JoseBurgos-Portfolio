@@ -2,7 +2,9 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Frame from '../../../components/Frame.astro';
+import PaymentPlan from '../../../components/PaymentPlan.astro';
 import { projectMedia, projectOrder, type ProjectId } from '../../../data/projects';
+import { movementNumber } from '../../../i18n/movements.mjs';
 import { ui } from '../../../i18n/ui';
 import { localePath, type Lang } from '../../../i18n/utils';
 
@@ -24,137 +26,202 @@ const nextId = projectOrder[(projectOrder.indexOf(id) + 1) % projectOrder.length
 const all = await getCollection('proyectos');
 const next = all.find((e) => e.id === `${lang}/${nextId}`)!;
 const shapeOf = (shot: { shape?: 'phone' | 'wide' }) => shot.shape ?? (media.layout === 'phones' ? 'phone' : 'wide');
-const mixed = media.gallery.some((s) => shapeOf(s) === 'phone');
-// Mismo color que la tarjeta del muro: la página sigue la identidad del proyecto sin pintar el texto.
-const stageOf: Record<ProjectId, string> = {
-  burgo: 'var(--color-tile-burgo)',
-  sobre: 'var(--color-tile-sobre)',
-  'burgo-dev': 'var(--color-tile-marca)',
-  cabal: 'var(--color-tile-cabal)',
-  reportaya: 'var(--color-accent)',
-  moviesapp: 'var(--color-tile-movies)',
-  'el-zuliano': 'var(--color-tile-zuliano)',
-  'tienda-burgos': 'var(--color-tile-tienda)',
-};
+
+// Imagen principal: la primera captura ancha, solo si quedan al menos tres más para la galería.
+const heroShot = media.gallery.length >= 4 ? media.gallery.find((s) => shapeOf(s) === 'wide') : undefined;
+const shots = media.gallery.filter((s) => s !== heroShot);
+const mixed = shots.some((s) => shapeOf(s) === 'phone');
 // Con un número impar de capturas de escritorio, la última ocupa todo el ancho (sin hueco al lado).
-const wideIdx = media.gallery.flatMap((s, i) => (shapeOf(s) === 'wide' ? [i] : []));
+const wideIdx = shots.flatMap((s, i) => (shapeOf(s) === 'wide' ? [i] : []));
 const lastWide = mixed && wideIdx.length % 2 === 1 ? wideIdx[wideIdx.length - 1] : -1;
 const [primary, ...secondary] = entry.data.links;
+const tocItems = (['problem', 'decisions', 'screens', 'next'] as const).map((k) => ({ k, n: movementNumber[k], label: t.project.mov[k] }));
 ---
 <BaseLayout lang={lang} title={`${entry.data.title} — José Burgos`} description={entry.data.summary} pathname={Astro.url.pathname}>
-  <main id="main" class="container case">
-    <a class="case__back" href={`${localePath(lang)}#work`}><span aria-hidden="true">←</span> <span class="u-draw">{t.project.back}</span></a>
-
-    <header class="case__head">
-      <div class="case__title">
-        {entry.data.academic && <p class="case__badge">{t.project.academic}</p>}
-        <h1>{entry.data.title}</h1>
-        <p class="case__summary">{entry.data.summary}</p>
+  <main id="main">
+    <section class="cs-hero">
+      <div class="wrap cs-hero__box">
+        <a class="back mono" href={`${localePath(lang)}#work`}><span aria-hidden="true">←</span> {t.project.back}</a>
+        {entry.data.academic && <p class="badge mono">{t.project.academic}</p>}
+        <h1 class="cs-h1" style={`--len:${entry.data.title.length}`} data-reveal>{entry.data.title}<i class="sq" aria-hidden="true"></i></h1>
+        <p class="cs-lede" data-reveal style="--d:1">{entry.data.summary}</p>
         {primary && (
-          <p class="case__links">
-            <a class="btn btn--primary" href={primary.href} target="_blank" rel="noopener noreferrer">{primary.label} <span aria-hidden="true">↗</span></a>
+          <p class="cs-links" data-reveal style="--d:2">
+            <a class="btn btn--primary" href={primary.href} target="_blank" rel="noopener noreferrer">{primary.label} <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></a>
             {secondary.map((l) => (
-              <a class="btn" href={l.href} target="_blank" rel="noopener noreferrer">{l.label} <span aria-hidden="true">↗</span></a>
+              <a class="btn btn--ghost" href={l.href} target="_blank" rel="noopener noreferrer">{l.label} <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></a>
             ))}
           </p>
         )}
-        {entry.data.liveNote && <p class="case__note">{entry.data.liveNote}</p>}
+        {entry.data.liveNote && <p class="note" data-reveal>{entry.data.liveNote}</p>}
+        <dl class="meta" data-reveal style="--d:2">
+          <div><dt class="mono">{t.project.kind}</dt><dd>{entry.data.kind}</dd></div>
+          <div><dt class="mono">{t.project.status}</dt><dd>{entry.data.status}</dd></div>
+          <div class="meta__stack"><dt class="mono">{t.project.stack}</dt><dd>{entry.data.stack.join(' · ')}</dd></div>
+          {primary && <div><dt class="mono">{t.project.link}</dt><dd><a href={primary.href} target="_blank" rel="noopener noreferrer">{new URL(primary.href).host} ↗</a></dd></div>}
+        </dl>
       </div>
-      <dl class="case__meta">
-        <div><dt>{t.project.kind}</dt><dd>{entry.data.kind}</dd></div>
-        <div><dt>{t.project.status}</dt><dd>{entry.data.status}</dd></div>
-        <div>
-          <dt>{t.project.stack}</dt>
-          <dd><ul class="chips">{entry.data.stack.map((s) => <li>{s}</li>)}</ul></dd>
+      {heroShot && (
+        <div class="wrap cs-hero__fig">
+          <figure class="fig fig--hero" data-reveal>
+            <Frame image={heroShot.src} alt={heroShot.alt[lang]} shape="wide" eager width={2000} sizes="(max-width: 56rem) 92vw, 1400px" />
+            <figcaption class="mono muted"><span>{t.project.desktop}</span><span>{t.project.sample}</span></figcaption>
+          </figure>
         </div>
-      </dl>
-    </header>
-
-    <section class={`gallery ${mixed ? 'gallery--phones' : 'gallery--wide'}`} style={`--stage:${stageOf[id]}`} aria-label={t.project.gallery} data-reveal>
-      {media.gallery.map((shot, i) => {
-        const shape = shapeOf(shot);
-        const full = i === lastWide;
-        return (
-          <Frame
-            image={shot.src}
-            alt={shot.alt[lang]}
-            shape={shape}
-            eager={i === 0}
-            width={shape === 'phone' ? 780 : 2000}
-            sizes={shape === 'phone' ? '(max-width: 48rem) 45vw, 300px' : mixed ? (full ? '(max-width: 48rem) 92vw, 1200px' : '(max-width: 48rem) 92vw, 640px') : '(max-width: 48rem) 92vw, 1200px'}
-            class={mixed && shape === 'wide' ? (full ? 'span-all' : 'span-2') : ''}
-          />
-        );
-      })}
+      )}
     </section>
 
-    <article class="prose" data-reveal><Content /></article>
+    <div class="wrap body">
+      <nav class="toc" aria-label={t.project.toc}>
+        <ol>
+          {tocItems.map((it, i) => (
+            <li><a href={`#${it.k}`} aria-current={i === 0 ? 'true' : undefined}><span class="mono">{it.n}</span>{it.label}</a></li>
+          ))}
+        </ol>
+      </nav>
+      <div class="cs">
+        <article class="prose"><Content /></article>
+        {id === 'cabal' && <div class="cs__plan"><PaymentPlan lang={lang} /></div>}
+        <section class="screens" id="screens" aria-label={t.project.gallery} data-mov="screens">
+          <p class="mono mov__kicker">{movementNumber.screens} · {t.project.mov.screens}</p>
+          <div class:list={['gallery', mixed ? 'gallery--phones' : 'gallery--wide']}>
+            {shots.map((shot, i) => {
+              const shape = shapeOf(shot);
+              const full = i === lastWide;
+              return (
+                <figure class:list={['fig', mixed && shape === 'wide' ? (full ? 'span-all' : 'span-2') : '']} data-reveal style={`--d:${i % 3}`}>
+                  <Frame
+                    image={shot.src}
+                    alt={shot.alt[lang]}
+                    shape={shape}
+                    eager={i === 0 && !heroShot}
+                    width={shape === 'phone' ? 780 : 2000}
+                    sizes={shape === 'phone' ? '(max-width: 48rem) 45vw, 300px' : mixed ? (full ? '(max-width: 48rem) 92vw, 1200px' : '(max-width: 48rem) 92vw, 640px') : '(max-width: 48rem) 92vw, 1200px'}
+                  />
+                  <figcaption class="mono muted"><span>{String(i + 1).padStart(2, '0')}</span><span>{shape === 'phone' ? t.project.phone : t.project.desktop} · {t.project.sample}</span></figcaption>
+                </figure>
+              );
+            })}
+          </div>
+        </section>
+      </div>
+    </div>
 
-    <nav class="case__next" aria-label={t.project.next}>
-      <a href={localePath(lang, `proyectos/${nextId}/`)}>
-        <span class="next__label">{t.project.next}</span>
-        <span class="next__title">{next.data.title} <span class="next__go" aria-hidden="true">→</span></span>
-      </a>
+    <nav class="next" aria-label={t.project.next}>
+      <div class="wrap">
+        <a href={localePath(lang, `proyectos/${nextId}/`)}>
+          <span>
+            <span class="mono muted">{t.project.next}</span>
+            <span class="next__title">{next.data.title}<i class="sq" aria-hidden="true"></i></span>
+          </span>
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M10 38 38 10M14 10h24v24"></path></svg>
+        </a>
+      </div>
     </nav>
   </main>
 </BaseLayout>
 
+<script>
+  /* Índice lateral con scroll-spy: marca el movimiento que ocupa la franja central de la pantalla. */
+  const links = document.querySelectorAll<HTMLAnchorElement>('.toc a');
+  const targets = document.querySelectorAll<HTMLElement>('.mov, .screens');
+  if (links.length && targets.length && 'IntersectionObserver' in window) {
+    const spy = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          links.forEach((a) => a.setAttribute('aria-current', String(a.getAttribute('href') === `#${e.target.id}`)));
+        }
+      },
+      { rootMargin: '-30% 0px -60% 0px' },
+    );
+    targets.forEach((s) => spy.observe(s));
+  }
+</script>
+
 <style>
-  .case { display: grid; gap: var(--space-2xl); padding-block: var(--space-md) var(--space-3xl); }
-  .case__back { display: inline-flex; align-items: center; gap: 0.4rem; width: fit-content; min-height: 2.75rem; white-space: nowrap; font-size: var(--text-sm); text-decoration: none; }
-  .case__back:hover { color: inherit; }
+  .back { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; color: var(--text-2); text-decoration: none; width: fit-content; }
+  .back:hover, .back:focus-visible { color: var(--text); }
 
-  .case__head { display: grid; gap: var(--space-xl); }
-  .case__title { display: grid; gap: var(--space-lg); align-content: start; }
-  .case__head h1 { font-size: var(--text-display); }
-  .case__summary { font-size: var(--text-lg); color: var(--color-muted); max-width: 40em; }
-  .case__links { display: flex; flex-wrap: wrap; gap: var(--space-sm); max-width: none; }
-  .case__badge { width: fit-content; padding: 0.2rem 0.55rem; border: 1px solid var(--color-accent); border-radius: var(--radius-xs); color: var(--color-accent); font-family: var(--font-mono); font-size: var(--text-sm); }
-  .case__note { padding-left: var(--space-sm); border-left: 2px solid var(--color-accent); color: var(--color-muted); font-size: var(--text-sm); }
+  .cs-hero { padding-block: clamp(1.25rem, 3vw, 2.25rem) var(--sp-12); }
+  .cs-hero__box { display: grid; gap: var(--sp-6); container-type: inline-size; }
+  .badge { width: fit-content; padding: 0.35rem 0.6rem; border: 1px solid var(--line-strong); border-radius: var(--r); color: var(--text-2); }
+  /* El nombre ocupa el ancho disponible sin pasarse: el tamaño depende del largo del nombre (--len). */
+  .cs-h1 {
+    font-weight: 800; line-height: 0.86; letter-spacing: -0.045em;
+    font-size: min(clamp(3rem, 1.5rem + 15vw, 12.5rem), calc(100cqw / (var(--len) * 0.56)));
+    font-variation-settings: 'wdth' 75;
+    transition: font-variation-settings 1.6s var(--ease-out), opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+  }
+  .cs-h1.is-in, html:not(.js-reveal) .cs-h1 { font-variation-settings: 'wdth' 84; }
+  .cs-h1 .sq { width: 0.13em; height: 0.13em; margin-left: 0.03em; }
+  .cs-lede { max-width: 44rem; font-size: var(--t-xl); line-height: 1.25; font-weight: 500; letter-spacing: -0.015em; }
+  .cs-links { display: flex; flex-wrap: wrap; gap: var(--sp-3); max-width: none; }
+  .note { max-width: 44rem; padding: 0.8rem 1rem; border: 1px dashed var(--line-strong); border-radius: var(--r); color: var(--text-2); font-size: var(--t-sm); }
 
-  /* Ficha: tipo, estado y stack, con filetes en vez de tarjetas. */
-  .case__meta { display: grid; margin: 0; align-content: start; }
-  .case__meta > div { display: grid; gap: 0.35rem; padding-block: var(--space-md); border-top: var(--hair); }
-  .case__meta > div:last-child { border-bottom: var(--hair); }
-  .case__meta dt { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-accent); }
-  .case__meta dd { margin: 0; }
-  .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-  .chips li { padding: 0.2rem 0.55rem; border: 1px solid var(--color-line-strong); border-radius: var(--radius-xs); font-family: var(--font-mono); font-size: var(--text-sm); }
+  .meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: var(--sp-6) 0 0; border-top: 2px solid var(--text); }
+  .meta > div { padding: 1rem 1rem 1.2rem 0; border-bottom: 1px solid var(--line); min-width: 0; }
+  .meta dt { margin-bottom: 0.4rem; color: var(--text-2); }
+  .meta dd { margin: 0; font-weight: 600; font-stretch: 104%; overflow-wrap: anywhere; }
+  .meta a { color: var(--link); }
+  @media (max-width: 53.75rem) { .meta { grid-template-columns: 1fr 1fr; } .meta__stack { grid-column: 1 / -1; } }
 
-  /* Capturas sobre el color de la tarjeta del proyecto. */
-  .gallery { display: grid; gap: var(--space-sm); padding: clamp(0.75rem, 3vw, 2.5rem); border-radius: var(--radius-md); background: var(--stage); }
+  .cs-hero__fig { margin-top: var(--sp-12); }
+  .fig { margin: 0; }
+  .fig figcaption { display: flex; justify-content: space-between; gap: 1rem; padding-top: 0.7rem; }
+  /* Entrada por recorte: la captura se descubre de izquierda a derecha. */
+  :global(.js-reveal) .fig:not(.is-in) :global(.frame) { clip-path: inset(0 100% 0 0); }
+  :global(.js-reveal) .fig :global(.frame) { transition: clip-path 1.2s var(--ease-out); }
+  :global(.js-reveal) .fig:not(.is-in) :global(img) { transform: scale(1.04); }
+  :global(.js-reveal) .fig :global(img) { transition: transform 1.8s var(--ease-out); }
+
+  .body { display: grid; gap: var(--sp-12); grid-template-columns: minmax(0, 1fr); padding-block: var(--sp-12) var(--sp-24); }
+  @media (min-width: 62.5rem) { .body { grid-template-columns: 13rem minmax(0, 1fr); gap: var(--sp-16); } }
+  .toc { display: none; }
+  @media (min-width: 62.5rem) { .toc { display: block; position: sticky; top: 6rem; align-self: start; } }
+  .toc ol { border-left: 1px solid var(--line); }
+  .toc a { position: relative; display: block; min-height: 44px; padding: 0.55rem 0 0.55rem 1rem; color: var(--text-2); line-height: 1.3; text-decoration: none; }
+  .toc a::before { content: ''; position: absolute; left: -2px; top: 0; bottom: 0; width: 3px; background: var(--acc); transform: scaleY(0); transition: transform 0.3s var(--ease-out); }
+  .toc a[aria-current='true'] { color: var(--text); }
+  .toc a[aria-current='true']::before { transform: scaleY(1); }
+  .toc .mono { display: block; margin-bottom: 0.1rem; }
+
+  /* Los cuatro movimientos se ordenan con `order`: el MDX aporta Problema, Decisiones y Lo que sigue; la galería va en tercer lugar. */
+  .cs { display: flex; flex-direction: column; min-width: 0; }
+  .prose { display: contents; }
+  .prose :global(.mov[data-mov='problem']) { order: 10; }
+  .prose :global(.mov[data-mov='decisions']) { order: 20; }
+  .cs__plan { order: 25; margin-bottom: var(--sp-24); }
+  .screens { order: 30; padding-bottom: var(--sp-24); }
+  .prose :global(.mov[data-mov='next']) { order: 40; }
+  .prose :global(.mov) { padding-bottom: var(--sp-24); scroll-margin-top: 5.5rem; }
+  .prose :global(.mov[data-mov='next']) { padding-bottom: 0; }
+  .cs__plan :global(.plan) { margin-top: 0; }
+  .prose :global(.mov__kicker), .screens .mov__kicker { margin-bottom: 0.5rem; color: var(--text-2); }
+  .prose :global(h2) { margin: var(--sp-8) 0 var(--sp-4); max-width: 24ch; font-weight: 800; font-size: var(--t-xl); line-height: 1.05; letter-spacing: -0.025em; font-variation-settings: 'wdth' 88; }
+  .prose :global(.mov__kicker + h2) { margin-top: 0.5rem; font-size: var(--t-2xl); line-height: 0.98; }
+  .prose :global(p), .prose :global(ul), .prose :global(ol) { max-width: 40rem; margin-bottom: 1.1rem; color: var(--text-2); }
+  .prose :global(.mov__kicker + h2 + p) { color: var(--text); font-size: var(--t-lg); line-height: 1.5; }
+  .prose :global(ul), .prose :global(ol) { display: grid; gap: var(--sp-2); padding-left: 1.25rem; list-style: revert; }
+  .prose :global(strong) { color: var(--text); font-weight: 700; }
+  .prose :global(a) { color: var(--link); }
+  .prose :global(code) { padding: 0.1em 0.4em; border-radius: 2px; background: var(--surface-2); font: 500 0.85em var(--font-mono); }
+
+  .screens .mov__kicker { margin-bottom: var(--sp-6); }
+  .gallery { display: grid; gap: var(--sp-8) var(--sp-6); }
   .gallery--phones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .gallery--wide { grid-template-columns: minmax(0, 1fr); }
   .gallery--phones :global(.span-2), .gallery--phones :global(.span-all) { grid-column: span 2; }
-
-  .prose { display: grid; gap: var(--space-md); }
-  .prose :global(p), .prose :global(ul), .prose :global(ol) { max-width: var(--measure); }
-  .prose :global(ul), .prose :global(ol) { display: grid; gap: var(--space-xs); padding-left: 1.25rem; list-style: revert; }
-  .prose :global(h2) { font-size: var(--text-xl); margin-top: var(--space-lg); }
-  .prose :global(h2:first-child) { margin-top: 0; }
-  .prose :global(strong) { font-weight: 700; }
-
-  .case__next { margin-top: var(--space-md); border-top: var(--hair); border-bottom: var(--hair); }
-  .case__next a { display: grid; gap: 0.25rem; padding-block: var(--space-lg); color: inherit; text-decoration: none; }
-  .next__label { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-muted); }
-  .next__title { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; transition: color var(--dur-base) var(--ease-out); overflow-wrap: anywhere; }
-  .next__go { display: inline-block; transition: translate var(--dur-base) var(--ease-out); }
-  .case__next a:hover .next__title, .case__next a:focus-visible .next__title { color: var(--color-accent); }
-  .case__next a:hover .next__go, .case__next a:focus-visible .next__go { translate: 0.4rem 0; }
-
   @media (min-width: 48rem) {
-    .gallery--phones { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .gallery--phones { grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: start; }
     .gallery--phones :global(.span-all) { grid-column: 1 / -1; }
   }
 
-  @media (min-width: 64rem) {
-    .case__head { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: var(--space-3xl); align-items: end; }
-    /* Texto: el título de cada sección a la izquierda (fijo al desplazarse) y el cuerpo a la derecha. */
-    .prose { grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr); column-gap: var(--space-3xl); }
-    .prose > :global(*) { grid-column: 2; }
-    .prose > :global(h2) { grid-column: 1; position: sticky; top: 5.5rem; align-self: start; margin-top: var(--space-xl); }
-    .prose > :global(h2:first-child) { margin-top: 0; }
-    .prose > :global(h2 + *) { margin-top: var(--space-xl); }
-    .prose > :global(h2:first-child + *) { margin-top: 0; }
-  }
+  .next { border-top: 1px solid var(--line); }
+  .next a { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--sp-8); min-height: 44px; padding-block: var(--sp-16); text-decoration: none; }
+  .next__title { display: block; margin-top: 0.4rem; font-weight: 800; font-size: var(--t-big); line-height: 0.88; letter-spacing: -0.04em; font-variation-settings: 'wdth' 80; transition: font-variation-settings 0.8s var(--ease-out); overflow-wrap: anywhere; }
+  .next__title .sq { width: 0.14em; height: 0.14em; }
+  .next a:hover .next__title, .next a:focus-visible .next__title { font-variation-settings: 'wdth' 96; }
+  .next svg { flex: none; width: clamp(2rem, 6vw, 4.5rem); height: auto; transition: transform 0.5s var(--ease-out); }
+  .next a:hover svg, .next a:focus-visible svg { transform: translate(8px, -8px); }
 </style>

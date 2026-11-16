@@ -18,14 +18,14 @@ const widths = shape === 'phone' ? [Math.round(max / 2), Math.round(max * 0.75),
 // `sizes` en px CSS de la pantalla (no del archivo): el navegador multiplica por su densidad.
 const sizes = sizesProp ?? (shape === 'phone' ? '(max-width: 48rem) 40vw, 300px' : '(max-width: 48rem) 100vw, 900px');
 ---
-<figure class:list={['frame', `frame--${shape}`, className]}>
+<div class:list={['frame', `frame--${shape}`, className]}>
   <Image src={image} alt={alt} widths={[...new Set(widths)]} sizes={sizes} loading={eager ? 'eager' : 'lazy'} decoding="async" quality={90} />
-</figure>
+</div>
 
 <style>
-  /* Marco plano: filete de 1 px, sin sombra difusa. */
-  .frame { margin: 0; overflow: hidden; background: var(--color-paper); border: 1px solid oklch(0 0 0 / 0.22); flex: none; }
-  .frame--phone { aspect-ratio: 9 / 19.5; border-radius: var(--radius-md); }
-  .frame--wide { aspect-ratio: 2.17; border-radius: var(--radius-sm); }
+  /* Captura sin marco dibujado: filete de 1 px y esquina de 3 px, sin sombra. */
+  .frame { overflow: hidden; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface-2); }
+  .frame--phone { aspect-ratio: 9 / 19.5; }
+  .frame--wide { aspect-ratio: 2.17; }
   .frame :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: top; }
 </style>

@@ -1,30 +1,30 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout lang="es" title="Página no encontrada — José Burgos" description="Esta página no existe. This page doesn't exist." pathname="/es/" noindex>
-  <main id="main" class="container section notfound">
-    <p class="notfound__code" aria-hidden="true">404</p>
+<BaseLayout lang="en" title="Page not found — José Burgos" description="This page doesn't exist. Esta página no existe." pathname="/en/" noindex>
+  <main id="main" class="wrap notfound">
+    <p class="notfound__code" aria-hidden="true">404<i class="sq"></i></p>
     <div class="notfound__text">
-      <h1>Esta página no existe.</h1>
-      <p lang="en" class="notfound__en">This page doesn't exist.</p>
+      <h1>This page doesn’t exist.</h1>
+      <p lang="es" class="notfound__alt">Esta página no existe.</p>
       <p class="notfound__links">
-        <a class="btn btn--primary" href="/es/">Ir al inicio</a>
-        <a class="btn" href="/en/" lang="en">Go to the home page</a>
+        <a class="btn btn--primary" href="/en/" lang="en">Go to the home page</a>
+        <a class="btn btn--ghost" href="/es/" lang="es">Ir al inicio</a>
       </p>
     </div>
   </main>
 </BaseLayout>
 
 <style>
-  .notfound { display: grid; gap: var(--space-lg); min-height: 60svh; align-content: center; }
-  /* El número es la composición: grande, en mono, con filete; el acento solo en él. */
-  .notfound__code { font-family: var(--font-mono); font-size: clamp(5rem, 22vw, 14rem); line-height: 0.9; letter-spacing: -0.06em; color: var(--color-accent); padding-bottom: var(--space-md); border-bottom: var(--hair); }
-  .notfound__text { display: grid; gap: var(--space-md); }
-  .notfound h1 { font-size: var(--text-2xl); }
-  .notfound__en { font-size: var(--text-lg); color: var(--color-muted); }
-  .notfound__links { display: flex; flex-wrap: wrap; gap: var(--space-sm); max-width: none; margin-top: var(--space-sm); }
+  .notfound { display: grid; gap: var(--sp-6); min-height: 60svh; align-content: center; padding-block: var(--sp-16); }
+  /* El número es la composición: grande, en Mona Sans estrecha, con el cuadrado amarillo como punto final. */
+  .notfound__code { font-weight: 800; font-size: clamp(5rem, 22vw, 15rem); line-height: 0.85; letter-spacing: -0.045em; font-variation-settings: 'wdth' 80; padding-bottom: var(--sp-4); border-bottom: 2px solid var(--text); }
+  .notfound__text { display: grid; gap: var(--sp-4); }
+  .notfound h1 { font-weight: 800; font-size: var(--t-2xl); line-height: 0.98; letter-spacing: -0.03em; font-variation-settings: 'wdth' 90; }
+  .notfound__alt { color: var(--text-2); font-size: var(--t-lg); }
+  .notfound__links { display: flex; flex-wrap: wrap; gap: var(--sp-3); max-width: none; margin-top: var(--sp-3); }
   @media (min-width: 64rem) {
-    .notfound { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; column-gap: var(--space-3xl); }
+    .notfound { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; column-gap: var(--sp-16); }
     .notfound__code { border-bottom: 0; padding-bottom: 0; }
   }
 </style>
