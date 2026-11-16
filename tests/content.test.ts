@@ -104,3 +104,26 @@ describe('site.ts: demos de comercios (prototypes)', () => {
     expect(text).not.toMatch(/\$\s?\d|\d\s?(USD|Bs)|0\d{3}[-\s]?\d{3}/);
   });
 });
+
+describe('datos rápidos de Sobre mí', () => {
+  it('tres datos por idioma', () => {
+    expect(site.facts.es).toHaveLength(3);
+    expect(site.facts.en).toHaveLength(3);
+  });
+});
+
+describe('plugin de movimientos (rehype)', () => {
+  it('agrupa 3, 4 y 5 secciones en Problema · Decisiones · Lo que sigue', async () => {
+    const { default: plugin } = await import('../src/lib/rehype-movements.mjs');
+    const h2 = (t: string) => ({ type: 'element', tagName: 'h2', properties: {}, children: [{ type: 'text', value: t }] });
+    const p = () => ({ type: 'element', tagName: 'p', properties: {}, children: [] });
+    const kinds = (n: number) => {
+      const tree: any = { type: 'root', children: Array.from({ length: n }, (_, i) => [h2(String(i)), p()]).flat() };
+      plugin()(tree, { path: 'src/content/proyectos/en/x.mdx' });
+      return tree.children.map((c: any) => c.properties['data-mov']);
+    };
+    expect(kinds(3)).toEqual(['problem', 'decisions', 'next']);
+    expect(kinds(4)).toEqual(['problem', 'decisions', 'next']);
+    expect(kinds(5)).toEqual(['problem', 'decisions', 'next']);
+  });
+});

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isLang, langFromPath, localePath, switchLangPath } from '../src/i18n/utils';
+import { defaultLang, isLang, langFromPath, localePath, switchLangPath } from '../src/i18n/utils';
 import { ui } from '../src/i18n/ui';
 
 describe('isLang / langFromPath', () => {
@@ -9,11 +9,12 @@ describe('isLang / langFromPath', () => {
     expect(isLang('fr')).toBe(false);
     expect(isLang(undefined)).toBe(false);
   });
-  it('lee el idioma del primer segmento y cae en es', () => {
+  it('lee el idioma del primer segmento y cae en inglés (idioma de entrada)', () => {
+    expect(defaultLang).toBe('en');
     expect(langFromPath('/en/proyectos/x/')).toBe('en');
     expect(langFromPath('/es/')).toBe('es');
-    expect(langFromPath('/')).toBe('es');
-    expect(langFromPath('/fr/algo/')).toBe('es');
+    expect(langFromPath('/')).toBe('en');
+    expect(langFromPath('/fr/algo/')).toBe('en');
   });
 });
 
@@ -77,5 +78,13 @@ describe('pie legal', () => {
     expect(ui.es.footer.notice).toMatch(/datos de ejemplo/);
     expect(ui.en.footer.notice).toMatch(/no third-party cookies/);
     expect(ui.en.footer.notice).toMatch(/sample data/);
+  });
+});
+
+describe('casos de estudio: movimientos', () => {
+  it('los cuatro movimientos existen en ambos idiomas', () => {
+    for (const lang of ['es', 'en'] as const) {
+      expect(Object.keys(ui[lang].project.mov).sort()).toEqual(['decisions', 'next', 'problem', 'screens']);
+    }
   });
 });

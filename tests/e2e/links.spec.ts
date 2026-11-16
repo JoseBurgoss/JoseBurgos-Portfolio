@@ -32,3 +32,17 @@ test('las descargas de CV existen en ambos idiomas', async ({ request }) => {
     expect(res.headers()['content-type']).toContain('pdf');
   }
 });
+
+test('las fuentes autoalojadas (Mona Sans y Martian Mono) se sirven sin peticiones externas', async ({ page }) => {
+  const external: string[] = [];
+  page.on('request', (r) => { if (!r.url().startsWith('http://localhost:4321')) external.push(r.url()); });
+  await page.goto('/en/');
+  await page.waitForLoadState('networkidle');
+  expect(external).toEqual([]);
+  const fonts = await page.evaluate(async () => {
+    await document.fonts.ready;
+    return [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family.replace(/"/g, ''));
+  });
+  expect(fonts.join(',')).toContain('Mona Sans Variable');
+  expect(fonts.join(',')).toContain('Martian Mono Variable');
+});
