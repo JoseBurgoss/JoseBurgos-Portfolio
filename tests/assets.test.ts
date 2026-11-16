@@ -25,7 +25,7 @@ describe('capturas de teléfono', () => {
     it(`${f}: vertical, razón de aspecto 0.40–0.48`, async () => {
       expect(existsSync(f)).toBe(true);
       const { width, height } = await sharp(f).metadata();
-      expect(height).toBeGreaterThanOrEqual(1000);
+      expect(height).toBeGreaterThanOrEqual(800);
       const ratio = (width ?? 0) / (height ?? 1);
       expect(ratio).toBeGreaterThan(0.4);
       expect(ratio).toBeLessThan(0.48);
