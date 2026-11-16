@@ -7,21 +7,19 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = ui[lang];
 ---
-<section id="contact" class="section container" aria-labelledby="contact-title">
-  <div class="contact" data-reveal>
-    <h2 id="contact-title" class="h-sec">{t.contact.title}</h2>
-    <p class="contact__lead">{t.contact.lead}</p>
-    <div class="contact__mail-row">
-      <a class="contact__mail u-draw" href={`mailto:${site.email}`}>{site.email}</a>
+<section id="contact" class="contact" aria-labelledby="contact-h">
+  <div class="wrap">
+    <h2 class="contact__big" id="contact-h" data-reveal>{t.contact.title}<i class="sq" aria-hidden="true"></i></h2>
+    <p class="contact__lead muted" data-reveal>{t.contact.lead}</p>
+    <a class="mail" href={`mailto:${site.email}`} data-reveal>{site.email}</a>
+    <div class="contact__row" data-reveal>
       <button type="button" class="btn btn--ghost" data-copy-email={site.email} data-copied={t.contact.copied} hidden>{t.contact.copy}</button>
-      <span class="contact__status" data-copy-status role="status" aria-live="polite"></span>
-    </div>
-    <div class="contact__links">
-      <a class="btn" href={site.links.linkedin} target="_blank" rel="noopener noreferrer">{t.contact.linkedin}</a>
-      <a class="btn" href={site.links.github} target="_blank" rel="noopener noreferrer">{t.contact.github}</a>
+      <a class="btn btn--ghost" href={site.links.linkedin} target="_blank" rel="noopener noreferrer">{t.contact.linkedin}</a>
+      <a class="btn btn--ghost" href={site.links.github} target="_blank" rel="noopener noreferrer">{t.contact.github}</a>
       <a class="btn btn--primary" href={site.cv.es} download>{t.contact.cvEs}</a>
-      <a class="btn btn--primary" href={site.cv.en} download>{t.contact.cvEn}</a>
+      <a class="btn btn--ghost" href={site.cv.en} download>{t.contact.cvEn}</a>
     </div>
+    <p class="toast mono" data-copy-status role="status" aria-live="polite"></p>
   </div>
 </section>
 
@@ -45,12 +43,12 @@ const t = ui[lang];
 </script>
 
 <style>
-  .contact { display: grid; gap: var(--space-lg); }
-  .contact h2 { font-size: var(--text-display); }
-  .contact__lead { font-size: var(--text-lg); color: var(--color-muted); }
-  .contact__mail-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-md); }
-  .contact__mail { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700; overflow-wrap: anywhere; min-width: 0; }
-  .contact__status { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-accent); min-width: 6ch; }
-  .btn--ghost { background: transparent; color: inherit; font: inherit; font-weight: 600; cursor: pointer; }
-  .contact__links { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+  .contact { padding-block: var(--sp-24) var(--sp-16); border-top: 1px solid var(--line); }
+  .contact__big { margin-bottom: var(--sp-8); font-weight: 800; font-size: var(--t-big); line-height: 0.88; letter-spacing: -0.04em; font-variation-settings: 'wdth' 82; }
+  .contact__big .sq { width: 0.16em; height: 0.16em; }
+  .contact__lead { max-width: 32rem; margin-bottom: var(--sp-6); }
+  .mail { display: inline-block; min-height: 44px; padding-bottom: 0.1em; font-weight: 650; font-size: clamp(1.1rem, 0.6rem + 3vw, 2.2rem); line-height: 1.2; font-stretch: 105%; text-decoration: none; overflow-wrap: anywhere; background: linear-gradient(var(--acc), var(--acc)) 0 100% / 100% 0.14em no-repeat; transition: background-size 0.4s var(--ease-out), color 0.2s; }
+  .mail:hover, .mail:focus-visible { background-size: 100% 100%; color: var(--on-acc); }
+  .contact__row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: var(--sp-8); }
+  .toast { min-height: 1.5rem; margin-top: 0.8rem; color: var(--ok); }
 </style>

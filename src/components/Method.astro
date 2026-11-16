@@ -7,41 +7,38 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = ui[lang];
 ---
-<section id="method" class="section container method" aria-labelledby="method-title">
-  <header class="method__head" data-reveal>
-    <h2 id="method-title" class="h-sec">{t.method.title}</h2>
-    <p>{t.method.lead}</p>
-  </header>
-
-  <ol class="habits" aria-label={t.method.habitsLabel}>
-    {habits.map((h, i) => (
-      <li class="habit" data-reveal style={`--d:${i % 3}`}>
-        <span class="habit__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-        <h3>{h.title[lang]}</h3>
-        <p>{h.text[lang]}</p>
-        {h.proof?.href && (
-          <a class="habit__proof u-draw" href={h.proof.href} target="_blank" rel="noopener noreferrer">{h.proof.label[lang]} <span aria-hidden="true">↗</span></a>
-        )}
-      </li>
-    ))}
-  </ol>
+<section id="method" class="sec sec--flush" aria-labelledby="method-h">
+  <div class="wrap">
+    <div class="sec-hd">
+      <div>
+        <p class="mono" data-reveal>{t.method.kicker}</p>
+        <h2 class="h2" id="method-h" data-reveal>{t.method.title}</h2>
+      </div>
+      <p class="lede" data-reveal>{t.method.lead}</p>
+    </div>
+    <ol class="log" aria-label={t.method.habitsLabel}>
+      {habits.map((h, i) => (
+        <li data-reveal style={`--d:${i % 3}`}>
+          <span class="log__code mono muted" aria-hidden="true">h · {String(i + 1).padStart(2, '0')}</span>
+          <h3>{h.title[lang]}</h3>
+          <div class="log__text">
+            <p>{h.text[lang]}</p>
+            {h.proof?.href && (
+              <a class="log__proof" href={h.proof.href} target="_blank" rel="noopener noreferrer">{h.proof.label[lang]} <span aria-hidden="true">↗</span></a>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
 </section>
 
 <style>
-  .method { display: grid; gap: var(--space-2xl); }
-  .method__head { display: grid; gap: var(--space-md); }
-  .method__head p { color: var(--color-muted); font-size: var(--text-lg); }
-
-  /* Hábitos: tarjetas con número en mono; en escritorio, 3 + 2 columnas. */
-  .habits { display: grid; gap: var(--space-md); grid-template-columns: minmax(0, 1fr); }
-  .habit { display: grid; gap: var(--space-xs); align-content: start; padding: var(--space-lg); border: 1px solid var(--color-line); border-radius: var(--radius-md); background: var(--color-ink-2); }
-  .habit__n { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-accent); }
-  .habit p { color: var(--color-muted); font-size: var(--text-sm); }
-  .habit__proof { justify-self: start; margin-top: var(--space-xs); font-size: var(--text-sm); font-family: var(--font-mono); }
-
-  @media (min-width: 48rem) {
-    .habits { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-    .habit { grid-column: span 2; }
-    .habit:nth-child(n+4) { grid-column: span 3; }
-  }
+  .log { border-top: 2px solid var(--text); }
+  .log li { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) minmax(0, 1fr); gap: 1rem 2rem; align-items: baseline; padding: 1.6rem 0; border-bottom: 1px solid var(--line); transition: background-color 0.3s, padding-left 0.4s var(--ease-out); }
+  @media (hover: hover) { .log li:hover { padding-left: 1rem; background: var(--surface); } }
+  .log h3 { font-weight: 700; font-size: var(--t-xl); line-height: 1.1; letter-spacing: -0.02em; }
+  .log__text { display: grid; gap: 0.6rem; justify-items: start; color: var(--text-2); }
+  .log__proof { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px; color: var(--link); font: 450 var(--t-xs) / 1.2 var(--font-mono); letter-spacing: 0.04em; text-transform: uppercase; text-underline-offset: 0.3em; }
+  @media (max-width: 53.75rem) { .log li { grid-template-columns: 1fr; gap: 0.4rem; } }
 </style>

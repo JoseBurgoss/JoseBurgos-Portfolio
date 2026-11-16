@@ -8,37 +8,63 @@ const { lang } = Astro.props;
 const t = ui[lang];
 const edu = site.education;
 ---
-<section id="experience" class="section container" aria-labelledby="exp-title">
-  <h2 id="exp-title" class="h-sec">{t.experience.title}</h2>
-  <ol class="jobs">
-    {site.experience.map((job) => (
-      <li class="job" data-reveal>
-        <h3>{job.role[lang]} · {job.org}</h3>
-        <p class="job__meta">{job.period[lang]} · {job.place[lang]}</p>
-        <p class="job__summary">{job.summary[lang]}</p>
-        <ul class="job__list">
-          {job.highlights[lang].map((h) => <li>{h}</li>)}
-        </ul>
+<section id="experience" class="sec sec--flush" aria-labelledby="exp-h">
+  <div class="wrap">
+    <div class="sec-hd">
+      <div>
+        <p class="mono" data-reveal>{t.experience.kicker}</p>
+        <h2 class="h2" id="exp-h" data-reveal>{t.experience.title}</h2>
+      </div>
+    </div>
+    <ol class="exp">
+      {site.experience.map((job) => (
+        <li data-reveal>
+          <p class="exp__when mono muted">{job.period[lang]}<br />{job.place[lang]}</p>
+          <div>
+            <h3>{job.role[lang]} · {job.org}</h3>
+            <p class="exp__sum">{job.summary[lang]}</p>
+          </div>
+          <ul class="exp__list">
+            {job.highlights[lang].map((h) => <li>{h}</li>)}
+          </ul>
+        </li>
+      ))}
+      <li data-reveal>
+        <p class="exp__when mono muted">{edu.period}<br />{t.experience.education}</p>
+        <div>
+          <h3>{edu.school[lang]}</h3>
+          <p class="exp__sum">{edu.degree[lang]}</p>
+        </div>
+        <span></span>
       </li>
-    ))}
-    <li class="job job--edu" data-reveal>
-      <h3>{edu.school[lang]}</h3>
-      <p class="job__meta">{edu.period} · {t.experience.education}</p>
-      <p class="job__summary">{edu.degree[lang]}</p>
-    </li>
-  </ol>
+    </ol>
+
+    <h3 class="certs__h mono muted" data-reveal>{t.experience.certsTitle}</h3>
+    <ul class="certs">
+      {site.certs.map((c) => (
+        <li data-reveal>
+          <p class="mono muted">{c.issuer}{c.year ? ` · ${c.year}` : ''}</p>
+          <h4>{c.name[lang]}</h4>
+          {c.detail && <p class="certs__d">{c.detail[lang]}</p>}
+        </li>
+      ))}
+    </ul>
+  </div>
 </section>
 
 <style>
-  h2 { margin-bottom: var(--space-xl); }
-  /* Línea de tiempo fija: una línea vertical y un punto por etapa. */
-  .jobs { position: relative; display: grid; gap: var(--space-2xl); padding-left: 2rem; }
-  .jobs::before { content: ''; position: absolute; left: 0.45rem; top: 0.5rem; bottom: 0.5rem; width: 2px; background: var(--color-line); }
-  .job { position: relative; display: grid; gap: var(--space-sm); }
-  .job::before { content: ''; position: absolute; left: -1.85rem; top: 0.3rem; width: 0.85rem; height: 0.85rem; border-radius: 50%; background: var(--color-ink); border: 2px solid var(--color-accent); }
-  .job--edu::before { border-color: var(--color-muted); }
-  .job__meta { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-muted); }
-  .job__list { display: grid; gap: var(--space-sm); margin-top: var(--space-sm); max-width: var(--measure); }
-  .job__list li { position: relative; padding-left: 1.25rem; }
-  .job__list li::before { content: ''; position: absolute; left: 0; top: 0.7em; width: 0.5rem; height: 2px; background: var(--color-accent); }
+  .exp { border-top: 2px solid var(--text); }
+  .exp > li { display: grid; grid-template-columns: 11rem minmax(0, 1fr) minmax(0, 1.3fr); gap: 0.6rem 2rem; padding: 1.6rem 0; border-bottom: 1px solid var(--line); }
+  .exp h3 { font-weight: 700; font-size: var(--t-lg); line-height: 1.2; }
+  .exp__sum { margin-top: 0.5rem; color: var(--text-2); font-size: var(--t-sm); }
+  .exp__list { display: grid; gap: 0.7rem; color: var(--text-2); font-size: var(--t-sm); }
+  .exp__list li { position: relative; padding-left: 1.1rem; }
+  .exp__list li::before { content: ''; position: absolute; left: 0; top: 0.7em; width: 0.5rem; height: 2px; background: var(--line-strong); }
+  @media (max-width: 53.75rem) { .exp > li { grid-template-columns: 1fr; } }
+
+  .certs__h { margin: var(--sp-16) 0 var(--sp-4); font-weight: 450; }
+  .certs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: var(--sp-6) var(--sp-8); }
+  .certs > li { display: grid; gap: 0.35rem; align-content: start; padding-top: 0.9rem; border-top: 1px solid var(--line-strong); }
+  .certs h4 { font-weight: 650; font-size: 1.05rem; line-height: 1.3; }
+  .certs__d { color: var(--text-2); font-size: var(--t-sm); }
 </style>

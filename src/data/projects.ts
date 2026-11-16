@@ -54,14 +54,19 @@ export type ProjectId = 'burgo' | 'sobre' | 'burgo-dev' | 'cabal' | 'reportaya' 
 export type Shot = { src: ImageMetadata; alt: Record<Lang, string>; shape?: 'phone' | 'wide' };
 export interface ProjectMedia {
   layout: 'phones' | 'wide';
+  /** Capturas de la tarjeta del muro: teléfonos (layout 'phones') o una captura ancha. */
   tile: ImageMetadata[];
+  /** Captura ancha para la tarjeta del muro cuando el proyecto es de teléfono pero se muestra mejor en escritorio. */
+  cover?: ImageMetadata;
+  /** Vista previa y miniatura de la lista del archivo. */
+  thumb: ImageMetadata;
   gallery: Shot[];
 }
 
 /** Trabajo actual, destacado arriba del muro. */
-export const featuredOrder: ProjectId[] = ['burgo', 'sobre', 'burgo-dev', 'cabal'];
+export const featuredOrder: ProjectId[] = ['burgo', 'cabal', 'sobre', 'burgo-dev'];
 /** Orden en el muro (la cuadrícula coloca cada uno por nombre de clase). */
-export const tileOrder: ProjectId[] = ['reportaya', 'el-zuliano', 'moviesapp', 'tienda-burgos'];
+export const tileOrder: ProjectId[] = ['reportaya', 'moviesapp', 'el-zuliano', 'tienda-burgos'];
 /** Orden para "siguiente proyecto" en las páginas de caso de estudio. */
 export const projectOrder: ProjectId[] = ['burgo', 'sobre', 'burgo-dev', 'cabal', 'reportaya', 'moviesapp', 'el-zuliano', 'tienda-burgos'];
 
@@ -69,6 +74,7 @@ export const projectMedia: Record<ProjectId, ProjectMedia> = {
   burgo: {
     layout: 'phones',
     tile: [bgCancha, bgPique, bgBrio],
+    thumb: bgCancha,
     gallery: [
       { src: bgCuenta, alt: { es: 'Cuenta, tema «Credencial»: La villa, con la credencial del usuario y una tarjeta por app', en: 'Account, “Credencial” theme: the village, with the user’s credential card and one card per app' } },
       { src: bgCuentaEntrar, alt: { es: 'Cuenta: pantalla de entrada, con la credencial arriba del formulario', en: 'Account: sign-in screen, with the credential card above the form' } },
@@ -85,6 +91,8 @@ export const projectMedia: Record<ProjectId, ProjectMedia> = {
   sobre: {
     layout: 'phones',
     tile: [sobreInicio, sobreProductos],
+    cover: sobreDeskInicio,
+    thumb: sobreInicio,
     gallery: [
       { src: sobreEntrar, alt: { es: 'Sobre: pantalla de entrada con el sobre azul y el formulario de correo y contraseña', en: 'Sobre: sign-in screen with the blue pack and the email and password form' } },
       { src: sobreInicio, alt: { es: 'Sobre: inicio con lo que está en stock y los avisos recientes', en: 'Sobre: home with what is in stock and recent alerts' } },
@@ -97,6 +105,7 @@ export const projectMedia: Record<ProjectId, ProjectMedia> = {
   'burgo-dev': {
     layout: 'wide',
     tile: [marcaDesk],
+    thumb: marcaDesk,
     gallery: [
       { src: marcaInicio, shape: 'phone', alt: { es: 'burgo.dev en teléfono: titular «Diseñamos y construimos software a medida» y dibujo de la villa', en: 'burgo.dev on phone: headline “We design and build custom software” and the village drawing' } },
       { src: marcaEncargo, shape: 'phone', alt: { es: 'burgo.dev en teléfono: sección «Software por encargo» con cuatro servicios ilustrados', en: 'burgo.dev on phone: “Software made to order” section with four illustrated services' } },
@@ -109,7 +118,8 @@ export const projectMedia: Record<ProjectId, ProjectMedia> = {
   // Capturas de la demo local con datos de ejemplo (VITE_DATA_SOURCE=local): ningún cliente ni pago reales.
   cabal: {
     layout: 'wide',
-    tile: [cabalPagosDesk],
+    tile: [cabalDesk],
+    thumb: cabalDesk,
     gallery: [
       { src: cabalResumen, shape: 'phone', alt: { es: 'Cabal en teléfono (demo con datos de ejemplo): Resumen con lo que está por cobrar, lo vencido, el cobrado y el margen del mes', en: 'Cabal on phone (demo with sample data): Overview with what is owed, what is overdue, what was collected and the month’s margin' } },
       { src: cabalPagos, shape: 'phone', alt: { es: 'Cabal en teléfono (demo): cola de conciliación de pagos con estados Pendiente, Observado, Conciliado y Rechazado, y pagos marcados como duplicados', en: 'Cabal on phone (demo): payment reconciliation queue with Pending, Flagged, Reconciled and Rejected states, and payments marked as duplicates' } },
@@ -123,6 +133,7 @@ export const projectMedia: Record<ProjectId, ProjectMedia> = {
   reportaya: {
     layout: 'phones',
     tile: [rpyFeed, rpyMap, rpyGuides],
+    thumb: rpyFeed,
     gallery: [
       { src: rpyLogin, alt: { es: 'ReportaYa: pantalla de inicio de sesión', en: 'ReportaYa: sign-in screen' } },
       { src: rpyFeed, alt: { es: 'ReportaYa: feed de reportes ciudadanos', en: 'ReportaYa: citizen reports feed' } },
@@ -133,6 +144,7 @@ export const projectMedia: Record<ProjectId, ProjectMedia> = {
   moviesapp: {
     layout: 'phones',
     tile: [mvList, mvDetail],
+    thumb: mvList,
     gallery: [
       { src: mvList, alt: { es: 'MoviesApp: lista de películas populares', en: 'MoviesApp: list of popular movies' } },
       { src: mvMenu, alt: { es: 'MoviesApp: menú lateral', en: 'MoviesApp: side menu' } },
@@ -143,11 +155,13 @@ export const projectMedia: Record<ProjectId, ProjectMedia> = {
   'el-zuliano': {
     layout: 'wide',
     tile: [zuliano],
+    thumb: zuliano,
     gallery: [{ src: zuliano, alt: { es: 'El Zuliano: portada con artículos populares', en: 'El Zuliano: front page with popular articles' } }],
   },
   'tienda-burgos': {
     layout: 'wide',
     tile: [tienda],
+    thumb: tienda,
     gallery: [{ src: tienda, alt: { es: 'Tienda Burgos: página de inicio', en: 'Tienda Burgos: home page' } }],
   },
 };
